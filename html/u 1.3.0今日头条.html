@@ -1,0 +1,193 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>u1.3.0今日头条</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/flex.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="css/toutiao.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<div class="top_fixed">
+		<div class="plr10 bb bgf box search_header flex-col-center" style="background-color: #dd073a;height: 48px;line-height: 48px;">
+			<img src="images/toutiaologo.png" alt="" class="block" style="height: 15px;margin-right: 15px;">
+			<div class="bgf br5 flex-1 sH_main">
+				<a href="javascript:;" class="block col9 sH_search"><i class="icon_search"></i>搜索本地招聘信息</a>
+			</div>
+		</div>
+		<div class="plr10 bgf know-nav-wrap">
+			<div class="swiper-container bgf fs14 know-nav">
+				<div class="swiper-wrapper">
+					<a href="javascript:;" class="swiper-slide">分类1</a>
+					<a href="javascript:;" class="swiper-slide">分类2</a>
+					<a href="javascript:;" class="swiper-slide">分类3</a>
+					<a href="javascript:;" class="swiper-slide">分类4</a>
+					<a href="javascript:;" class="swiper-slide">分类5</a>
+					<a href="javascript:;" class="swiper-slide">分类6</a>
+					<a href="javascript:;" class="swiper-slide">分类7</a>
+					<a href="javascript:;" class="swiper-slide on">分类8</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 顶部悬浮搜索 end -->
+
+	<section class="main" style="padding-top: 88px; ">
+
+		<div><img src="images/banner.jpg" alt="" class="imgm mb10"></div>
+
+		<ul class="bgf bb last list_headline">
+			<li class="bb">
+				<a href="" class="block p10">
+					<div class="fs14 col3 multi-line item-head">足之源养生艾草艾叶泡脚粉包足浴剂足疗包暖宫 脚气脚臭</div>
+					<div class="ptb10 weui-row item-cont">
+						<div class="weui-col-33  item-pic"><img src="images/img_headline.jpg" alt="" class="imgm"></div>
+						<div class="weui-col-33  item-pic"><img src="images/img_headline.jpg" alt="" class="imgm"></div>
+						<div class="weui-col-33  item-pic"><img src="images/img_headline.jpg" alt="" class="imgm"></div>
+					</div>
+					<div class="fs12 col9 item-foot">5分钟前</div>
+				</a>
+			</li>
+			<li class="bb">
+				<a href="" class="table p10">
+					<div class="table-cell">
+						<div class="fs14 col3 multi-line item-head">足之源养生艾草艾叶泡脚粉包足浴剂足疗包暖宫 脚气脚臭</div>
+						<div class="mt10 fs12 col9 item-foot">5分钟前</div>
+					</div>
+					<div class="table-cell item-rt">
+						<div class=" item-pic"><img src="images/img_headline.jpg" alt="" class="imgm"></div>
+					</div>
+				</a>
+			</li>
+
+			<li class="bb">
+				<a href="" class="block p10">
+					<div class="fs14 col3 multi-line item-head">足之源养生艾草艾叶泡脚粉包足浴剂足疗包暖宫 脚气脚臭</div>
+					<div class="ptb10 weui-row item-cont">
+						<div class="weui-col-33  item-pic"><img src="images/img_headline.jpg" alt="" class="imgm"></div>
+						<div class="weui-col-33  item-pic"><img src="images/img_headline.jpg" alt="" class="imgm"></div>
+						<div class="weui-col-33  item-pic"><img src="images/img_headline.jpg" alt="" class="imgm"></div>
+					</div>
+					<div class="fs12 col9 item-foot">5分钟前</div>
+				</a>
+			</li>
+			<li class="bb">
+				<a href="" class="table p10">
+					<div class="table-cell">
+						<div class="fs14 col3 multi-line item-head">足之源养生艾草艾叶泡脚粉包足浴剂足疗包暖宫 脚气脚臭</div>
+						<div class="mt10 fs12 col9 item-foot">5分钟前</div>
+					</div>
+					<div class="table-cell item-rt">
+						<div class=" item-pic"><img src="images/img_headline.jpg" alt="" class="imgm"></div>
+					</div>
+				</a>
+			</li>
+		</ul>
+
+		<script>
+			$(".list_headline .item-pic").each(function(){
+				var _thisWidth = $(this).width() * 0.7;
+				$(this).height(_thisWidth);
+			});
+		</script>
+
+
+	</section>
+	<!-- main主体 end -->
+
+</section>
+
+
+
+<section class="search_wrap">
+
+	<dl class="table bb header">
+		<dd class="table-cell">
+			<a href="javascript:;" class="back"></a>
+		</dd>
+		<dt class="table-cell">
+			<input type="text" class="" name="" placeholder="请输入诊所搜索的关键词" >
+		</dt>
+		<dd class="table-cell">
+			<input type="submit" value="搜索">
+		</dd>
+	</dl>
+
+	<div class="p10 search_main">
+		<div class="fs13 item-tit">
+			<i class="mr5 sm-1"></i>最近搜索
+			<a href="" class="fr"><i class="sm-3"></i></a>
+		</div>
+		<div class="ptb10 item-con">
+			<a href="" class="btn-mini">足疗</a>
+			<a href="" class="btn-mini">养生</a>
+			<a href="" class="btn-mini">足疗</a>
+		</div>
+		<div class="fs13 item-tit">
+			<i class="mr5 sm-2"></i>热门搜索
+		</div>
+		<div class="ptb10 item-con">
+			<a href="" class="btn-mini">足疗</a>
+			<a href="" class="btn-mini">养生</a>
+			<a href="" class="btn-mini">足疗</a>
+			<a href="" class="btn-mini">养生</a>
+			<a href="" class="btn-mini">足疗</a>
+			<a href="" class="btn-mini">养生</a>
+			<a href="" class="btn-mini">足疗</a>
+		</div>
+	</div>
+
+
+</section>
+<script>
+$(function(){
+	$(document).on('click','.search_header .sH_search',function() {
+		$(".wrap").hide();
+		$(".search_wrap").show();
+	});
+	$(document).on('click','.header .back',function() {
+		$(".wrap").show();
+		$(".search_wrap").hide();
+	});
+});
+</script>
+<!-- 搜索定位弹窗 end -->
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+<script src="js/functions.js"></script>
+
+<!-- 头部分类 -->
+<script src="weui/js/swiper.js"></script>
+<script>
+$(function(){
+  var _index = $('.know-nav .on').index();
+  var mySwiper1 = new Swiper('.know-nav',{
+	  slidesPerView : 'auto',
+    paginationClickable: true,
+    spaceBetween: 15,
+    freeMode: true,
+    initialSlide: _index
+  });
+})
+</script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<extend name="$_home_public_layout"/>
+
+<block name="wrap">
+
+  <section class="main">
+
+    <div class="table ptb10 bg_own tc fs12 mall_head">
+      <a href="javascript:;" class="table-cell ml-1">积分:<span>{$user_integral}</span></a>
+      <a href="javascript:;" id="check-in" class="table-cell ml-2">签到送积分</a>
+      <a href="{:U('Home/Index/info',array('id'=>1))}"  class="table-cell ml-3">如何获取积分</a>
+    </div>
+
+
+
+    <foreach name="columns_info" key='k' item="val">
+      <div class="mt10 btb mall_top">
+        <div class="p10 bgf fs14 col3 item-tit">
+          {$val['title']}
+          <span class="fr fs12 col9">{$val['subtitle']}</span>
+        </div>
+
+        <div class="bt">
+          <a href= "{$val['url']}">
+            <img src="{:getpics($val['cover'])}" alt="" class="imgm">
+          </a>
+        </div>
+      </div>
+    </foreach>
+
+   <!--  <div class="mt10 btb bgf cTab_ico-no classify_tab">
+      <div class="cTab_msk"></div>
+      <div class="swiper-container tc fs12 cTab_nav">
+        <div class="swiper-wrapper">
+          <a href="javascript:;"  data-k="0" data-value="0" class="swiper-slide ck-type active">
+            <span><i class="cTi-1"></i>全部</span>
+          </a>
+          <foreach name="type_info" item="val" key="k">
+          <a href="javascript:;" data-k="{$k+1}" data-value="{$val['id']}" class="swiper-slide ck-type">
+            <span><i class="cTi-2"></i>{$val['title']}</span>
+          </a>
+          </foreach>
+        </div>
+      </div>
+      <a href="javascript:;" class="cTab_more"></a>
+      <div class="bgf cTab_pop">
+        <div class="tc fs15 col6 item-hd">全部分类</div>
+        <ul class="clearfix bt tc fs12">
+          <li class="bb ck-type active  exchage"  data-value="0">
+          <a href="javascript:;""><i class="cTi-1"></i>全部</a></li>
+          <foreach name="type_info" item="val" key="k">
+          <li class="bb ck-type exchage" style="cursor:pointer;" data-k="{$k+1}" data-value="{$val['id']}">
+            <a href="javascript:;">
+              <i class="cTi-2"></i>{$val['title']}</a>
+          </li>
+          </foreach>
+        </ul>
+      </div>
+    </div> -->
+    <!-- 论坛分类 end -->
+    <ul class="weui-row kd-nav p10 mt10">
+      <foreach name="type_info" item="val">
+      <li class="weui-col-25">
+        <a href="{:U('Shop/Goods/goods_list',['type_id'=>$val['id']])}" class="bgf fs14 col3 tc">{$val['title']}</a>
+      </li>
+      </foreach>
+    </ul>
+
+    <ul class="weui-row mt10 list_goods ajax_list">
+    </ul>
+    <div id="loading" class="tc" style="display: none"></div>
+    <div class="tc nothing step0 step" style="display: none;">
+      <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+      <span class="mt10 fs14 col9">暂无数据</span>
+    </div>
+    <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+      <span class="col9">—— <i></i> ——</span>
+      <p class="fs12 col9">亲，没有更多了哦~</p>
+    </div>
+
+  </section>
+  <!-- main主体 end -->
+</block>
+
+<block name="script">
+<script src="__HTML__/weui/js/swiper.js"></script>
+<script>
+  $(function() {
+
+    //axaj 加载
+    $(document).ajaxStart(function() {
+        $.showLoading();
+    });
+    $(document).ajaxComplete(function() {
+        $.hideLoading();
+    });
+    $(window).bind('scroll', function() {
+        checkload(); //ajax 下拉加载更多内容
+    });
+
+    sessionStorage.removeItem('aGoodsList');
+    sessionStorage.removeItem('aGoodsParam');
+    //初始化加载数据
+    LoadList();
+
+    //签到
+    $('#check-in').click(function(){
+      var url = "{:U('Shop/Integral/check_in')}";
+      $.ajax({
+        url:url,
+        type:'POST',
+        data:{},
+        dataType:'json',
+        async:false,
+        beforeSend:function(){
+
+        },
+        complete:function(){
+
+        },
+        success:function(data){
+          if(data.status){
+            setTimeout(function(){
+                $.toast(data.info, function(){
+                  $('.ml-1 span').text($('.ml-1 span').text()*1+data.integral_get*1);
+                });
+            }, 0);
+          }else{
+            if(data.url){
+              location.href=data.url; //登录
+            }else{
+              $.alert(data.info);
+            }
+          }
+        },
+        error:function(){
+
+        }
+      })
+    })
+
+
+    // $('.ck-type').click(function(){
+
+    //   $('.ck-type').removeClass('active');
+    //   var eq_k = $(this).attr('data-k')*1;
+    //   $("li.ck-type").eq(eq_k).addClass('active');
+    //   $('a.ck-type').eq(eq_k).addClass('active');
+    //   mySwiper.slideTo(eq_k, 1000, false);
+
+    //   n = 1;
+    //   ispost = temp = true;
+    //   type = $(this).attr('data-value');
+    //   $('.ajax_list').empty();
+    //   $("#full").hide();
+    //   $(".step0").hide();
+    //   LoadList();
+    // })
+
+    $('.ck-type').on('click',function(){
+      $(this).addClass('active').siblings().removeClass('active');
+      var type_id =$(this).attr('data-value');
+      $('.cTab_nav a').each(function(){
+          if($(this).attr('data-value')==type_id){
+              $(this).addClass('active').siblings().removeClass('active');
+          }
+      });
+      $(".classify_tab").removeClass("cTab_hover");
+      $("html,body").removeClass("cTab_show");
+      var index = $(".cTab_nav .active").index();
+      if ( index < 3 ) {
+          index = index - index;
+      } else {
+          index = index - 2;
+      }
+      mySwiper.slideTo(index, 500, false);
+
+      n = 1;
+      ispost = temp = true;
+      type = $(this).attr('data-value');
+      $('.ajax_list').empty();
+      $("#full").hide();
+      $(".step0").hide();
+      LoadList();
+    });
+
+    $('.exchage').on('click',function(){
+        $(this).addClass('active').siblings().removeClass('active');
+        var type_id =$(this).attr('data-value');
+        $('.cTab_nav a').each(function(){
+            if($(this).attr('data-value')==type_id){
+                $(this).addClass('active').siblings().removeClass('active');
+            }
+        });
+        $(".classify_tab").removeClass("cTab_hover");
+        $("html,body").removeClass("cTab_show");
+        var index = $(".cTab_nav .active").index();
+        if ( index < 3 ) {
+            index = index - index;
+        } else {
+            index = index - 2;
+        }
+        mySwiper.slideTo(index, 500, false);
+    });
+
+    var index = $(".cTab_nav .active").index();
+    var mySwiper = new Swiper('.cTab_nav',{
+      pagination: '',
+      initialSlide : index,
+      slidesPerView: '5',
+      freeMode: true,
+        onInit: function(){
+            forum_type();
+            //Swiper初始化了
+            //alert(swiper.activeIndex);提示Swiper的当前索引
+        }
+    });
+
+    $(".list_goods .item-pic").each(function(){
+      var w = $(this).width();
+      $(this).css({"height": w});
+    });
+  });
+
+  function checkload() {
+    if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+        $("#loading").show();
+        LoadList();
+    }
+  }
+
+  var n = 1;
+  var ispost = temp = true;
+  var type = '';
+  function LoadList() {
+    if (ispost && temp) {
+        var url ="{:U('Shop/Integral/index')}";
+        temp = false;
+        $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            async:false,
+            data: {n: n,type:type},
+            timeout: 9999,
+            success: function(data) {
+                n++;
+                temp = true;
+                if(data.status){
+                    if(data.msg == ''){
+                        temp = false;
+                        $("#full").show();
+                    }else{
+                        $("#loading").hide();
+                        $(".ajax_list").append(data.msg);
+                        imgHeight();
+                        temp =true;
+                        imglazyload();
+                        checkload();
+                    }
+
+                }else{
+                    temp = false;
+                    $("#loading").hide();
+                    $(".step0").show();
+                }
+
+                // $(window).scrollTop(480);
+            }
+        });
+    }else if(!ispost){
+      $("#full").show();
+    }
+  }
+  </script>
+</block>

@@ -1,0 +1,128 @@
+<extend name="$_home_public_layout"/>
+<block name="footer">
+    <div class="top_fixed">
+        <p class="ptb10 tc bgf fs14 col0 bb">意见反馈</p>
+    </div>
+</block>
+<block name="wrap">
+    <section class="main">
+        <form>
+            <div class="mt10 p10 bgf fs13 col3 form-group">
+                <textarea cols="" rows="5" id="textArea" name="content" class="form-unify ba" placeholder="如果您对我们产品的质量，售后，物流以及商城购物体验有任何问题请告知我们，我们会及时作出调整，感谢您对艾玛莎基网的支持"></textarea>
+                <div class="box flex-between flex-col-center">
+                    <a href="javascript:;" class="btn-mini btn-mini_solid br50 upload">＋点击添加图片</a>
+                    <p class="col6">还可以输入<span class="col0 textNum">500</span>字</p>
+                </div>
+            </div>
+            <ul class="clearfix multi-upload bgf">
+                <li class="mt10 ba br3 upload-file" style="cursor: pointer;display: none">
+                    <input type="file" style="visibility: hidden">
+                </li>
+            </ul>
+            <div class="mt10 bgf p10 fs13 col3 form-group">
+                <input type="text" class="form-unify" style="margin: 0;" name="contacts" placeholder="请留下您的手机号、邮箱或其它联系方式（选填）">
+            </div>
+        </form>
+
+        <div class="p10 fs13 col3 pb20">
+            <a href="javascript:;" class="mt10 btn-block btn-block__gray br5 sub">提交</a>
+            <p class="mt10">客服电话</p>
+            <a href="tel:{$tel}" class="mt5 btn-block bg_own br5"><img src="__HTML_IMG__/phone.png" style="width:20px;margin-right: 5px;position: relative;top:4px;" alt="">{$tel}</a>
+            <p class="mt10 tc fs12 col3">您也可以通过邮箱<a class="ora" href="mailto:{:C('email')}">{:C('email')}</a>与我们联系</p>
+        </div>
+
+    </section>
+</block>
+<block name="icon"></block>
+
+<block name="script">
+    <script>
+        function words_deal(){
+            var curLength=$("#textArea").val().length;
+            if(curLength>500){
+                var str = $("#textArea").val().substr(0, 500);
+                $("#textArea").val(str);
+                $.alert("超过字数限制，多出的字将被截断！" );
+            }
+            else{
+                $(".textNum").text(500-$("#textArea").val().length);
+            }
+        }
+
+        // 上传图片
+        function uploadcard(localIds,num) {
+            var localId = localIds.pop();
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    var serverId = res.serverId; // 返回图片的服务器端ID
+                    afterUploadcard(serverId,num);
+                },
+                fail: function (res) {
+                    alert(JSON.stringify(res));
+                }
+            });
+        }
+
+        //上传图片回调
+        function afterUploadcard(serverId,num) {
+            $.post("{:U('Home/Weixin/download_img')}", {media_id: serverId}, function (data, textStatus, xhr) {
+                if (data.status) {
+                    $('.upload-file').before('<li class="mt10 mr10 ba br3 upload-img" style="background-image:url(' + data.src + ');"><input type="hidden" name="pics[]" value="' + data.id + '" /><a href="javascript:;" class="br50 upload-close"></a></li>');
+                    if (localIds.length > 0) {
+                        uploadcard(localIds);
+                    }
+                } else {
+                    $.alert('上传失败，请重新上传资料');
+                }
+            }, 'json').error(function () {
+                $.alert('错误的数据')
+            });
+        }
+        $(function(){
+            wx.config({$jsapi});
+            $(document).on('click','.upload-file,.upload',function(){
+                wx.chooseImage({
+                    count: 9, // 默认9
+                    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                    success: function (res) {
+                        localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                        uploadcard(localIds,0);
+                    }
+                });
+            });
+            $(document).on('click','.upload-close',function(){
+                $(this).parent('li').remove();
+            });
+            $('.sub').on('click',function(){
+                if($('[name="content"]').val()==''){
+                    $.toptip('请填写意见');
+                    return false;
+                }
+                $.ajax({
+                    url:"{:U('complain')}",
+                    type:'post',
+                    dataType:'json',
+                    data:$('form').serialize(),
+                    success:function(data){
+                        if(data.status){
+                            $.alert(data.info,function(){
+                                location.href ="{:U('Member/index')}";
+                            });
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+            $("#textArea").bind('input propertychange', function(){
+                words_deal();
+            });
+        })
+    </script>
+</block>

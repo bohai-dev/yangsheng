@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>6.1评价列表</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<div class="foot_fixed">
+		<div class="p5 bt box reply_fixed">
+			<i class=""><img src="images/icon_reply.png" alt="" class="imgm"></i>
+			<a href="javascript:;" class="flex-1 ba br5 bgf fs14 col9">写评论</a>
+		</div>
+	</div>
+
+
+	<section class="main">
+
+		<ul class="bgf btb last fs13 list_comment">
+			<li class="p10 bb">
+				<div class="table item-head">
+					<div class="table-cell item-lt">
+						<div class="ba brarc item-pic"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+					</div>
+					<div class="table-cell pl10 item-hd">
+						<div class="fs14 col3">用户A <div class="star-show" data-score="5"></div></div>
+						<p class="fs12 col9">2016-09-01</p>
+					</div>
+				</div>
+				<article class="mt10 col3 m-editor">
+					<p>湖左岸小区距离东方之门和星海广场步行只要五分钟的路程。出租的房间是次卧，正南向，阳光充沛，男女不限，有空调 热水器 全自动洗衣机。</p>
+				</article>
+				<div class="mt10 col6 box item-foot">
+					<span>养生商城：</span>
+					<p class="flex-1">谢谢支持，我们会努力挖掘更超值更优惠的活动给大家。</p>
+				</div>
+			</li>
+			<li class="p10 bb">
+				<div class="table item-head">
+					<div class="table-cell item-lt">
+						<div class="ba brarc item-pic"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+					</div>
+					<div class="table-cell pl10 item-hd">
+						<div class="fs14 col3">用户A <div class="star-show" data-score="5"></div></div>
+						<p class="fs12 col9">2016-09-01</p>
+					</div>
+				</div>
+				<article class="mt10 col3 m-editor">
+					<p>湖左岸小区距离东方之门和星海广场步行只要五分钟的路程。出租的房间是次卧，正南向，阳光充沛，男女不限，有空调 热水器 全自动洗衣机。</p>
+				</article>
+			</li>
+			<li class="p10 bb">
+				<div class="table item-head">
+					<div class="table-cell item-lt">
+						<div class="ba brarc item-pic"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+					</div>
+					<div class="table-cell pl10 item-hd">
+						<div class="fs14 col3">用户A <div class="star-show" data-score="5"></div></div>
+						<p class="fs12 col9">2016-09-01</p>
+					</div>
+				</div>
+				<article class="mt10 col3 m-editor">
+					<p>湖左岸小区距离东方之门和星海广场步行只要五分钟的路程。出租的房间是次卧，正南向，阳光充沛，男女不限，有空调 热水器 全自动洗衣机。</p>
+				</article>
+			</li>
+		</ul>
+
+
+
+		<script src="js/jquery.raty.min.js"></script>
+		<!-- 商品评价 end -->
+
+
+	</section>
+	<!-- main主体 end -->
+
+</section>
+<!-- 主体 end -->
+
+<section class="reply_wrap">
+	<dl class="table bgf header">
+		<dd class="table-cell vm">
+			<a href="javascript:;" class="back"></a>
+		</dd>
+		<dt class="table-cell vm">
+			<p class="tc">评论</p>
+		</dt>
+		<dd class="table-cell vm"></dd>
+	</dl>
+
+	<form action="">
+		<div class="p10 btb bgf fs14 col6 relative">
+			<textarea name="" cols="" rows="5" class="form-unify" placeholder="请填写您的评论" id="textArea" onkeyup="words_deal();"></textarea>
+			<span class="fs12 col9 textNum"><em>0</em>/100</span>
+		</div>
+
+		<div class="mt20 p10">
+			<button type="button" class="bg_own br5 btn-block">确认发布</button>
+		</div>
+	</form>
+</section>
+<script>
+$(function(){
+	$(document).on('click','.reply_fixed a',function() {
+		$(".wrap").hide();
+		$(".reply_wrap").show();
+	});
+	$(document).on('click','.reply_wrap .back',function() {
+		$(".wrap").show();
+		$(".reply_wrap").hide();
+	});
+});
+</script>
+<!-- 填写评论弹窗 end -->
+
+
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+<div class="radio-reward">
+    <foreach name="score" key="k" item="list">
+        <label for="integral{$k}" class="opt-label">
+            <input type="radio" class="opt-check" name="radio-integral"value="{$list}" id="integral{$k}" <eq name="k" value="0">checked</eq>>
+            <span class="opt-checked">{$list}积分</span>
+        </label>
+    </foreach>
+</div>

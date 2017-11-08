@@ -1,0 +1,148 @@
+<extend name="$_home_public_layout"/>
+<block name="footer">
+    <div class="foot_fixed">
+        <div class="ptb10 bt" style="background-color: #eaedf1;">
+            <a href="javascript:;" class="replay-btn bgf tc fs13 col0" style="width: 150px;border-radius: 6px;border:1px solid #e1e1e1;display: block;margin-right: auto;margin-left: auto;padding:6px 0;">发表评论</a>
+        </div>
+    </div>
+</block>
+<block name="wrap">
+    <section class="main">
+        <div class="detail_eval">
+            <!-- <p class="fs15 col0 tc pt10 subtitle">热门评论</p> -->
+            <ul class="list_eval">
+                <li class="p10 bb bgf">
+                    <div class="clearfix item-hd">
+                        <div class="fl ba brarc item-pic"><img src="{:getpics(get_user_info($comment['uid'],'admin_user','avatar'))}" alt="" class="imgm"></div>
+                        <span class="fl plr10">{:get_user_info($comment['uid'],'admin_user','nickname')}</span>
+                        <p   style="cursor: pointer"  data-value="{$comment.id}" class="fr col6 up1 comment_like <eq name="comment['like']" value="1">on</eq>"><i class="Icon-up1"></i><span>{$comment.like_num}</span></p>
+                    </div>
+                    <div class="mt5 fs14 col3 item-bd" style="padding-left:40px; ">
+                        <div>{$comment.comment}</div>
+                        <p class="mt5 fs12 col9">{:date('m-d H:i', strtotime($comment['comment_time']))}</p>
+                    </div>
+                </li>
+                <li class="mt10 pl10 bgf bb">
+                    <span class="thr-title fs13 col_own">热门回复</span>
+                </li>
+                <notempty name="child_comment">
+                    <foreach name="child_comment" item="list">
+                        <li class="p10 bb bgf">
+                            <div class="clearfix item-hd">
+                                <div class="fl ba brarc item-pic"><img src="{:getpics(get_user_info($list['uid'],'admin_user','avatar'))}" alt="" class="imgm"></div>
+                                <span class="fl plr10">{:get_user_info($list['uid'],'admin_user','nickname')}</span>
+                                <p   style="cursor: pointer"  data-value="{$list.id}" class="fr col6 up1 comment_like <eq name="list['like']" value="1">on</eq>"><i class="Icon-up1"></i><span>{$list.like_num}</span></p>
+                            </div>
+                            <div class="mt5 fs14 col3 item-bd" style="padding-left:40px; ">
+                                <div>{$list.comment}</div>
+                                <p class="mt5 fs12 col9">{:date('m-d H:i', strtotime($list['comment_time']))}</p>
+                            </div>
+                        </li>
+
+                    </foreach>
+                    <a href="javascript:;" class="block p10 tc fs13 col9">已显示全部评论</a>
+                </notempty>
+            </ul>
+        </div>
+        <!-- 商品评价 end -->
+
+    </section>
+    <!-- main主体 end -->
+</block>
+<block name="extra">
+    <section class="reply_wrap">
+        <dl class="table bgf header">
+            <dd class="table-cell vm">
+                <a href="javascript:;" class="back"></a>
+            </dd>
+            <dt class="table-cell vm">
+            <p class="tc">评论</p>
+            </dt>
+            <dd class="table-cell vm"></dd>
+        </dl>
+
+        <form action="">
+            <div class="p10 btb bgf fs14 col6 relative">
+                <textarea name="content" cols="" rows="5" class="form-unify" placeholder="请填写您的评论" id="textArea" onkeyup="words_deal();"></textarea>
+                <span class="fs12 col9 textNum"><em>0</em>/100</span>
+            </div>
+
+            <div class="mt20 p10">
+                <button type="button" class="bg_own br5 btn-block">确认发布</button>
+            </div>
+        </form>
+    </section>
+</block>
+<block name="script">
+    <script>
+        $(function(){
+            $(document).on('click','.btn-block',function(){
+                if($('[name="content"]').val()==null || $('[name="content"]').val()==''){
+                    $.alert('请填写评论内容');
+                    return false;
+                }
+                $.ajax({
+                    url:"{:U('comment_reply')}",
+                    dataType:'json',
+                    type:'post',
+                    data:{comment_id:{$comment['id']},content:$('[name="content"]').val()},
+                    success:function(data){
+                        if(data.status){
+                            $.alert(data.info,function(){
+                                location.reload(true);
+                            });
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+
+                });
+                return false;
+            });
+            $(document).on("click",".comment_like",function(){
+                var $this =$(this);
+                if(!$this.hasClass("on")){
+                    var type =1;
+                }else{
+                    var type =2;
+                }
+                $.ajax({
+                    url:"{:U('comment_like')}",
+                    type:'post',
+                    dataType:'json',
+                    async: false,
+                    data:{id:$this.attr('data-value'),type:type},
+                    success:function(data){
+                        if(data.status){
+                            if(type==1){
+                                $this.addClass('on');
+                                var num =parseInt(parseInt($this.children('span').html())+1);
+                                $this.html('<i class="Icon-up1"></i><span>'+num+'</span>');
+                            }else{
+                                $this.removeClass('on');
+                                var num =parseInt(parseInt($this.children('span').html())-1);
+                                $this.html('<i class="Icon-up1"></i><span>'+num+'</span>');
+                            }
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+            $(document).on('click','.replay-btn',function() {
+                $(".wrap").hide();
+                $(".reply_wrap").show();
+            });
+            $(document).on('click','.reply_wrap .back',function() {
+                $(".wrap").show();
+                $(".reply_wrap").hide();
+            });
+        });
+    </script>
+</block>

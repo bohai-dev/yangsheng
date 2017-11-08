@@ -1,0 +1,141 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+<section class="wrap">
+
+  <section class="main">
+<!--
+    <div class="p10 bg_own">
+      <p class="tc fs16 colf">热销排行榜</p>
+    </div> -->
+    <a href="javascript:;" class="block">
+      <img src="{:getpics($pagepic)}" alt="" class="imgm">
+    </a>
+
+    <notempty name="goods_info_a">
+      <div class="p5 bg_own">
+        <p class="tc fs14 colf">热销排行榜</p>
+      </div>
+      <div class="bgf index_seckill">
+        <div class="swiper-container tc item-bd">
+          <div class="swiper-wrapper">
+            <foreach name="goods_info_a" item="val">
+            <a href="{:U('Shop/Goods/detail',['id'=>$val['id']])}" class="swiper-slide p10 br">
+              <div class="item-pic"><img src="{:getpics($val['cover'])}" alt="" class="imgm"></div>
+              <p class="fs13 col3 single-line">{$val['title']}</p>
+              <em class="mt5 fs12 col_own">￥{$val['sale_price']}</em>
+            </a>
+            </foreach>
+          </div>
+          <!-- Add Scrollbar -->
+          <div class="swiper-scrollbar"></div>
+        </div>
+      </div>
+    </notempty>
+
+    <notempty name="goods_info_b">
+      <div class="p5 bg_own">
+        <p class="tc fs14 colf">热销排行榜</p>
+      </div>
+      <div class="bgf index_seckill">
+        <div class="swiper-container tc item-bd">
+          <div class="swiper-wrapper">
+            <foreach name="goods_info_b" item="val">
+            <a href="{:U('Shop/Goods/detail',['id'=>$val['id']])}" class="swiper-slide p10 br">
+              <div class="item-pic"><img src="{:getpics($val['cover'])}" alt="" class="imgm"></div>
+              <p class="fs13 col3 single-line">{$val['title']}</p>
+              <em class="mt5 fs12 col_own">￥{$val['sale_price']}</em>
+            </a>
+            </foreach>
+          </div>
+          <!-- Add Scrollbar -->
+          <div class="swiper-scrollbar"></div>
+        </div>
+      </div>
+    </notempty>
+
+    <notempty name="goods_info_c">
+      <div class="p5 bg_own">
+        <p class="tc fs14 colf">热销排行榜</p>
+      </div>
+      <div class="bgf index_seckill">
+        <div class="swiper-container tc item-bd">
+          <div class="swiper-wrapper">
+            <foreach name="goods_info_c" item="val">
+            <a href="{:U('Shop/Goods/detail',['id'=>$val['id']])}" class="swiper-slide p10 br">
+              <div class="item-pic"><img src="{:getpics($val['cover'])}" alt="" class="imgm"></div>
+              <p class="fs13 col3 single-line">{$val['title']}</p>
+              <em class="mt5 fs12 col_own">￥{$val['sale_price']}</em>
+            </a>
+            </foreach>
+          </div>
+          <!-- Add Scrollbar -->
+          <div class="swiper-scrollbar"></div>
+        </div>
+      </div>
+    </notempty>
+
+    <notempty name="goods_info_d">
+      <div class="p5 bg_own">
+        <p class="tc fs14 colf">热销排行榜</p>
+      </div>
+      <div class="bgf index_seckill">
+        <div class="swiper-container tc item-bd">
+          <div class="swiper-wrapper">
+            <foreach name="goods_info_d" item="val">
+            <a href="{:U('Shop/Goods/detail',['id'=>$val['id']])}" class="swiper-slide p10 br">
+              <div class="item-pic"><img src="{:getpics($val['cover'])}" alt="" class="imgm"></div>
+              <p class="fs13 col3 single-line">{$val['title']}</p>
+              <em class="mt5 fs12 col_own">￥{$val['sale_price']}</em>
+            </a>
+            </foreach>
+          </div>
+          <!-- Add Scrollbar -->
+          <div class="swiper-scrollbar"></div>
+        </div>
+      </div>
+    </notempty>
+
+    <div class="p10 tc nomore">
+      <span class="col9">—— <i></i> ——</span>
+      <p class="fs12 col9">亲，没有更多了哦~</p>
+    </div>
+
+
+
+  </section>
+  <!-- main主体 end -->
+
+</section>
+</block>
+<block name="icon">
+  <div class="handle_fixed">
+    <a href="{:U('Shop/Cart/index')}" class="ba brarc"><i class="hf-1"></i></a>
+    <a href="{:U('Shop/Index/index')}" class="ba brarc"><i class="hf-2"></i></a>
+    <a href="{:U('Shop/Goods/index')}" class="ba brarc"><i class="hf-3"></i></a>
+    <a href="javascript:;" class="ba brarc to_top"><i class="hf-4"></i></a>
+  </div>
+</block>
+<block name="script">
+  <script src="__HTML__/weui/js/swiper.js"></script>
+  <script>
+  $(function(){
+
+    //到顶部
+    $('.hf-4').click(function(){
+        var speed=200;
+        $('body,html').animate({ scrollTop: 0 }, speed);
+        return false;
+    })
+
+
+    var swiper = new Swiper('.index_seckill .swiper-container', {
+      scrollbar: '.swiper-scrollbar',
+      scrollbarHide: true,
+      slidesPerView: 3,
+      paginationClickable: true,
+      freeMode: true
+    });
+  });
+  </script>
+</block>

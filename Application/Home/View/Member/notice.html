@@ -1,0 +1,33 @@
+<extend name="$_home_public_layout"/>
+<block name="footer">
+    <div class="top_fixed">
+        <p class="ptb10 tc bgf fs14 col0 bb">通知消息</p>
+    </div>
+</block>
+<block name="wrap">
+    <section class="main">
+        <ul class="msg-list fs13">
+            <foreach name="notice" item="list">
+                <li class="mt10 time-line tc fs12">
+                    <span>{:date('Y年n月d日',strtotime($list['time']))}</span>
+                </li>
+                <li class="mt10 bgf ptb10 plr15 br5">
+                    <a href="{:U('notice_brow',['nid'=>$list['id']])}">
+                        <p class="fs14 col0">{$list.title}</p>
+                        <div class="table">
+                            <div class="w80 table-cell vm">
+                                <div class="item-pic">
+                                    <img src="{:getpics($list['cover'])}" alt="" class="imgm">
+                                </div>
+                            </div>
+                            <div class="table-cell vm pl10">
+                                <p class="col6">{$list.abstract}</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </foreach>
+        </ul>
+    </section>
+</block>
+<block name="icon"></block>

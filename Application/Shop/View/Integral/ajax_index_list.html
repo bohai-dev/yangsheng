@@ -1,0 +1,14 @@
+<foreach name="info" item="val">
+  <li class="weui-col-50 mb10">
+    <a href="{:U('Shop/Integral/detail',['id'=>$val['id']])}" class="block ba bgf">
+      <div class="item-pic"><img src="{:getpics($val['cover'])}" alt="" class="imgm"></div>
+      <div class="p5 bt item-con">
+        <p class="fs14 col3 multi-line">{$val['title']}</p>
+        <div class="fs12">
+          <span class="fs13 colred">¥<em class="fs13">{$val['integral_price']}+{$val['sale_integral']}积分</em></span>
+          <del class="fs12 ml10 col9">¥{$val['original_price']}</del>
+        </div>
+      </div>
+    </a>
+  </li>
+</foreach>

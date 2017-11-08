@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>0.0.4求职信息详情</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<div class="foot_fixed">
+		<dl class="table bgf tell_fixed">
+			<dt class="table-cell vm plr10">
+				<span class="fs14 col3">张树国（个人）</span>
+				<p class="fs12 col3">13863485652-南京</p>
+			</dt>
+			<dd class="table-cell vm">
+				<a href="" class="bg_own btn-block"><i></i>电话</a>
+			</dd>
+		</dl>
+	</div>
+
+	<section class="main">
+
+		<div class="swiper-container detail_ban">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<img src="images/detail_ban.jpg" alt="3:2,640*427" class="imgm">
+				</div>
+				<div class="swiper-slide">
+					<img src="images/detail_ban.jpg" alt="3:2,640*427" class="imgm">
+				</div>
+				<div class="swiper-slide">
+					<img src="images/detail_ban.jpg" alt="3:2,640*427" class="imgm">
+				</div>
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+		<script src="weui/js/swiper.js"></script>
+		<script>
+		$(function(){
+			var swiperWidth = $(".detail_ban").width();
+				swiperHeight = swiperWidth * (2/3);
+				$(".detail_ban").css("height",swiperHeight);
+			$(".detail_ban").swiper({
+				pagination: '.swiper-pagination',
+				paginationType: 'fraction',
+				loop: true,
+				autoplay: 3000,
+				autoplayDisableOnInteraction : false,
+			});
+		});
+		</script>
+		<!-- detail_ban end -->
+
+		<div class="p10 btb bgf detail_info">
+			<h2 class="fs14 col3">求职客服</h2>
+			<div class="clearfix mt5 fs12 col6">
+				<span>发布：58分钟前</span>
+				<span class="fr">浏览：2人</span>
+			</div>
+		</div>
+
+		<div class="mt10 p10 btb bgf fs14 col3 detail_info">
+			<p><span class="mr10 col6">年龄：</span>23岁</p>
+			<p class="mt5"><span class="mr10 col6">性别：</span>女</p>
+			<p class="mt5"><span class="mr10 col6">学历：</span>大专</p>
+			<p class="mt5"><span class="mr10 col6">期待薪资：</span>8000元/月</p>
+			<p class="mt5"><span class="mr10 col6">期望工作地点：</span>上海宝山区</p>
+		</div>
+
+		<div class="mt10 p10 btb bgf detail_main">
+			<div class="fs15 col6 item-hd"><span>职位描述</span></div>
+			<div class="mt10 fs14 col3 item-bd">
+				<article class="m-editor">
+					<p>湖左岸小区距离东方之门和星海广场步行只要五分钟的路程。出租的房间是次卧，正南向，阳光充沛，男女不限，有空调 热水器 全自动洗衣机。朝南次卧1250，，朝北次卧1000左右，主卧带独立卫生间1600元每月。家电家具齐全，拎包入住干净整洁。个人房子 没有中阶费 欢迎有需要的爱干净人士前来看房，电话预约随时看房。距离一号线星海广场地铁口只需步行几分钟。交通很方便</p>
+					<a href="javascript:;" class="m-more"></a>
+				</article>
+			</div>
+		</div>
+
+		<script>
+		$(function() {
+			$(".m-editor").each(function() {
+				var _this = $(this)
+				var height = _this.height();
+				var more = _this.find('.m-more');
+				if ( height > 100 ) {
+					_this.css({height: '100'});
+					more.show();
+					more.click(function() {
+						if ( !_this.hasClass('active') ) {
+							_this.addClass('active');
+						} else {
+							_this.removeClass('active');
+						}
+					});
+				} else {
+					more.hide();
+				}
+			});
+		});
+		</script>
+
+
+	</section>
+	<!-- main主体 end -->
+
+</section>
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

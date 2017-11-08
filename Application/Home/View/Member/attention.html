@@ -1,0 +1,138 @@
+<extend name="$_home_public_layout"/>
+<block name="footer">
+    <section class="top_fixed">
+        <div class="table bgf btb tc fs14 tab_nav">
+            <a href="javascript:;" class="table-cell list active"  data-value="1"><span> <eq name="type" value="0">我<else/>TA</eq>的关注</span></a>
+            <a href="javascript:;" class="table-cell list" data-value="2"><span><eq name="type" value="0">我<else/>TA</eq>的粉丝</span></a>
+        </div>
+    </section>
+</block>
+<block name="wrap">
+
+    <section class="main">
+        <div class="comm_con">
+            <ul class="attention">
+                <empty name="attention">
+                    <div class="tc nothing">
+                        <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+                        <span class="mt10 fs14 col9">暂无关注</span>
+                    </div>
+                    <else/>
+                    <foreach name="attention" item="list">
+                        <li class="flex-box flex-between bb bgf box-b p10">
+                            <a href="{:U('Forum/Index/personal_list',array('id'=>$list['attention_userid']))}" class="flex-box">
+                                <p class="item-pic br50 mr10" style="width: 40px;height: 40px;">
+                                    <img src="{:getpics(get_user_info($list['attention_userid'],'admin_user','avatar'))}" alt="" class="imgm">
+                                </p>
+                                    <span class="col3 fs13">
+                                       {:get_user_info($list['attention_userid'],'admin_user','nickname')}
+                                    </span>
+                            </a>
+                            <eq name="type" value="0">
+                                <a href="javascript:;" data-value="{$list.attention_userid}" class="block follow-btn fs13 active cancel ">
+                                    + 取消关注
+                                </a>
+                                <else/>
+
+                            </eq>
+                        </li>
+                    </foreach>
+                </empty>
+            </ul>
+            <ul class="fans" style="display: none">
+                <foreach name="fans" item="list">
+                <li class="flex-box flex-between bb bgf box-b p10">
+                    <a href="{:U('Forum/Index/personal_list',array('id'=>$list['uid']))}" class="flex-box">
+                        <p class="item-pic br50 mr10" style="width: 40px;height: 40px;">
+                            <img src="{:getpics(get_user_info($list['uid'],'admin_user','avatar'))}" alt="" class="imgm">
+                        </p>
+                            <span class="col3 fs13">
+                                {:get_user_info($list['uid'],'admin_user','nickname')}
+                            </span>
+                    </a>
+                    <eq name="type" value="0">
+                        <eq name="list['attention']" value="0">
+                            <a href="javascript:;" data-value="{$list.uid}" class="block follow-btn attention1  fs13">
+                                + 关注
+                            </a>
+                            <else/>
+                            <a href="javascript:;" data-value="{$list.uid}" class="block follow-btn fs13 active cancel ">
+                                + 取消关注
+                            </a>
+                        </eq>
+                        <else/>
+                           <!-- <a href="javascript:;" data-value="{$list.uid}" class="block follow-btn attention1  fs13">
+                                + 关注
+                            </a>-->
+                    </eq>
+                </li>
+                </foreach>
+            </ul>
+        </div>
+    </section>
+
+
+</block>
+<block name="icon"></block>
+
+<block name="script">
+    <script>
+        $(function(){
+            $('.list').on('click',function(){
+                var $this =$(this);
+                if($this.attr('data-value')==1){
+                    $this.addClass('active').siblings().removeClass('active');
+                    $('.attention').show();
+                    $('.fans').hide();
+                }else{
+                    $this.addClass('active').siblings().removeClass('active');
+                    $('.fans').show();
+                    $('.attention').hide();
+                }
+            });
+            // 关注
+            $(document).on('click','.attention1',function(){
+                var $this =$(this);
+                $.ajax({
+                    url:"{:U('Forum/Index/attention')}",
+                    type:'post',
+                    dataType:'json',
+                    data:{attend_uid:$this.attr('data-value'),type:1},
+                    success:function(data){
+                        if(data.status){
+                            $.alert(data.info,function(){
+                                location.reload();
+                            });
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+            $('.cancel').on('click',function(){
+                var $this =$(this);
+                $.confirm("确认取消关注吗？", function(){
+                    $.ajax({
+                        url:"{:U('Forum/Index/attention')}",
+                        type:'post',
+                        dataType:'json',
+                        data:{attend_uid:$this.attr('data-value'),type:2},
+                        success:function(data){
+                            if(data.status){
+                                location.reload();
+                            }else{
+                                $.alert(data.info);
+                            }
+                        },
+                        error:function(){
+
+                        }
+                    });
+                });
+            });
+        })
+    </script>
+</block>

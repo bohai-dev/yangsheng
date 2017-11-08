@@ -1,0 +1,31 @@
+<foreach name="info" item="value">
+    <li class="table">
+      <a href="{$value['group']==4?U('Shop/Integral/detail',['id'=>$value['id']]):U('Shop/Goods/detail',['id'=>$value['id']])}" class="table-cell item-photo">
+        <div class="item-pic">
+          <img src="{:getpics($value['cover'])}" alt="{$value['title']}" class="imgm">
+        </div>
+      </a>
+      <div class="table-cell p10 bb item-con">
+        <h2 class="fs14 col3 multi-line"><a href="{$value['group']==4?U('Shop/Integral/detail',['id'=>$value['id']]):U('Shop/Goods/detail',['id'=>$value['id']])}">{$value['title']} </a></h2>
+        <div class="mt10 m-price">
+          <span class="fs12 colred">
+            <b class="fs14">
+              <eq name="value['group']" value="4">
+                ¥{$value['integral_price']}+{$value['sale_integral']}积分
+              <else />
+                ¥{$value['seckill_price']?$value['seckill_price']:$value['sale_price']}
+              </eq>
+            </b>
+            <s class="ml10 col9">¥ {$value['original_price']}</s>
+          </span>
+          <p class="fs12 col9">已售{$value['sales_volume']}件</p>
+          <neq name="value['group']" value="4">
+            <a href="javascript:;" class="item-more to-cart" data-value="{$value['id']}">
+              <img src="__HTML__/images/to-cart.png" alt="加入购物车" class="block">
+            </a>
+         </neq>
+        </div>
+      </div>
+    </li>
+</foreach>
+

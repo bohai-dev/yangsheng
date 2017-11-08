@@ -1,0 +1,51 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+    <section class="main">
+        <p class="ptb10 tc bgf fs14 col0 bb">选择支付方式</p>
+        <ul class="pl10 bgf mt10 last">
+            <li class="fs14 ptb10 bb">网上支付</li>
+            <li class="bb bgf fs13 weui_cells_radio">
+                <label class="weui_cell weui_check_label" for="pay1">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p><i class="Icon-pay1"></i>微信支付</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <input type="radio" class="weui_check" name="pay" id="pay1" value="1"  data-title="法官"> <span class="weui_icon_checked"></span> </div>
+                </label>
+            </li>
+            <li class="bb bgf fs13 weui_cells_radio">
+                <label class="weui_cell weui_check_label" for="pay2">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p><i class="Icon-pay2"></i>支付宝支付</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <input type="radio" class="weui_check" name="pay" id="pay2" value="2" data-title="法官"> <span class="weui_icon_checked"></span> </div>
+                </label>
+            </li>
+        </ul>
+        <ul class="pl10 bgf mt10 last">
+            <li class="fs14 ptb10 bb">货到付款</li>
+            <li class="bb bgf fs13 weui_cells_radio">
+                <label class="weui_cell weui_check_label" for="pay3">
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <p><i class="Icon-pay3"></i>货到付款（仅限上海地区）</p>
+                    </div>
+                    <div class="weui_cell_ft">
+                        <input type="radio" class="weui_check" name="pay" id="pay3" value="4" data-title="法官"> <span class="weui_icon_checked"></span> </div>
+                </label>
+            </li>
+        </ul>
+    </section>
+</block>
+<block name="script">
+    <script>
+        $(function(){
+            $('.weui_cells_radio').on('change',function(){
+                var pay_type = $(this).find('input').val();
+                Cookies.set('yangsheng_home_default_pay_type',  pay_type);
+                location.href= "{$from}";
+            })
+        });
+    </script>
+</block>

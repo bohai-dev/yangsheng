@@ -1,0 +1,81 @@
+<foreach name="order_list" item="value">
+       <li class="mb10 plr10 btb bgf">
+        <div class="clearfix ptb10 bb fs12 col3 item-hd">
+            订单编号{$value.ordernum}
+            <em class="fr colred">
+                <switch name="value.checkinfo">
+                    <case value="1">
+                        等待买家付款
+                    </case>
+                    <case value="2">
+                        等待发货
+                    </case>
+                    <case value="3">
+                        等待买家收货
+                    </case>
+                    <case value="4">
+                        已完成
+                    </case>
+                    <case value="5">
+                        退货中
+                    </case>
+                    <case value="6">
+                        已退货
+                    </case>
+                    <case value="7">
+                        拒绝退货
+                    </case>
+                </switch>
+            </em>
+        </div>
+        <foreach name="value['goods']" item="goods">
+        <a href="{:U('Shop/Order/detail',array('ordernum'=>$value['ordernum']))}" class="table mt10">
+          <div class="table-cell vm order_pic">
+            <div class="br5 ba item-pic">
+              <img src="{:getpics($goods['cover'])}" alt="" class="imgm">
+            </div>
+          </div>
+          <div class="table-cell vm pl10 item-con">
+            <p class="fs14 col3 multi-line">{$goods['title']}</p>
+            <div class="mt10 fs12 m-price">
+           <!--   <em class="fs16 colred">12880积分</em>-->
+              <span class="m-vc col9 item-more">数量×{$goods.buy_num}</span>
+            </div>
+          </div>
+        </a>
+        </foreach>
+        <p class="mt10 tr col9">共{:count($value['goods'])}件商品 合计：¥{$value.payment}（含运费¥{$value.ship_fee}）</p>
+        <div class="clearfix mt10 bt ptb10 tr fs12 item-bot">
+          <span class="fl fs13 col6">{:substr($value['create_time'],0,10)}</span>
+            <switch name="value.checkinfo">
+                <case value="1">
+                    <a href="{:U('Shop/Order/update_order', ['ordernum'=>$value['ordernum'], 'action'=>'cancel'])}" class="mr5 br3 btn-mini cancel">取消订单</a>
+                    <a href="{:U('topay', ['ordernum'=>$value['ordernum']])}" class="br3 btn-mini btn-mini_solid topay">去付款</a>
+                </case>
+                <case value="2">
+                    <!-- <a href="{:U('Order/update_order', ['ordernum'=>$value['ordernum'], 'action'=>'apply_return'])}" class="mr5 br3 btn-mini apply_return">我要退货</a> -->
+                    <a href="http://wpa.qq.com/msgrd?v=3&uin={:C('qq_number')}&site=qq&menu=yes" class="mr5 br3 btn-mini ">联系客服</a>
+                </case>
+                <case value="3">
+                    <a href="http://m.kuaidi100.com/index_all.html?type={$value.postmode}&postid={$value.postid}&callbackurl={:urlencode(U('', I('get.'), false, true))}" class="mr5 br3 btn-mini">查看物流</a>
+                    <a href="{:U('Order/update_order', ['ordernum'=>$value['ordernum'], 'action'=>'apply_return'])}" class="mr5 br3 btn-mini apply_return">我要退货</a>
+                    <a href="{:U('Order/update_order', ['ordernum'=>$value['ordernum'], 'action'=>'finish'])}" class="br3 btn-mini btn-mini_solid finish">确认收货</a>
+                </case>
+                <case value="4">
+                    <a href="{:U('Order/delete_order', ['id'=>$value['id']])}" class="mr5 br3 btn-mini delete">
+                        删除订单
+                    </a>
+                    <empty name="value['review']">
+                    <a href="{:U('Shop/Order/review', ['id'=>$value['id']])}" class="br3 btn-mini btn-mini_solid">去评价</a>
+                    </empty>
+                </case>
+                <case value="5">
+
+                </case>
+                <case value="6">
+
+                </case>
+            </switch>
+        </div>
+      </li>
+</foreach>

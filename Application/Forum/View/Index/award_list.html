@@ -1,0 +1,31 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <section class="main">
+        <notempty name="list">
+                <div class="bgf ba br5 tc collect_records" style="margin: 0;">
+                    <div class="ptb10 fs14 table item-hd">
+                        <div class="table-cell item-w">打赏用户</div>
+                        <div class="table-cell item-w">打赏金额</div>
+                        <div class="table-cell">打赏时间</div>
+                    </div>
+                    <ul class="item-bd">
+                        <foreach name="list" item="list">
+                            <li class="table ptb10 bt">
+                                <div class="table-cell item-w">{:get_user_info($list['uid'],'admin_user','nickname')}</div>
+                                <div class="table-cell item-w">{$list.score}</div>
+                                <div class="table-cell">{$list.time}</div>
+                            </li>
+                        </foreach>
+                    </ul>
+                </div>
+            <else/>
+            <div class="p10 col9 fs13 tc nomore list_comment">
+                <span class="col9">—— <i></i> ——</span>
+                <p class="fs12 col9">暂无记录</p>
+            </div>
+        </notempty>
+
+
+
+    </section>
+</block>

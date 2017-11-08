@@ -1,0 +1,348 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <!-- 底部悬浮 end -->
+
+    <section class="main">
+
+        <dl class="table p10 header forum_head">
+            <dd class="table-cell vm">
+                <a href="javascript:;" class="br50 item-pic">
+                    <img src="{:getpics($user['avatar'])}" alt="" class="imgm">
+                </a>
+            </dd>
+            <dt class="table-cell vm">
+            <div class="table box-b ba br5 tc item-tab">
+            <a href="{:U('index')}" class="table-cell ">全部</a>
+            <a href="{:U('attention')}" class="table-cell active">关注</a>
+            </div>
+            </dt>
+            <dd class="table-cell vm">
+                <a href="{:U('Home/Index/info',array('id'=>2))}" class="publish"></a>
+            </dd>
+        </dl>
+
+        <ul class="mb10 forum_list ajax_list">
+
+        </ul>
+        <div id="loading" class="tc" style="display: none"></div>
+        <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+            <span class="col9">—— <i></i> ——</span>
+            <p class="fs12 col9">亲，没有更多了哦~</p>
+        </div>
+        <div class="tc nothing" style="display: none; margin-top:20px" >
+            <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+            <span class="mt10 fs14 col9">暂无关注记录</span>
+        </div>
+        <script>
+            $(function() {
+                $(".forum_list .item-pic").each(function(){
+                    var w = $(this).width();
+                    $(this).css({"height": w});
+                });
+            });
+        </script>
+
+        <div class="share_main" style="cursor: pointer"></div>
+    </section>
+</block>
+<block name="script">
+    <script>
+        jQuery(document).ready( function($){
+//            $(".lazy img").lazyload({  //图片延迟加载
+//                placeholder : "html/images/loading.gif",
+//                effect      : "fadeIn",
+//                threshold : 1
+//            });
+            $(document).ajaxStart(function() {
+                $.showLoading();
+            });
+            $(document).ajaxComplete(function() {
+                setTimeout("$.hideLoading()",1000);
+            });
+            $(window).bind('scroll', function() {
+                checkload(); //ajax 下拉加载更多内容
+            });
+            //初始化加载数据
+        });
+        // 微信分享
+        wx.config({$jsapi});
+        wx.ready(function() {
+//            alert('{$wechatShare["link"]}');
+            //分享到朋友圈
+            wx.onMenuShareTimeline({
+                title: '{$wechatShare["title"]}',
+                link: '{$wechatShare["link"]}',
+                imgUrl: '{$wechatShare["imgUrl"]}',
+                success: function () {},
+                cancel: function () {}
+            });
+            //分享给朋友
+            wx.onMenuShareAppMessage({
+                title: '{$wechatShare["title"]}',
+                desc: '{$wechatShare["desc"]}',
+                link: '{$wechatShare["link"]}',
+                imgUrl: '{$wechatShare["imgUrl"]}',
+                type: '{$wechatShare["type"]}',
+                dataUrl: "",
+                success: function () {},
+                cancel: function () {}
+            });
+//            alert('{$wechatShare["title"]}');
+            //分享到QQ
+            wx.onMenuShareQQ({
+                title: '{$wechatShare["title"]}',
+                desc: '{$wechatShare["desc"]}',
+                link: '{$wechatShare["link"]}',
+                imgUrl: '{$wechatShare["imgUrl"]}',
+                success: function () {},
+                cancel: function () {}
+            });
+            //分享到腾讯微博
+            wx.onMenuShareWeibo({
+                title: '{$wechatShare["title"]}',
+                desc: '{$wechatShare["desc"]}',
+                link: '{$wechatShare["link"]}',
+                imgUrl: '{$wechatShare["imgUrl"]}',
+                success: function () {},
+                cancel: function () {}
+            });
+        });
+        function checkload() {
+            if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+                $("#loading").show();
+                LoadList();
+            }
+        }
+        var n = 1;
+        var ispost = temp = true;
+        function LoadList(type) {
+            if (ispost && temp) {
+                temp = false;
+                $.ajax({
+                    url: "{:U('index')}",
+                    type: 'post',
+                    dataType: 'json',
+                    async: false,
+                    data: {n: n,type:type,attention:'attention'},
+                    timeout: 9999,
+                    success: function(data) {
+                        n++;
+                        temp = true;
+                        if(data.status){
+                            if(data.msg == ''){
+                                temp = false;
+                                $("#full").show();
+                            }else{
+                                $("#loading").hide();
+                                $(".ajax_list").append(data.msg);
+                                // imgHeight();
+                                temp =true;
+                                imglazyload();
+                                checkload();
+                                // 文本更多
+                                $(".m-editor").each(function() {
+                                    var _this = $(this)
+                                    var height = _this.height();
+                                    var more = _this.find('.m-more');
+                                    var len = _this.has(".m-more").length;
+                                    if ( len > 0 && height > 55 ) {
+                                        _this.css({'height': '55px','padding-bottom':'16px'});
+                                        more.show();
+                                        more.click(function() {
+                                            if ( !_this.hasClass('active') ) {
+                                                _this.addClass('active');
+                                            } else {
+                                                _this.removeClass('active');
+                                            }
+                                        });
+                                    } else {
+                                        more.hide();
+                                    }
+                                });
+                                $(".forum_list .item-pic").each(function(){
+                                    var w = $(this).width();
+                                    $(this).css({"height": w});
+                                });
+                            }
+                        }else{
+                            temp = false;
+                            $("#loading").hide();
+                            $(".nothing").show();
+                        }
+                        $(".lazy img").lazyload({  //图片延迟加载
+                            placeholder : "html/images/loading.gif",
+                            effect      : "fadeIn",
+                            threshold : 200
+                        });
+                    }
+                });
+            }else if(!ispost){
+                $("#full").show();
+            }
+        }
+        function ajax_list(type){
+            $(".ajax_list li").remove();
+            $("#full").hide();
+            $('.nothing').hide();
+            n=1;
+            ispost = temp = true;
+            LoadList(type);
+        }
+        $(function(){
+            LoadList('all');
+            // 取消关注
+            $(document).on('click','.cancel',function(){
+                var $this =$(this);
+                $.ajax({
+                    url:"{:U('attention')}",
+                    type:'post',
+                    dataType:'json',
+                    data:{attend_uid:$this.attr('data-value'),type:2},
+                    success:function(data){
+                        if(data.status){
+                            $this.removeClass('btn-mini_solid');
+                            $this.html('+ 关注');
+                            $this.removeClass('cancel');
+                            $this.addClass('attention');
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+            $(document).on("click",".share",function() {
+                $(".share_main").show();
+            });
+            $(document).on("click",".share_main",function() {
+                $(".share_main").hide();
+            });
+            // 关注
+            $(document).on('click','.attention',function(){
+                var $this =$(this);
+                $.ajax({
+                    url:"{:U('attention')}",
+                    type:'post',
+                    dataType:'json',
+                    data:{attend_uid:$this.attr('data-value'),type:1},
+                    success:function(data){
+                        if(data.status){
+                            $this.addClass('btn-mini_solid');
+                            $this.addClass('cancel');
+                            $this.removeClass('attention');
+                            $this.html('+ 已关注');
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+            // 点赞
+            $(document).on('click','.like_num',function(){
+                var $this =$(this);
+                if(!$this.hasClass("on")){
+                    var type =1;
+                }else{
+                    var type =2;
+                }
+                $.ajax({
+                    url:"{:U('like')}",
+                    type:'post',
+                    dataType:'json',
+                    async: false,
+                    data:{id:$this.attr('data-value'),type:type},
+                    success:function(data){
+                        if(data.status){
+                            if(type==1){
+                                $this.addClass('on');
+                                var num =parseInt(parseInt($this.children('span').html())+1);
+                                $this.html('<i class="it-1"></i><span>'+num+'</span>');
+                            }else{
+                                $this.removeClass('on');
+                                var num =parseInt(parseInt($this.children('span').html())-1);
+                                $this.html('<i class="it-1"></i><span>'+num+'</span>');
+                            }
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+            // 打赏
+            $(document).on("click", ".show-confirm", function() {
+                var $this =$(this);
+                $.confirm({$score_html}, "确认打赏?", function() {
+                    var post_id =$this.attr('data-value');
+                    var value = $('input[name="radio-integral"]:checked').val();
+                    $.ajax({
+                        url:"{:U('Forum/Index/reward')}",
+                        dataType:'json',
+                        type:'post',
+                        data:{posts_id:post_id,value:value},
+                        success:function(data){
+                            if(data.status){
+                                $.alert(data.info,function(){
+                                    var num =parseInt($this.find('.score').html())+parseInt(value);
+                                    $this.find('.score').html(num);
+                                });
+                            }else{
+                                $.alert(data.info);
+                            }
+                        },
+                        error:function(){
+                            $.alert('服务器通讯失败');
+                        }
+                    });
+                }, function() {
+                    //取消操作
+                });
+            });
+
+            //评论
+            $(document).on('click','.comment',function(){
+                $("textarea[name='comment']").val('');
+                $('.popup-wrap').show();
+                var $this =$(this);
+                $(document).on('click','.btn-block',function(){
+                    if(!$("textarea[name='comment']").val()){
+                        $.alert('请输入评论内容');
+                        return false;
+                    }
+                    $.ajax({
+                        url:"{:U('Forum/Index/comment')}",
+                        dataType:'json',
+                        type:'post',
+                        data:{posts_id:$this.attr('data-value'),comment:$("textarea[name='comment']").val()},
+                        success:function(data){
+                            if(data.status){
+                                $.alert(data.info,function(){
+                                    $this.find('.comment_num').html(data.num);
+                                    $("textarea[name='comment']").val('');
+                                    $('.popup-wrap').hide();
+                                })
+                            }else{
+                                $.alert(data.info);
+                            }
+                        },
+                        error:function(){
+                            $.alert('服务器连接失败，请与管理员联系');
+                        }
+                    })
+
+                });
+            });
+            $(document).on('click','.back',function(){
+                $("textarea[name='comment']").val('');
+                $('.popup-wrap').hide();
+            })
+        })
+    </script>
+</block>

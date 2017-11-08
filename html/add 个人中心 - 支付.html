@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>add 个人中心 - 支付</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<section class="main">
+	<p class="ptb10 tc bgf fs14 col0 bb">选择支付方式</p>
+	<ul class="pl10 bgf mt10 last">
+		<li class="fs14 ptb10 bb">网上支付</li>
+		<li class="bb bgf fs13 weui_cells_radio">
+		  <label class="weui_cell weui_check_label" for="pay1">
+		    <div class="weui_cell_bd weui_cell_primary">
+		      <p><i class="Icon-pay1"></i>微信支付</p>
+		    </div>
+		    <div class="weui_cell_ft">
+		      <input type="radio" class="weui_check" name="pay" id="pay1" value="法官" checked="checked" data-title="法官"> <span class="weui_icon_checked"></span> </div>
+		  </label>
+		</li>
+		<li class="bb bgf fs13 weui_cells_radio">
+		  <label class="weui_cell weui_check_label" for="pay2">
+		    <div class="weui_cell_bd weui_cell_primary">
+		      <p><i class="Icon-pay2"></i>支付宝支付</p>
+		    </div>
+		    <div class="weui_cell_ft">
+		      <input type="radio" class="weui_check" name="pay" id="pay2" value="法官" data-title="法官"> <span class="weui_icon_checked"></span> </div>
+		  </label>
+		</li>
+	</ul>
+	<ul class="pl10 bgf mt10 last">
+		<li class="fs14 ptb10 bb">货到付款</li>
+		<li class="bb bgf fs13 weui_cells_radio">
+		  <label class="weui_cell weui_check_label" for="pay3">
+		    <div class="weui_cell_bd weui_cell_primary">
+		      <p><i class="Icon-pay3"></i>货到付款</p>
+		    </div>
+		    <div class="weui_cell_ft">
+		      <input type="radio" class="weui_check" name="pay" id="pay3" value="法官" data-title="法官"> <span class="weui_icon_checked"></span> </div>
+		  </label>
+		</li>
+	</ul>
+  </section>
+
+	<!-- main主体 end -->
+
+</section>
+
+
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

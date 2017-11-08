@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>0.1.1出租填写</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<section class="main">
+
+		<ul class="btb bgf last fs14 col3 m-form">
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">标　　题</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="6-30字，不能填写电话">
+				</div>
+			</li>
+		</ul>
+
+		<ul class="mt10 btb bgf last fs14 col3 m-form">
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">选择区域</span>
+				</label>
+				<div class="table-cell arrowR">
+					<input type="text" class="form-unify" name="" placeholder="请选择" value="面议" id="opt-salary" >
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">商品地址</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="2-30字，不能填写电话" >
+				</div>
+			</li>
+		</ul>
+
+		<ul class="mt10 btb bgf last fs14 col3 m-form">
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">供　　需</span>
+				</label>
+				<div class="table-cell">
+					<div class="clearfix ba radio-options">
+						<label for="rent1" class="opt-label">
+							<input type="radio" class="opt-check" name="radio-rent" id="rent1" checked>
+							<span class="opt-checked">转让</span>
+						</label>
+						<label for="rent2" class="opt-label">
+							<input type="radio" class="opt-check" name="radio-rent" id="rent2">
+							<span class="opt-checked">出租</span>
+						</label>
+						<label for="rent3" class="opt-label">
+							<input type="radio" class="opt-check" name="radio-rent" id="rent3">
+							<span class="opt-checked">求租</span>
+						</label>
+					</div>
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">租　　金</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="数字填写，不能是0" >
+				</div>
+				<div class="table-cell pl10" style="width: 30px;">
+					<span class="col_own">月</span>
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">面　　积</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="数字填写，请输入" >
+				</div>
+				<div class="table-cell pl10" style="width: 45px;">
+					<span class="col_own">平米</span>
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">商铺类型</span>
+				</label>
+				<div class="table-cell arrowR">
+					<input type="text" class="form-unify" name="" placeholder="请选择" id="opt-salary" >
+				</div>
+			</li>
+		</ul>
+
+		<ul class="mt10 btb bgf last fs14 col3 m-form">
+			<li class="table plr10 bb">
+				<label for="" class="table-cell vt m-form-tit">
+					<span class="col_own">房源描述</span>
+				</label>
+				<div class="table-cell vt">
+					<textarea name="" cols="" rows="5" class="form-unify" placeholder="目前经营状态&#xA;所在商圈&#xA;转让费用"></textarea>
+				</div>
+			</li>
+		</ul>
+
+		<ul class="mt10 btb bgf last fs14 col3 m-form">
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">联系人</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="2-4字，只能填写汉子或字母" >
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">联系电话</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="请输入您的正确联系方式" >
+				</div>
+			</li>
+		</ul>
+
+		<ul class="clearfix multi-upload">
+			<li class="mt10 mr10 bg_own item-hd">
+				<i class=""></i>
+				<p class="tc fs12 colf">添加照片</p>
+			</li>
+			<li class="mt10 mr10 ba br3 upload-img" style="background-image:url(./images/banner.jpg);"><a href="javascript:;" class="br50 upload-close"></a></li>
+			<li class="mt10 mr10 ba br3 upload-img" style="background-image:url(./images/banner.jpg);"><a href="javascript:;" class="br50 upload-close"></a></li>
+			<li class="mt10 mr10 ba br3 upload-img" style="background-image:url(./images/banner.jpg);"><a href="javascript:;" class="br50 upload-close"></a></li>
+			<li class="mt10 ba br3 upload-file">
+				<input type="file">
+			</li>
+		</ul>
+
+		<div class="btn_submit">
+			<button class="bg_own btn-block">确认发布</button>
+		</div>
+
+		<script>
+		$(function() {
+			$("#opt-salary").picker({
+				title: "请选择您的薪资水平",
+				cols: [
+					{
+					textAlign: 'center',
+					values: ['面谈', '年薪10-20万', '年薪20-40万', '年薪60-80万', '年薪40-60万']
+					}
+				],
+				onChange: function(p, v, dv) {
+					console.log(p, v, dv);
+				},
+				onClose: function(p, v, d) {
+					console.log("close");
+				}
+			});
+		});
+		</script>
+
+	</section>
+	<!-- main主体 end -->
+
+</section>
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

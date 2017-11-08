@@ -1,0 +1,24 @@
+<foreach name="info" item="val">
+<li class="table ptb10 bb">
+  <label class="weui_check_label table-cell vm" for="{$val['id']}">
+    <input type="checkbox" class="weui_check" checked="checked" data-value="{$val['stock']-$val['seckill_sales']}" value="{$val['id']}" name="checkbox[]" id="{$val['id']}">
+    <i class="weui_icon_checked block"></i>
+  </label>
+  <a href="{:U('Shop/Goods/detail',['id'=>$val['gid']])}" class="table-cell vm item-lt">
+    <div class="ba br5 item-pic">
+      <img src="{:getpics($val['cover'])}" alt="" class="imgm">
+    </div>
+  </a>
+  <div class="table-cell vm pl10">
+    <a href="{:U('Shop/Goods/detail',['id'=>$val['gid']])}" class="fs14 col3 multi-line">{$val['title']}</a>
+    <div class="mt10 relative">
+      <em class="fs16 colred">¥<span>{$val['sale_price']}</span></em>
+      <div class="bgf tc fs14 buy_num">
+        <i class="fr plus">+</i>
+        <input type="tel" class="fr tc value goodsnum" value="{$val['goodsnum']}" >
+        <i class="fr minus">-</i>
+      </div>
+    </div>
+  </div>
+</li>
+</foreach>

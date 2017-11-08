@@ -1,0 +1,37 @@
+<foreach name="info" item="val">
+  <li class="p10 bb">
+      <div class="table item-head">
+        <div class="table-cell item-lt">
+          <div class="ba brarc item-pic"><img src="{$val['headimgurl']}" alt="" class="imgm"></div>
+        </div>
+        <div class="table-cell pl10 item-hd">
+          <div class="fs14 col3">{$val['nickname']} <div class="star-show" data-score="{$val['rating']}"></div></div>
+          <p class="fs12 col9">{:date('Y-m-d',strtotime($val['create_time']))}</p>
+        </div>
+      </div>
+      <article class="mt10 col3 m-editor">
+        {$val['content']}
+      </article>
+      <notempty name="val['reply']">
+      <div class="mt10 col6 box item-foot">
+        <span>养生商城：</span>
+        <p class="flex-1">{$val['reply']}</p>
+      </div>
+      </notempty>
+    </li>
+</foreach>
+<script>
+$(function(){
+  $(".star-show").raty({
+    readOnly:true,
+    path:"html/images/star",
+    score: function() {
+      return $(this).attr("data-score");
+    }
+  });
+  $(".star-opt").raty({
+    path:"html/images/star",
+  });
+});
+</script>
+

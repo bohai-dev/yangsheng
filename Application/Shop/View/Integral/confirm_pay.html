@@ -1,0 +1,310 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+<div class="foot_fixed">
+    <dl class="table bgf item-settle">
+      <dd class="table-cell pl10">
+        <span class="fs14 col3 pay-money">实付款：¥<span>{$goods_info['pay_money']}</span></span>
+        <p class="fs12 col6 pay-money ">¥ <span>{$goods_info['pay_money']}</span></p>
+      </dd>
+      <dt class="table-cell">
+        <a href="javascript:;" class="bg_own btn-block pay-now">提交订单</a>
+        <!-- <button type="" class="bg_own btn-block">提交订单</button> -->
+      </dt>
+    </dl>
+</div>
+  <!-- 底部悬浮 end -->
+
+  <section class="main">
+
+  <form action="">
+    <input type="hidden" name="wxconfig">
+    <input type="hidden" name="sale_price" value="{$goods_info['sale_price']}">
+    <input type="hidden" name="integral_price" value="{$goods_info['integral_price']}" data-val="{$goods_info['sale_integral']}">
+    <notempty name="address_info">
+    <div class="p10 item-info item-default">
+      <input name="address" type="hidden" value="{$address_info['id']}">
+      <a href="{:U('Home/Member/address')}" class="fs14 col3 item-hd arrowR">
+        <span><i class="mr5 ico-user"></i>{$address_info['realname']}</span>
+        <span class="ml10"><i class="mr5 ico-tel"></i>{$address_info['phone']}</span>
+        <p class="pt10">
+          {$address_info['prov']}
+          {$address_info['city']}
+          {$address_info['country']}
+          {$address_info['detail']}
+        </p>
+        <eq name="address_info['default']" value="1">
+        <em class="br5 fs12 colf status">默认地址</em>
+        </eq>
+      </a>
+    </div>
+    <else />
+      <div class="p10 item-info item-default item-address">
+      <a href="{:U('Home/Member/address_add')}" class="tc fs14 col3">
+        <em></em>添加收货地址
+      </a>
+    </div>
+    </notempty>
+
+    <div class="table p10 btb bgf">
+      <div class="table-cell order_pic">
+        <div class="ba br5 item-pic">
+          <img src="{:getpics($goods_info['cover'])}" alt="" class="imgm">
+        </div>
+      </div>
+      <div class="table-cell pl10 item-con">
+        <p class="fs14 col3 multi-line">{$goods_info['title']}</p>
+        <span>{$spec_str}</span>
+        <div class="mt10 m-price">
+          <em class="fs18 colred price-text" data-value="¥{$goods_info['sale_price']*$goods_info['goodsnum']}">¥{$goods_info['sale_price']}</em>
+          <!-- <span class="fs12 col9 item-more">{$spec_str}</span> -->
+          <span class="fs12 col9 item-more">数量×{$goods_info['goodsnum']}</span>
+          <del class="ml10 col9 integral-text" data-value="¥{$goods_info['integral_price']*$goods_info['goodsnum']}+{$goods_info['sale_integral']*$goods_info['goodsnum']}">¥{$goods_info['integral_price']}+{$goods_info['sale_integral']}积分</del>
+        </div>
+      </div>
+    </div>
+
+    <ul class="mt10 btb bgf last fs14 col3 order_settle">
+      <notempty name="check_coupons">
+      <li class="table bb">
+        <div class="table-cell item-lt">优惠券</div>
+        <a href="{:U('Shop/Order/coupons',array('gid'=>$goods_info['id']))}">
+          <div class="table-cell arrowR">
+            <input name="coupon" type="text" readonly="readonly" class="form-unify" data-values="{$coupons_info['id']|default='0'}" value="{$coupons_info['title']|default=''}" placeholder="请选择" >
+            <input name="true_pay_coupon" type="hidden" value="{$coupons_info['id']|default='0'}">
+          </div>
+        </a>
+      </li>
+      </notempty>
+      <li class="table bb">
+        <div class="table-cell item-lt">支付方式</div>
+        <a href="{:U('Shop/Integral/pay_type')}"  >
+
+        <div class="table-cell arrowR">
+          <input name="pay_type" readonly type="text" class="tr form-unify" placeholder="请选择" value="{$pay_name}" data-values="{$pay_type}">
+        </div>
+        </a>
+      </li>
+    </ul>
+
+    <div class="table mt10 p10 btb bgf fs14 col3">
+      <div class="table-cell">获得积分</div>
+      <div class="table-cell tr">{$goods_info['back_integral']}点</div>
+    </div>
+    <empty name="check_buy">
+    <div class="table mt10 p10 btb bgf fs14 col3 order_settle">
+      <div class="table-cell">
+        积分<span class="ml10 col9">可用积分{$user_score}</span>
+      </div>
+      <div class="table-cell item-lt">
+        <input name="integral_pay" type="checkbox" class="fr weui_switch">
+      </div>
+    </div>
+    </empty>
+
+    <ul class="mt10 p10 btb bgf fs14 col3">
+      <li class="clearfix">
+        <span>商品总额</span>
+        <em class="fr colred total-price">¥<span>{$goods_info['sale_price']*$goods_info['goodsnum']}</span></em>
+      </li>
+
+      <empty name="check_buy">
+        <li class="clearfix">
+          <span>补差</span>
+          <em class="fr colred make-up">¥<span>0</span></em>
+        </li>
+        <li class="clearfix">
+          <span>积分</span>
+          <em class="fr colred integral">-<span>0</span></em>
+        </li>
+
+      </empty>
+      <li class="clearfix">
+          <span>优惠</span>
+          <em class="fr colred coupon">- ¥<span>{$coupons_info['price']|default=0}</span></em>
+      </li>
+      <li class="clearfix bt">
+        <span>运费</span>
+        <em class="fr colred postage">¥<span>{$goods_info['postage']}</span></em>
+      </li>
+    </ul>
+
+  </form>
+
+  </section>
+</block>
+<block name="icon"></block>
+
+<block name="script">
+  <script src="__HTML__/js/ap.js"></script>
+  <script>
+  var domain = "{:XILUDomain()}"+"__ROOT__";
+  var goodsnum = "{$goods_info['goodsnum']}";
+  $(function(){
+    //付款方式
+    var integral_pay = 0;
+    var check_integral_pay = {$make_up};
+    //积分支付
+    $("[name='integral_pay']").click(function(){
+      if(check_integral_pay>0){
+        $.toast('积分不足','text');
+        return false;
+      }
+
+      //改变商品展示价格
+      var changeTextP = $('.price-text').text();
+      var changeTextI = $('.integral-text').text();
+      $('.price-text').text(changeTextI);
+      $('.integral-text').text(changeTextP);
+
+      //改变商品总额
+       var changeDataP = $('.price-text').attr('data-value');
+       var changeDataI = $('.integral-text').attr('data-value');
+
+      $('.price-text').attr('data-value',changeDataI);
+      $('.integral-text').attr('data-value',changeDataP);
+      $('.total-price').text(changeDataI);
+      //改变 使用积分 补差
+      if($(this).is(':checked')){
+        integral_pay =1;
+        var use_integral = {$use_integral};
+        var makeUp = {$make_up};
+        var pay_money  = {$integral_pay_price};
+      }else{
+        integral_pay = 0;
+        var use_integral = 0;
+        var makeUp = 0;
+        var pay_money = "{$goods_info['pay_money']}";
+      }
+      $('.pay-money span').text(pay_money);
+      $('.integral span').text(use_integral);
+      $('.make-up span').text(makeUp);
+
+    })
+
+    //提交订单
+    $('.pay-now').click(function(){
+      var url = "{:U('Shop/Order/addOrder')}";
+      var address  = $("input[name='address']").val(); //地址
+      var coupon   = $("input[name='coupon']").attr('data-values');//优惠券
+      var pay_type = $("input[name='pay_type']").attr('data-values');//支付方式
+      var gid = "{$goods_info['id']}";          //商品ID
+      var num = "{$goods_info['goodsnum']}";   //商品数量
+      var spec_key = "{$spec_key}";
+      var true_pay_coupon = $("input[name='coupon']").attr('data-values');//优惠券
+      var integral_min = {$integral_min};
+      var user_score = {$user_score};
+      if(user_score < integral_min){
+        $.toast('积分低于'+integral_min+' 无法购买','text');
+        return false;
+      }
+
+      if(!address){
+        $.toast('请选择地址','text');
+        return false;
+      }
+
+      $.ajax({
+        url:url,
+        type:'POST',
+        dataType:'json',
+        data:{true_pay_coupon:true_pay_coupon,goodskey:spec_key,address:address,integral_pay:integral_pay,gid:gid,true_pay_type:pay_type,buynum:num,action:'buynow'},
+        beforeSend:function(){
+          $.showLoading();
+        },
+        complete:function(){
+          $.hideLoading();
+        },
+        success:function(data){
+          if(data.status){
+            if(data.paytype == 1){ //微信支付
+              $('[name="wxconfig"]').data('id', data.id).data('url', data.url);
+              callpay(data.wxconfig);
+            }else if(data.paytype == 2){ //支付宝支付
+              // console.log(data);
+              // return false;
+              _AP.pay(data.alipayurl);
+            }else if(data.paytype == 3){
+              location.href = data.url;
+            }
+          }else{
+            $.alert(data.info,function(){
+              if(data.url){
+                location.href = data.url;
+              }
+            });
+          }
+        },
+        error:function(){
+        }
+      })
+    })
+
+  });
+
+
+
+
+  wx.config({$jsapi});
+
+  function callpay(wxconfig)
+  {
+    $('[name="wxconfig"]').val(wxconfig);
+    if (typeof WeixinJSBridge == "undefined"){
+      if( document.addEventListener ){
+        document.addEventListener('WeixinJSBridgeReady', wxpay, false);
+      }else if (document.attachEvent){
+        document.attachEvent('WeixinJSBridgeReady', wxpay);
+        document.attachEvent('onWeixinJSBridgeReady', wxpay);
+      }
+    }else{
+      wxpay();
+    }
+  }
+
+
+  function wxpay ()
+  {
+    var wxconfig = $.parseJSON($('[name="wxconfig"]').val());
+    wx.chooseWXPay({
+      timestamp: wxconfig.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+      nonceStr: wxconfig.nonceStr, // 支付签名随机串，不长于 32 位
+      package: wxconfig.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+      signType: wxconfig.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+      paySign: wxconfig.paySign, // 支付签名
+      success: function (res) {
+        // 支付成功后的回调函数
+        if(res.errMsg == "chooseWXPay:ok"){
+          window.setTimeout(function(){
+            location.href = "{:U('Shop/Order/index',['checkinfo'=>2])}";
+          }, 2000);
+        }else{
+          var message = '支付失败，请重新尝试，多次失败请联系管理员\n'+res.err_msg;
+          $.alert(message, function() {
+           //点击确认后的回调函数
+           location.reload(true);
+          });
+          // $.alert(message);
+        }
+      },
+      cancel:function(res){
+        //支付取消
+        fail_charge();
+      },
+      fail:function(res){
+        $.alert('微信支付订单过期,请重新下单');
+        fail_charge();
+        // setTimeout(function(){
+        //   location.reload(true);
+        // }, 1000);
+      }
+    });
+  }
+
+
+  function fail_charge()
+  {
+    location.href = "{:U('Shop/Order/index',['checkinfo'=>1])}";
+  }
+  </script>
+</block>

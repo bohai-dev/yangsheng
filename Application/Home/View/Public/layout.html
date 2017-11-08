@@ -1,0 +1,188 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<block name="title"><title>{$meta_title}</title></block>
+	<meta name="keywords" content="{$meta_keywords}"/>
+	<meta name="description" content="{$meta_description}"/>
+	<link rel="stylesheet" href="__HTML_WEUI__/lib/weui.min.css" />
+	<link rel="stylesheet" href="__HTML_WEUI__/css/jquery-weui.min.css" />
+  <link rel="stylesheet" href="__HTML_CSS__/reset.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="__HTML_CSS__/flex.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="__HTML_CSS__/style.css" type="text/css" media="all" />
+	<block name="style"></block>
+	<script src="__HTML_WEUI__/lib/jquery-2.1.4.js"></script>
+  <script src="__HTML_WEUI__/js/jquery-weui.min.js"></script>
+	<script src="__HTML_JS__/jquery.toTop.min.js"></script>
+	<script src="__HTML_JS__/functions.js"></script>
+	<script src="__HTML_JS__/jquery.lazyload.min.js"></script>
+	<script src="__HTML_JS__/jquery.raty.min.js"></script>
+	<script src="__HTML_JS__/js.cookie.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="__PUBLIC__/Home/js/ajaxlist.js"></script>
+    <!--[if lt IE 9 ]>
+    <script src="__HTML_JS__/html5.js"></script>
+    <![endif]-->
+    <block name="js"></block>
+	<block name="style"></block>
+<!-- 	<script>
+		window. onerror = function ( msg , url , line , col , error ) {
+			//没有URL不上报！上报也不知道错误
+			if ( msg != "Script error." && ! url ) { return true ; }
+			//采用异步的方式 //我遇到过在window.onunload进行ajax的堵塞上报
+			//由于客户端强制关闭webview导致这次堵塞上报有Network Error
+			//我猜测这里window.onerror的执行流在关闭前是必然执行的
+			//而离开文章之后的上报对于业务来说是可丢失的
+			//所以我把这里的执行流放到异步事件去执行
+			//脚本的异常数降低了10倍
+			setTimeout ( function ( ) {
+				var data = { } ;
+				//不一定所有浏览器都支持col参数
+				col = col || ( window.event && window.event.errorCharacter ) || 0 ;
+				data. url = url ;
+				data. line = line;
+				data. col = col ;
+				if ( !! error && !! error.stack ) {
+					//如果浏览器有堆栈信息
+					//直接使用
+					data. msg = error.stack.toString ( ) ;
+				} else if ( !! arguments.callee ) {
+					//尝试通过callee拿堆栈信息
+					var ext = [ ] ;
+					var f = arguments.callee.caller , c = 3;
+					//这里只拿三层堆栈信息
+					while ( f && ( -- c > 0 ) ) {
+						ext. push ( f.toString ( ) ) ;
+						if ( f   === f.caller ) {
+							break ;
+							//如果有环
+						}
+						f = f.caller ;
+					}
+					ext = ext. join ( "," );
+					data.msg = ext ;
+				}
+				console.log(data.msg);
+				console.log('出错了');
+				//把data上报到后台！
+				$.post('{:U("front_log")}', {text:data.msg});
+			} , 0 ) ;
+			return true ;
+		};
+
+        /*if (wx != undefined){
+            wx.config({$jsapi});
+
+
+
+            wx.ready(function (){
+                //分享给朋友
+                wx.onMenuShareAppMessage({
+                    title: share_conf.title,
+                    desc: share_conf.desc,
+                    link: share_conf.link,
+                    imgUrl: share_conf.imgUrl,
+                    success: function () {
+                        // alert('分享成功');
+                    },
+                    cancel: function () {
+                        console.log('已取消');
+                    }
+                });
+                //分享到朋友圈
+                wx.onMenuShareTimeline({
+                    title: share_conf.title,
+                    link: share_conf.link,
+                    imgUrl: share_conf.imgUrl,
+                    success: function () {
+                        // alert('分享成功');
+                    },
+                    cancel: function () {
+                        console.log('已取消');
+                    }
+                });
+            });
+        }*/
+		$(function(){
+			//到顶部
+			$('.to_top').click(function(){
+				var speed=200;
+				$('body,html').animate({ scrollTop: 0 }, speed);
+				return false;
+			})
+		})
+	</script> -->
+	<script>
+		$(function(){
+			//到顶部
+			$('.to_top').click(function(){
+				var speed=200;
+				$('body,html').animate({ scrollTop: 0 }, speed);
+				return false;
+			})
+		})
+	</script>
+	<style>
+		.nomore span i {
+			content: "";
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+			vertical-align: top;
+			background-image: url('{:getpics(C('WEB_SITE_LOGO'))}');
+			background-size: 100% auto;
+			background-position: 50% 50%;
+			background-repeat: no-repeat;
+		}
+	</style>
+    <block name="ajax"></block>
+</head>
+<body>
+	<block name="header">
+
+	</block>
+	<section class="wrap {$meta_wrap}">
+		<block name="footer">
+			<div class="foot_fixed">
+				<footer class="table bt bgf tc fs12 footer">
+					<a href="{:U('Shop/Index/index')}" class="table-cell <eq name="gl" value="1">active</eq>"><i class="fi-1"></i>首页</a>
+					<a href="{:U('Shop/Goods/index')}" class="table-cell  <eq name="gl" value="2">active</eq>"><i class="fi-2"></i>分类</a>
+					<a href="{:U('Forum/Index/index')}" class="table-cell  <eq name="gl" value="3">active</eq>"><i class="fi-3"></i>论坛</a>
+					<a href="{:U('Shop/Cart/index')}" class="table-cell  <eq name="gl" value="4">active</eq>"><i class="fi-4 hint-num"></i>购物车</a>
+					<a href="{:U('Home/Member/index')}" class="table-cell  <eq name="gl" value="5">active</eq>"><i class="fi-5"></i>我的</a>
+				</footer>
+        <notempty name="uid">
+          <script>
+            $(function(){
+              var cart_url = "{:U('Shop/Cart/cart_num')}";
+              getCartNum(cart_url,2);
+            });
+          </script>
+        </notempty>
+			</div>
+			<!-- 底部悬浮 end -->
+		</block>
+        <!-- 页面主体 -->
+        <block name="wrap"></block>
+        <!-- 底部导航区域 -->
+		<block name="icon">
+			<div class="handle_fixed">
+				<!--<a href="{:U('Shop/Cart/index')}" class="ba brarc"><i class="hf-1"></i></a>-->
+				<a href="{:U('Shop/Index/index')}" class="ba brarc"><i class="hf-2"></i></a>
+				<!--	<a href="{:U('Shop/Goods/index')}" class="ba brarc"><i class="hf-3"></i></a>-->
+				<a href="javascript:;" class="ba brarc to_top"><i class="hf-4"></i></a>
+			</div>
+		</block>
+	</section>
+
+  <block name="reply_wrap">
+  </block>
+
+	<block name="extra"></block>
+    <block name="script"></block>
+</body>
+</html>

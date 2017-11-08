@@ -1,0 +1,284 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <section class="main">
+        <form>
+            <ul class="btb bgf last fs14 col3 m-form">
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell m-form-tit">
+                        <span class="col_own">姓　　名</span>
+                    </label>
+                    <div class="table-cell">
+                        <input type="text" class="form-unify" name="name" placeholder="请输入您的姓名" data-value="请输入您的姓名">
+                    </div>
+                </li>
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell m-form-tit">
+                        <span class="col_own">性　　别</span>
+                    </label>
+                    <div class="table-cell">
+                        <div class="clearfix ba radio-options">
+                            <label for="sex1" class="opt-label">
+                                <input type="radio" class="opt-check" name="sex" value="1" id="sex1" checked>
+                                <span class="opt-checked">男</span>
+                            </label>
+                            <label for="sex2" class="opt-label">
+                                <input type="radio" class="opt-check" name="sex" value="2" id="sex2">
+                                <span class="opt-checked">女</span>
+                            </label>
+                        </div>
+                    </div>
+                </li>
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell m-form-tit">
+                        <span class="col_own">年　　龄</span>
+                    </label>
+                    <div class="table-cell">
+                        <input type="text" class="form-unify" name="age" placeholder="请输入您的年龄" value="" data-value="请输入您的年龄" >
+                    </div>
+                </li>
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell m-form-tit">
+                        <span class="col_own">最高学历</span>
+                    </label>
+                    <div class="table-cell arrowR">
+                        <input type="text" class="form-unify" name="education" placeholder="请选择" id="opt-degrees"  data-value="请选择您的最高学历">
+                    </div>
+                </li>
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell m-form-tit">
+                        <span class="col_own">工作年限</span>
+                    </label>
+                    <div class="table-cell arrowR">
+                        <input type="text" class="form-unify" id="opt-experience" name="exprience" placeholder="请选择" data-value="请选择您的工作年限" >
+                    </div>
+                </li>
+            </ul>
+
+            <ul class="mt10 btb bgf last fs14 col3 m-form">
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell m-form-tit">
+                        <span class="col_own">期望职位</span>
+                    </label>
+                    <div class="table-cell arrowR">
+                        <input type="text" class="form-unify" name="position" placeholder="请输入您的职位" data-value="请输入您的期望职位" >
+                    </div>
+                </li>
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell m-form-tit">
+                        <span class="col_own">工作区域</span>
+                    </label>
+                    <div class="table-cell arrowR">
+                        <input type="text" class="form-unify" id="city-picker" name="area" placeholder="请选择"  data-value="请选择您的工作区域">
+                    </div>
+                </li>
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell m-form-tit">
+                        <span class="col_own">期望薪资</span>
+                    </label>
+                    <div class="table-cell arrowR">
+                        <input type="text" class="form-unify" id="opt-salary" name="salary" placeholder="请选择您的期望薪资"  data-value="请选择您的期望薪资">
+                    </div>
+                </li>
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell vt m-form-tit">
+                        <span class="col_own">自我描述</span>
+                    </label>
+                    <div class="table-cell vt">
+                        <textarea name="description" id="description" cols="" rows="5" class="form-unify" placeholder="添加教育经历，工作经历，自我评价，获得更多机会..." data-value="请输入您的描述"></textarea>
+                    </div>
+                </li>
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell m-form-tit">
+                        <span class="col_own">联系电话</span>
+                    </label>
+                    <div class="table-cell">
+                        <input type="text" class="form-unify" name="telephone" placeholder="请输入您的正确联系方式"  data-value="请输入您的联系方式">
+                    </div>
+                </li>
+            </ul>
+
+            <ul class="clearfix multi-upload">
+                <li class="mt10 mr10 bg_own item-hd">
+                    <i class=""></i>
+                    <p class="tc fs12 colf">添加照片</p>
+                </li>
+                <li class="mt10 ba br3 upload-file" style="cursor: pointer;">
+                    <input type="file" style="visibility: hidden">
+                </li>
+            </ul>
+        </form>
+        <div class="btn_submit">
+            <button class="bg_own btn-block">确认发布</button>
+        </div>
+
+        <script>
+            $(function() {
+                $("#opt-salary").picker({
+                    title: "请选择您的薪资水平",
+                    cols: [
+                        {
+                            textAlign: 'center',
+                            values: ['3000-5000', '5000-8000', '8000-15000', '15000-20000']
+                        }
+                    ],
+                    onChange: function(p, v, dv) {
+                        console.log(p, v, dv);
+                    },
+                    onClose: function(p, v, d) {
+                        console.log("close");
+                    }
+                });
+                $("#opt-experience").picker({
+                    title: "请选择您的工作年限",
+                    cols: [
+                        {
+                            textAlign: 'center',
+                                values: ['应届毕业生', '3年及以下', '3-5年', '5-10年', '10年以上']
+                        }
+                    ],
+                    onChange: function(p, v, dv) {
+                        console.log(p, v, dv);
+                    },
+                    onClose: function(p, v, d) {
+                        console.log("close");
+                    }
+                });
+                $("#opt-degrees").picker({
+                    title: "请选择您的学历",
+                    cols: [
+                        {
+                            textAlign: 'center',
+                            values: [ '初中', '高中','中专','大专', '本科']
+                        }
+                    ],
+                    onChange: function(p, v, dv) {
+                        console.log(p, v, dv);
+                    },
+                    onClose: function(p, v, d) {
+                        console.log("close");
+                    }
+                });
+            });
+        </script>
+
+    </section>
+</block>
+<block name="script">
+    <script type="text/javascript" src="__HTML_WEUI__/js/city-picker.js" charset="utf-8"></script>
+    <script>
+        // 验证正整数
+        function isInteger(number){
+            return number > 0 && String(number).split('.')[1] == undefined
+        }
+        // 上传图片
+        function uploadcard(localIds,num) {
+            var localId = localIds.pop();
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    var serverId = res.serverId; // 返回图片的服务器端ID
+                    afterUploadcard(serverId,num);
+                },
+                fail: function (res) {
+                    alert(JSON.stringify(res));
+                }
+            });
+        }
+
+        //上传图片回调
+        function afterUploadcard(serverId,num) {
+            $.post("{:U('Home/Weixin/download_img')}", {media_id: serverId}, function (data, textStatus, xhr) {
+                if (data.status) {
+                    $('.upload-file').before('<li class="mt10 mr10 ba br3 upload-img" style="background-image:url(' + data.src + ');"><input type="hidden" name="pics[]" value="' + data.id + '" /><a href="javascript:;" class="br50 upload-close"></a></li>');
+                    if (localIds.length > 0) {
+                        uploadcard(localIds);
+                    }
+                } else {
+                    $.alert('上传失败，请重新上传资料');
+                }
+            }, 'json').error(function () {
+                $.alert('错误的数据')
+            });
+        }
+        $(function(){
+            // 选择城市
+            $("#city-picker").cityPicker({
+                title: "请选择工作区域"
+            });
+            wx.config({$jsapi});
+            $(document).on('click','.upload-file',function(){
+                wx.chooseImage({
+                    count: 9, // 默认9
+                    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                    success: function (res) {
+                        localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                        uploadcard(localIds,0);
+                    }
+                });
+            });
+            $(document).on('click','.upload-close',function(){
+                $(this).parent('li').remove();
+            });
+
+            // 提交表单
+            $('.btn-block').on('click',function(){
+                var num =0;
+                // 验证必填
+                $("input[type='text']").each(function(){
+                    var error =$(this).attr("data-value");
+                    if($(this).val()==''){
+                        num ++;
+                        $.toptip(error);
+                        $(this).focus();
+                        return false;
+                    }
+                });
+                if(num >0){
+                    return false;
+                }
+                var number =$("input[name='age']").val();
+                if(!isInteger(number)){
+                    $.toptip('年龄格式填写错误');
+                    return false;
+                }
+                if($("input[name='description']").val()==''){
+                    $.alert('请输入自我描述');
+                    return false;
+                }
+                var telephone =$("input[name='telephone']").val();
+                if (!telephone.match(/^0?(13|15|18|14|17)[0-9]{9}$/)) {
+                    $.alert('请输入正确的手机号！');
+                    return false;
+                }
+                if($("#description").val()=='' || $("#description").val()==null){
+                    $.toptip('请填写职位描述');
+                    return false;
+                }
+               /* if($("input[name='pics[]']").val()=='' || $("input[name='pics[]']").val()==null){
+                    $.toptip('请上传图片');
+                    return false;
+                }*/
+                $.ajax({
+                    url:"{:U('find')}",
+                    type:'post',
+                    dataType:'json',
+                    data:$('form').serialize(),
+                    success:function(data){
+                        if(data.status){
+                            $.alert(data.info,function(){
+                                location.href ="{:U('Forum/Job/index')}";
+                            });
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                })
+            });
+        })
+    </script>
+</block>

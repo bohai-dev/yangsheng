@@ -1,0 +1,209 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <!-- 底部悬浮 end -->
+
+    <section class="main">
+
+        <div class="p20 member_head">
+            <a href="javascript:;" class="mhead_main memberDown">
+                <div class="br50 item-pic avatar">
+                    <img src="{:getpics($user['avatar'])}" alt="" class="imgm">
+                </div>
+                <p class="mt10 tc fs16 colf single-line">欢迎您，用户{$user.nickname}</p>
+                <div class="tc fs12 colf">
+                    <span class="mr10">关注：{$fans.attention|0}人</span>
+                    <span class="ml10">粉丝：{$fans.fans|0}人</span>
+                </div>
+            </a>
+            <a href="{:U('Member/setting')}" class="tc colf set"><i class="Ico-sets"></i>设置</a>
+        </div>
+
+        <div class="mb10 plr10 btb bgf last fs14 member_ico member_order">
+            <a href="{:U('Shop/Order/index')}" class="ptb10 arrowR"><i class="mr10 mc-1"></i>我的订单</a>
+            <div class="table bt tc fs12" id="orders">
+                <a href="{:U('Shop/Order/index')}" class="table-cell vm ptb10">
+                    <i class="cc-1"></i>
+                    <p class="mt5 col9">待付款</p>
+                </a>
+                <a href="{:U('Shop/Order/index',array('checkinfo'=>2))}" class="table-cell vm ptb10">
+                    <i class="cc-2"></i>
+                    <p class="mt5 col9">待发货</p>
+                </a>
+                <a href="{:U('Shop/Order/index',array('checkinfo'=>3))}" class="table-cell vm ptb10">
+                    <i class="cc-3"></i>
+                    <p class="mt5 col9">待收货</p>
+                </a>
+                <a href="{:U('Shop/Order/index',array('checkinfo'=>4))}" class="table-cell vm ptb10">
+                    <i class="cc-4"></i>
+                    <p class="mt5 col9">待评论</p>
+                </a>
+                <a href="{:U('Shop/Order/index',array('checkinfo'=>5))}" class="table-cell vm ptb10">
+                    <i class="cc-4"></i>
+                    <p class="mt5 col9">退款售后</p>
+                </a>
+            </div>
+        </div>
+
+        <ul class="clearfix mb10 bt bgf tc fs12 member_ico member_menu">
+            <li class="bb br">
+                <a href="{:U('Member/score')}" class="">
+                    <i class="mc-2"></i>
+                    <p class="mt10 col9">我的积分</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/history_buy')}" class="">
+                    <i class="mc-3"></i>
+                    <p class="mt10 col9">曾经购买</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/coupons')}" class="">
+                    <i class="mc-4"></i>
+                    <p class="mt10 col9">我的优惠券</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/team')}" class="">
+                    <i class="mc-5"></i>
+                    <p class="mt10 col9">我的团队</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/qrcode')}" class="">
+                    <i class="mc-6"></i>
+                    <p class="mt10 col9">我的二维码</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/posts')}" class="">
+                    <i class="mc-7"></i>
+                    <p class="mt10 col9">我的帖子</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/rent')}" class="">
+                    <i class="mc-8"></i>
+                    <p class="mt10 col9">我的出租/求租</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/job')}" class="">
+                    <i class="mc-9"></i>
+                    <p class="mt10 col9">我的招聘</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/comment')}" class="">
+                    <i class="mc-10"></i>
+                    <p class="mt10 col9">我的评论</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/commission')}" class="">
+                    <i class="mc-11"></i>
+                    <p class="mt10 col9">我的佣金</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/collect')}" class="">
+                    <i class="mc-12"></i>
+                    <p class="mt10 col9">收藏内容</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/browse')}" class="">
+                    <i class="mc-13"></i>
+                    <p class="mt10 col9">浏览的足迹</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/attention')}" class="">
+                    <i class="mc-14"></i>
+                    <p class="mt10 col9">我的关注</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/complain')}" class="">
+                    <i class="mc-15"></i>
+                    <p class="mt10 col9">投诉意见</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="{:U('Member/notice')}" class="">
+                    <i class="mc-16"></i>
+                    <p class="mt10 col9">系统通知</p>
+                </a>
+            </li>
+            <li class="bb br">
+                <a href="javascript:;" class="logout">
+                    <i class="mc-17"></i>
+                    <p class="mt10 col9">退出</p>
+                </a>
+            </li>
+        </ul>
+
+
+
+
+    </section>
+
+</block>
+<block name="icon"></block>
+
+<block name="script">
+    <script>
+        $(function(){
+            //获取订单未读数
+            $.ajax({
+                dataType: "json",
+                url: '{:U("Shop/Order/getOrderNum")}',
+                data: {
+                    uid: {$uid}
+                },
+                cache:false,
+                success: function(data){
+                    if(data.status){
+                       /* $.each(data.data, function(i,item){
+                            if(item >0){
+                                $('#orders a:eq('+(i-1)+') i').addClass('hint-num');
+                                $('#orders a:eq('+(i-1)+') i').append('<em></em>')
+                            }else{
+                                $('#orders a:eq('+(i-1)+') i').removeClass('hint-num');
+                            }
+                        });*/
+                        $.each(data.data, function(i,item){
+                            if(item >0){
+                                $('#orders a:eq('+(i-1)+') i').addClass('hint-num1');
+                                $('#orders a:eq('+(i-1)+') i').append('<em>'+item+'</em>');
+                            }else{
+                                $('#orders a:eq('+(i-1)+') i').removeClass('hint-num1');
+                            }
+                        });
+                    }
+                }
+            });
+            $('.logout').on('click',function(){
+                $.confirm('您确定要退出吗',function(){
+                    $.ajax({
+                        dataType: "json",
+                        url: '{:U("Home/Member/logout")}',
+                        type:'post',
+                        success:function(data){
+                            if(data.status){
+                                $.toast('退出成功',function(){
+                                    location.href= data.url;
+                                })
+                            }else{
+                                $.toast('服务器异常，请稍后重试');
+                            }
+                        },
+                        error:function(){
+                            $.toast('服务器异常，请稍后重试');
+                        }
+                    });
+                });
+            });
+        })
+    </script>
+</block>

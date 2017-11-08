@@ -1,0 +1,354 @@
+<extend name="$_home_public_layout"/>
+<block name="js">
+  <eq name="detail.checkinfo" value="1">
+    <script src="__HTML_JS__/jweixin-1.0.0.js"></script>
+    <script>
+      wx.config({$jsapi});
+    </script>
+  </eq>
+  <script src="__HTML__/js/ap.js"></script>
+  <script type="text/javascript">
+    var domain = "{:XILUDomain()}"+"__ROOT__";
+    function fail_charge()
+    {
+      return false;
+      // location.href = '{:U('Order/order',['checkinfo'=>1])}';
+    }
+    function wxpay (){
+      var wxconfig = $.parseJSON($('[name="wxconfig"]').val());
+      wx.chooseWXPay({
+        timestamp: wxconfig.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
+        nonceStr: wxconfig.nonceStr, // 支付签名随机串，不长于 32 位
+        package: wxconfig.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）
+        signType: wxconfig.signType, // 签名方式，默认为'SHA1'，使用新版支付需传入'MD5'
+        paySign: wxconfig.paySign, // 支付签名
+        success: function (res) {
+          // 支付成功后的回调函数
+          if(res.errMsg == "chooseWXPay:ok"){
+            window.setTimeout(function(){
+              location.href = $('[name="wxconfig"]').data('url');
+            }, 2000);
+          }else{
+            console.log('fail1');
+            var message = '支付失败，请重新尝试，多次失败请联系管理员\n'+res.err_msg;
+            // $.alert(message, function() {
+            // 	//点击确认后的回调函数
+            // 	location.reload(true);
+            // });
+            $.alert(message);
+          }
+        },
+        cancel:function(res){
+          fail_charge();
+          //支付取消
+        },
+        fail:function(res){
+          // $.alert(res.errMsg);
+          // alert(res);
+          // $.post('{:U('Order/query')}', {id: $('[name="wxconfig"]').data('id')}, function(data, textStatus, xhr) {
+          // 	if(data.status){
+          // 		console.log(data.query);
+          // 	}else{
+          // 		$.alert('查询失败');
+          // 	}
+          // },'json');
+          fail_charge();
+          $.alert('微信支付订单过期,请重新下单')
+          console.log('失败了');
+          setTimeout(function(){
+            // location.reload(true);
+          }, 1000);
+          console.log(res);
+        }
+      });
+    }
+
+    var callpay = function(wxconfig){
+      $('[name="wxconfig"]').val(wxconfig);
+      if (typeof WeixinJSBridge == "undefined"){
+        if( document.addEventListener ){
+          document.addEventListener('WeixinJSBridgeReady', wxpay, false);
+        }else if (document.attachEvent){
+          document.attachEvent('WeixinJSBridgeReady', wxpay);
+          document.attachEvent('onWeixinJSBridgeReady', wxpay);
+        }
+      }else{
+        wxpay();
+      }
+    };
+    $(function(){
+      var checkGoods = 1;
+      $('.togoods').click(function(){
+        if(!checkGoods){
+          return false;
+        }
+        var gid = $(this).attr('data-value');
+        var url = "{:U('Shop/Order/checkGoodsStatus')}";
+        $.ajax({
+          url:url,
+          type:'POST',
+          data:{gid:gid},
+          dataType:'json',
+          beforeSend:function(){
+            checkGoods = 0;
+          },
+          complete:function(){
+          },
+          success:function(data){
+            if(data.status){
+              location.href=data.url;
+            }else{
+              checkGoods = 1;
+              $.alert(data.info);
+            }
+          },
+          error:function(){
+
+          }
+        });
+      });
+      //取消订单
+      $(document).on('click', '.cancel', function(){
+        var $that = $(this);
+        $.confirm("确认取消吗？", function() {
+          //点击确认后的回调函数
+          $.post($that.attr('href'), {ordernum:$that.data('ordernum'), action: 'cancel'}, function(data, textStatus, xhr) {
+            if(data.status){
+              setTimeout(function(){
+                $.toast("取消成功", function(){
+                   window.history.go(-1);
+                });
+              }, 0);
+            }else{
+              setTimeout(function(){
+                $.alert(data.info);
+              }, 1000);
+            }
+          },'json');
+        }, function() {
+          //点击取消后的回调函数
+        });
+        return false;
+      });
+      //删除订单
+      $(document).on('click', '.delete', function(){
+        var $that = $(this);
+        $.confirm("确认删除吗？", function() {
+          //点击确认后的回调函数
+          $.post($that.attr('href'), {}, function(data, textStatus, xhr) {
+            if(data.status){
+              location.href = data.url;
+            }else{
+              setTimeout(function(){
+                $.alert(data.info);
+              }, 1000);
+            }
+          },'json');
+        }, function() {
+          //点击取消后的回调函数
+        });
+        return false;
+      });
+      //去付款
+      $(document).on('click', '.topay' ,function(){
+        var $that = $(this);
+        //点击确认后的回调函数
+        $.post($that.attr('href'), {}, function(data, textStatus, xhr) {
+          if(data.status){
+            $('[name="wxconfig"]').data('id', data.id).data('url', data.url);
+            if(data.wxconfig){
+              callpay(data.wxconfig);
+            }else{
+              _AP.pay(data.alipayurl);
+            }
+
+          }else{
+            setTimeout(function(){
+              $.alert(data.info);
+            }, 1000);
+          }
+        },'json');
+        return false;
+      });
+      //确认收货
+      $(document).on('click', '.finish', function(){
+        var $that = $(this);
+        $.confirm("确认收货吗？", function() {
+          //点击确认后的回调函数
+          $.post($that.attr('href'), {}, function(data, textStatus, xhr) {
+            if(data.status){
+              location.href = data.url;
+            }else{
+              setTimeout(function(){
+                $.alert(data.info);
+              }, 1000);
+            }
+          },'json');
+        }, function() {
+          //点击取消后的回调函数
+        });
+        return false;
+      });
+      // 提醒发货
+      $(document).on('click','.remind_send',function(){
+        var that =$(this);
+        var orderid = that.data('values');
+        var send_url ="{:U('Order/remind_send')}";
+        $.ajax({
+          url:send_url,
+          type:'post',
+          dataType:'json',
+          data:{'orderid':orderid},
+          success:function(data){
+            if(data.status){
+              $.alert('已经提醒商家发货');
+            }else{
+              $.alert('系统繁忙,请稍后重试');
+            }
+          },
+          error:function(){
+
+          }
+        })
+      });
+      // 申请退货
+      $(document).on('click', '.apply_return', function(){
+        var $that = $(this);
+        $.confirm("确认退货吗？", function() {
+          //点击确认后的回调函数
+          $.post($that.attr('href'), { action:'apply_return'}, function(data, textStatus, xhr) {
+            if(data.status){
+              $.alert('退款申请已提交，请等待审核',function(){
+                location.href = data.url;
+              });
+            }else{
+              setTimeout(function(){
+                $.alert(data.info);
+              }, 1000);
+            }
+          },'json');
+        }, function() {
+          //点击取消后的回调函数
+        });
+        return false;
+      });
+    })
+  </script>
+</block>
+<block name="footer"></block>
+<block name="wrap">
+<div class="foot_fixed">
+    <div class="ptb10 bt tr fs14 order_submit">
+      <switch name="detail.checkinfo">
+        <case value="1">
+          <a href="{:U('Shop/Order/update_order', ['ordernum'=>$detail['ordernum'], 'action'=>'cancel'])}" class="mr10 br3 btn-mini bgf cancel">取消订单</a>
+          <a href="{:U('topay', ['ordernum'=>$detail['ordernum']])}" class="mr10 br3 btn-mini bgf topay">去付款</a>
+        </case>
+        <case value="2">
+          <a href="{:U('Order/update_order', ['ordernum'=>$detail['ordernum'], 'action'=>'apply_return'])}" class="mr10 br3 btn-mini bgf apply_return">我要退货</a>
+        </case>
+        <case value="3">
+          <a href="http://m.kuaidi100.com/index_all.html?type={$detail.postmode}&postid={$detail.postid}&callbackurl={:urlencode(U('', I('get.'), false, true))}" class="mr10 br3 btn-mini bgf">查看物流</a>
+          <a href="{:U('Order/update_order', ['ordernum'=>$detail['ordernum'], 'action'=>'apply_return'])}" class="mmr10 br3 btn-mini bgf apply_return">我要退货</a>
+          <a href="{:U('Order/update_order', ['ordernum'=>$detail['ordernum'], 'action'=>'finish'])}" class="mr10 br3 btn-mini bgf finish">确认收货</a>
+        </case>
+        <case value="4">
+
+        </case>
+        <case value="5">
+
+        </case>
+        <case value="6">
+
+        </case>
+      </switch>
+    <!--  <a href="" class="mr10 br3 btn-mini bgf">删除订单</a>-->
+     <!-- <a href="" class="mr10 br3 btn-mini btn-mini_solid">再次购买</a>-->
+    </div>
+</div>
+
+  <section class="main">
+
+    <div class="plr10 bb bgf last order_info">
+      <foreach name="detail.detail" item="goods">
+      <a href="javascript:;" data-value="{$goods['id']}" class="table ptb10 bb">
+        <div class="table-cell vm order_pic">
+          <div class="br5 ba item-pic">
+            <img src="{:getpics($goods['cover'],'cover')}" alt="" class="imgm">
+          </div>
+        </div>
+        <div class="table-cell vm pl10 item-con">
+          <p class="fs14 col3 multi-line">{$goods.title}</p>
+          <div class="mt10 fs12 m-price">
+            <em class="fs16 colred">¥{$goods.price}</em>
+            <span class="m-vc col9 item-more">数量×{$goods.buynum}</span>
+          </div>
+        </div>
+      </a>
+      </foreach>
+    </div>
+
+
+    <div class="bgf mt10 plr10 btb order_details">
+      <div class="ptb10 bb fs15 col3 item-hd">
+        <span class="fr">
+          <switch name="detail['pay_type']">
+            <case value="1">
+              微信支付
+            </case>
+            <case value="2">
+              支付宝支付
+            </case>
+          </switch>
+        </span>支付方式
+      </div>
+      <div class="pb10 fs14 col9 item-bd">
+        <span class="block ptb10 fs15 col3">
+          <em class="fr col0">{$detail.checkname}</em>配送信息
+        </span>
+        <p>送货地址：{$detail.address_detail}</p>
+      </div>
+      <eq name="detail['receipt']" value="1">
+        <div class="pb10 fs14 col9 item-bd">
+        <span class="block ptb10 fs15 col3">
+          <em class="fr col0"></em>发票信息
+        </span>
+          <p>{$detail.receipt_title}(<switch name="detail['receipt_tit']"><case value="1">个人</case><case value="2">公司</case></switch>)</p>
+        </div>
+      </eq>
+      <notempty name="detail['remark']">
+        <div class="pb10 fs14 col9 item-bd">
+        <span class="block ptb10 fs15 col3">
+          <em class="fr col0"></em>备注
+        </span>
+          <p>{$detail.remark}</p>
+        </div>
+      </notempty>
+    </div>
+    <input type="hidden" name="wxconfig">
+    <div class="bgf mt10 mb10 plr10 btb fs14 col6 order_details">
+      <div class="pb10 item-bd">
+        <span class="block ptb10 fs15 col3">
+          <em class="fr colred">{$detail.total}</em>商品总额
+        </span>
+        <p>－ 优惠 <em class="fr colred">¥{$detail.privilege}</em></p>
+        <p>＋ 运费 <em class="fr colred">¥{$detail.ship_fee}</em></p>
+        <p>积分抵扣 <em class="fr colred">{$detail.integral}</em></p>
+        <p>现金支付 <em class="fr colred">¥{$detail.payment}</em></p>
+      </div>
+      <div class="ptb10 bt tr item-ch">
+        <span class="fs16 col3">实付款：
+          <eq name="detail['type']" value="coin">
+          <b class="colred">¥{$detail.payment}+{$detail.integral}积分</b>
+          <else/>
+          <b class="colred">¥{$detail.payment}</b>
+          </eq>
+        </span>
+        <p class="mt5 fs12">下单时间：{$detail.create_time}</p>
+      </div>
+    </div>
+  </section>
+</block>
+
+<block name="script">
+</block>

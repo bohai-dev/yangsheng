@@ -1,0 +1,160 @@
+<case value="spec">
+<div class="form-group item_{$[type]form.name} {$[type]form.extra_class|default=''}">
+	<label class="left control-label">商品规格</label>
+	<div class="right">
+        <div class="right" id="ajax_spec_data">
+			<table class="table table-bordered" id="goods_spec_table1">
+				<if condition="(isset($spec_list) && $spec_list)">
+					<volist name="spec_list" id="spec">
+						<tr>
+							<td data-spec_id="{$spec['id']}">{$spec['name']}：</td>
+							<td>
+								<volist name="spec['items']" id="item">
+								<button type="button" data-spec_id="{$spec['id']}" data-item_id="{$item['id']}" class="btn <if condition="(in_array($item['id'], $item_ids))">btn-success<else />btn-default</if>" >
+								{$item['item']}
+								</button>&nbsp;&nbsp;&nbsp;
+								</volist>
+							</td>
+						</tr>
+					</volist>
+				</if>
+			</table>
+			<div id="goods_spec_table2"> <!--ajax 返回 规格对应的库存--> 
+			<notempty name="goods_spec">
+				<table class="table table-bordered" id="spec_input_tab">
+					<tbody>
+						<tr>
+							<td><b>规格</b></td>
+							<td><b>售价</b></td>
+						<!--	<td><b>原价</b></td>
+							<td><b>库存</b></td>-->
+							<td><b>操作</b></td>
+						</tr>
+						<volist name="goods_spec" id="spec">
+						<tr>
+							<td>{:str_replace(' ', '，', $spec['key_name'])}</td>
+							<td>
+								<input name="item[{$spec['key']}][shop_price]" value="{$spec['shop_price']}">
+								<input type="hidden" name="item[{$spec['key']}][key_name]" value="{$spec['key_name']}">
+							</td>
+						<!--	<td>
+								<input name="item[{$spec['key']}][original_price]" value="{$spec['original_price']}"></td>
+							<td>
+								<input name="item[{$spec['key']}][store_count]" value="{$spec['store_count']}">
+							</td>-->
+							<td>
+								<a name="delete" title="删除" class="label label-danger-outline label-pill spec_del" model="Goods" href="javascript:;">删除</a>
+							</td>
+						</tr>
+						</volist>
+					</tbody>
+				</table>
+			</notempty>
+			</div>
+		</div>
+    </div>
+	<script>
+	$(function(){
+		<notempty name="specList">
+		ajaxGetSpecInput();
+		</notempty>
+		$(document).on('click', '.spec_del', function(event) {
+			if(confirm('确认删除')){
+				$(this).parents('tr').remove();
+			}
+		});
+	})
+	// 按钮切换 class
+	$(document).on('click', "#ajax_spec_data button", function(){
+		if($(this).hasClass('btn-success')){
+			$(this).removeClass('btn-success');
+			$(this).addClass('btn-default');
+		}else{
+			$(this).removeClass('btn-default');
+			$(this).addClass('btn-success');
+		}
+		// $(this).toggleClass('btn-success', 'btn-default');
+		// ajaxGetSpecInput();
+		setSpecInput();
+	});
+
+	function setSpecInput()
+	{	
+		// 规格对象
+		spec = {};
+		$.each($('#goods_spec_table1 .btn-success'), function(k, v){
+			spec_id = $(v).data('spec_id');
+			item_id = $(v).data('item_id');
+			if(typeof(spec[spec_id])!='undefined'){
+				spec[spec_id].push(item_id);
+			}else{
+				spec[spec_id] = [item_id];
+			}
+		});
+		// 转化为数组
+		arr = [];
+		$.each(spec, function(k, v){
+			arr.push(v);
+		})
+		if(arr.length>0){
+			// 组合
+			var sarr = [[]];
+			for (var i = 0; i < arr.length; i++) {
+			    var tarr = [];
+			    for (var j = 0; j < sarr.length; j++){
+			        for (var k = 0; k < arr[i].length; k++){
+			            tarr.push(sarr[j].concat(arr[i][k]));
+			        }
+			    }
+			    sarr = tarr;
+			}
+			// 遍历组合的规格
+			html = '<table class="table table-bordered" id="spec_input_tab">'+
+					"<tbody>"+
+						"<tr> "+
+					    	"<td><b>规格</b></td>"+
+					    	"<td><b>售价</b></td>"+
+					    	/*"<td><b>原价</b></td>"+*/
+					    /*	"<td><b>库存</b></td>"+*/
+					    	"<td><b>操作</b></td>"+
+					 	"<//tr>";
+			for (var i = 0; i < sarr.length; i++) {
+				item_ids = '';
+				spec_names = '';
+				key_names = '';
+				for (var j = 0; j < sarr[i].length; j++) {
+					item_ids = item_ids=='' ? sarr[i][j] : item_ids+'_'+sarr[i][j];
+					item = $("button[data-item_id='"+sarr[i][j]+"']");
+					spec_name = $("td[data-spec_id='"+item.data('spec_id')+"']").html();
+					item_name = item.html();
+					spec_names += spec_names=='' ? spec_name+item_name : '，'+spec_name+item_name;
+					key_names += key_names=='' ? spec_name+item_name : ' '+spec_name+item_name;
+				}
+				shop_price = $("[name='item["+item_ids+"][shop_price]']").length > 0 ? $("[name='item["+item_ids+"][shop_price]']").val() : '';
+				original_price = $("[name='item["+item_ids+"][original_price]']").length > 0 ? $("[name='item["+item_ids+"][original_price]']").val() : '';
+				store_count = $("[name='item["+item_ids+"][store_count]']").length > 0 ? $("[name='item["+item_ids+"][store_count]']").val() : '';
+				html+=	'<tr>'+
+							'<td>'+spec_names+'<//td>'+
+						/*	'<td><input name="item['+item_ids+'][shop_price]" value="'+shop_price+'"><//td>'+*/
+							'<td>'+
+								'<input name="item['+item_ids+'][shop_price]" value="'+shop_price+'">'+
+								'<input type="hidden" name="item['+item_ids+'][key_name]" value="'+key_names+'">'+
+							'<//td>'+
+							/*'<td>'+
+								'<input name="item['+item_ids+'][store_count]" value="'+store_count+'">'+
+								'<input type="hidden" name="item['+item_ids+'][key_name]" value="'+key_names+'">'+
+							'<//td>'+*/
+							'<td><a name="delete" title="删除" class="label label-danger-outline label-pill spec_del" model="Goods" href="javascript:;">删除</a></td>'+
+						'<//tr>';
+
+			}
+			html+=	"<//tbody>"+
+				   "<//table>";
+			$('#goods_spec_table2').html(html);
+		}else{
+			$('#goods_spec_table2').html('');
+		}
+	}
+</script>
+</div>
+</case>

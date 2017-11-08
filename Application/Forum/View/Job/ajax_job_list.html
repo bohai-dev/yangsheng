@@ -1,0 +1,33 @@
+<if condition="$type eq 2">
+    <foreach name="list" item="list">
+        <li class="mt10 btb">
+            <a href="{:U('job_detail',array('id'=>$list['id']))}" class="table p10 bgf">
+                <div class="table-cell vm fs12 col3">
+                    <h3 class="fs14 single-line">求职职位:{$list.position}</h3>
+                    <p class="single-line"><em class="mr10 colred">{$list.salary}/月</em>{$list.sex}</p>
+                    <p class="single-line"><span class="mr10">期望工作地点：</span>{$list.area}</p>
+                </div>
+                <div class="table-cell vm item-rt">
+                    <span class="btn-mini btn-mini_solid">查看</span>
+                    <p class="mt5 fs12">{:substr($list['time'],0,10)}</p>
+                </div>
+            </a>
+        </li>
+    </foreach>
+    <else/>
+    <foreach name="list" item="list">
+        <li class="mt10 btb">
+            <a href="{:U('recruit_detail',array('id'=>$list['id']))}" class="table p10 bgf">
+                <div class="table-cell vm fs12 col3">
+                    <h3 class="fs14 single-line">招聘{$list.position} | {$list.prov}</h3>
+                    <p class="single-line"><em class="mr10 colred">{$list.salary}/月</em>{$list.sex}</p>
+                    <p class="single-line"><span class="mr10">{$list.company}</span>{$list.city}-{$list.country}</p>
+                </div>
+                <div class="table-cell vm item-rt">
+                    <span class="btn-mini btn-mini_solid">查看</span>
+                    <p class="mt5 fs12">{:substr($list['time'],0,10)}</p>
+                </div>
+            </a>
+        </li>
+    </foreach>
+</if>

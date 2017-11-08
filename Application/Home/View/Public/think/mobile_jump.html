@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<title>操作<?php echo isset($message)? '成功': '失败';?></title>
+	<!-- head 中 -->
+	<link rel="stylesheet" href="__COMMON__/js/jquery-weui-build/dist/lib/weui.css">
+	<link rel="stylesheet" href="__COMMON__/js/jquery-weui-build/dist/css/jquery-weui.css">
+	<style>
+
+	</style>
+</head>
+<body ontouchstart>
+	<div class="weui_msg">
+		<?php if(isset($message)) {?>
+			<div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
+			<div class="weui_text_area">
+				<h2 class="weui_msg_title"><?php echo $message? $message:'操作成功';?></h2>
+		<?php }else{?>
+	   		<div class="weui_icon_area"><i class="weui_icon_warn weui_icon_msg"></i></div>
+			<div class="weui_text_area">
+				<h2 class="weui_msg_title"><?php echo $error ? $error: '操做失败';?></h2>
+		<?php }?>
+				<p class="weui_msg_desc">页面自动 <a id="href" href="<?php echo($jumpUrl); ?>">跳转</a> 等待时间： <b id="wait"><?php echo($waitSecond); ?></b></p>
+			</div>
+	</div>
+	<script src="__COMMON__/js/jquery-weui-build/dist/lib/jquery-2.1.4.js"></script>
+	<script src="__COMMON__/js/jquery-weui-build/dist/js/jquery-weui.js"></script>
+	<script type="text/javascript">
+		(function(){
+		var wait = document.getElementById('wait'),href = document.getElementById('href').href;
+		var interval = setInterval(function(){
+			var time = --wait.innerHTML;
+			if(time <= 0) {
+				location.href = href;
+				clearInterval(interval);
+			};
+		}, 1000);
+		})();
+	</script>
+</body>
+</html>

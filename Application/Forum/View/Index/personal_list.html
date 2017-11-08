@@ -1,0 +1,182 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <section class="main">
+
+        <div class="flex-box flex-between member_head" style="padding: 30px 15px;">
+            <a href="{:U('Home/Member/attention',['id'=>$user['id']])}" class="flex-box memberDown">
+                <div class="br50 item-pic avatar">
+                    <img src="{:getpics(get_user_info($user['id'],'admin_user','avatar'))}" alt="" class="imgm">
+                </div>
+                <div class="pl10">
+                    <p class="fs15 colf single-line">{:get_user_info($user['id'],'admin_user','nickname')}</p>
+                    <div class="mt5 fs12 colf">
+                        <span class="mr5">关注 {$fans.attention}人</span>
+                        <span class="">粉丝 {$fans.fans}人</span>
+                    </div>
+                </div>
+            </a>
+            <a href="javascript:;" class="follow-btn--white" data-values="{$user['attention']}">
+                <eq name="user['attention']" value="1">
+                    已关注
+                    <else/>
+                    + 关注
+                </eq>
+
+            </a>
+        </div>
+
+       <!-- <div class="bgf fs14 col3">
+            <p class="fs16 col3 tc bb ptb10">TA的帖子</p>
+            <notempty name="forum_list">
+                <div class="last">
+                    <foreach name="forum_list" item="list">
+                        <a href="{:U('Forum/Index/detail',array('id'=>$list['id']))}" class="block bb p10">
+
+                            <p class="multi-line"> <foreach name="list['type_name']" item="vo">
+                                <span class="flag-red">{$vo}</span>
+                            </foreach>{$list.title}</p>
+                            <p class="tr fs12 col9 mt5">{:date('m-d H:i', strtotime($list['time']))}</p>
+                        </a>
+                    </foreach>
+                </div>
+                <else/>
+                <div class="tc nothing"  >
+                    <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+                    <span class="mt10 fs14 col9">他没有发表任何帖子</span>
+                </div>
+            </notempty>
+
+        </div>-->
+        <ul class="clearfix forum_list_v2 ajax_list"></ul>
+        <div class="placeholder" style="display: none;height: 700px;"></div>
+        <div id="loading" class="tc" style="display: none"></div>
+        <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+            <span class="col9">—— <i></i> ——</span>
+            <p class="fs12 col9">亲，没有更多了哦~</p>
+        </div>
+        <div class="tc nothing" style="display: none; margin-top:20px" >
+            <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+            <span class="mt10 fs14 col9">暂无记录</span>
+        </div>
+    </section>
+</block>
+<block name="script">
+    <script>
+        $(function(){
+            LoadList();
+            $('.follow-btn--white').on('click',function(){
+                var $this =$(this);
+                if($this.attr('data-values')==1){
+                    $type =2;
+                }else{
+                    $type =1;
+                }
+                $.ajax({
+                    url:"{:U('attention')}",
+                    type:'post',
+                    dataType:'json',
+                    data:{attend_uid:{$uid},type:$type},
+                    success:function(data){
+                        if(data.status){
+                            if($type==2){
+                                $('.follow-btn--white').html('+关注');
+                                $('.follow-btn--white').attr('data-values',0);
+                            }else{
+                                $('.follow-btn--white').html('已关注');
+                                $('.follow-btn--white').attr('data-values',1);
+                            }
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+            $(window).bind('scroll', function() {
+                checkload(); //ajax 下拉加载更多内容
+            });
+        });
+        function checkload() {
+            if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+                $("#loading").show();
+                LoadList(forum_type_id);
+            }
+        }
+        var forum_type_id ='all';
+        var n = 1;
+        var ispost = temp = true;
+        var uid ='{$uid}';
+        function LoadList() {
+            if (ispost && temp) {
+                temp = false;
+                $.ajax({
+                    url: "{:U('index')}",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {n: n,uid:uid},
+                    timeout: 9999,
+                    success: function(data) {
+                        n++;
+                        temp = true;
+                        if(data.status){
+                            if(data.msg == ''){
+                                temp = false;
+                                $('.placeholder').slideUp();
+                                $("#full").show();
+                            }else{
+                                $("#loading").hide();
+                                $(".ajax_list").append(data.msg);
+                                $('.placeholder').slideUp();
+                                $(".ajax_list .item-pic").each(function(){
+                                    var w = $(this).width();
+                                    $(this).css({"height": w});
+                                });
+                                temp =true;
+                                checkload();
+                                // 文本更多
+                                $(".m-editor").each(function() {
+                                    var _this = $(this)
+                                    var height = _this.height();
+                                    var more = _this.find('.m-more');
+                                    var len = _this.has(".m-more").length;
+                                    if ( len > 0 && height > 55 ) {
+                                        _this.css({'height': '55px','padding-bottom':'16px'});
+                                        more.show();
+                                        more.click(function() {
+                                            if ( !_this.hasClass('active') ) {
+                                                _this.addClass('active');
+                                            } else {
+                                                _this.removeClass('active');
+                                            }
+                                        });
+                                    } else {
+                                        more.hide();
+                                    }
+                                });
+                                $(".forum_list .item-pic").each(function(){
+                                    var w = $(this).width();
+                                    $(this).css({"height": w});
+                                });
+                            }
+                        }else{
+                            temp = false;
+                            $('.placeholder').slideUp();
+                            $("#loading").hide();
+                            $(".nothing").show();
+                        }
+                        /*  $(".lazy img").lazyload({  //图片延迟加载
+                         placeholder : "html/images/loading.gif",
+                         effect      : "fadeIn",
+                         threshold : 200
+                         });*/
+                    }
+                });
+            }else if(!ispost){
+                $('.placeholder').slideUp();
+                $("#full").show();
+            }
+        }
+    </script>
+</block>

@@ -1,0 +1,28 @@
+<extend name="$_home_public_layout"/>
+<block name="footer">
+
+</block>
+<block name="wrap">
+    <section class="main">
+
+        <ul class="bgf team_details">
+            <empty name="team">
+                <div class="tc nothing">
+                    <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+                    <span class="mt10 fs14 col9">暂无成员</span>
+                </div>
+                <else/>
+                <foreach name="team" item="list">
+                    <li class="table bb">
+                        <div class="table-cell p10 item-img">
+                            <img src="{:getpics($list['avatar'])}" alt="" class="brarc imgm">
+                        </div>
+                        <div class="table-cell p10">
+                            <p class="fs14 col3">{$list.nickname}</p>
+                            <p class="mt5 col9">{:substr($list['create_time'],0,10)} 加入</p>
+                        </div>
+                    </li>
+                </foreach>
+            </empty>
+        </ul>
+</block>

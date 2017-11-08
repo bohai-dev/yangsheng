@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>0.1.0出租</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<div class="top_fixed search_fixed">
+		<div class="plr10 box search_header">
+			<div class="bgf br50 flex-1 sH_main">
+				<a href="javascript:;" class="block col9 sH_search"><i class="icon_search"></i>搜索本地招聘信息</a>
+			</div>
+		</div>
+	</div>
+	<!-- 顶部悬浮搜索 end -->
+
+	<section class="main">
+
+		<div class="swiper-container banner">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<img src="images/banner.jpg" alt="2:1,640*320" class="imgm">
+				</div>
+				<div class="swiper-slide">
+					<img src="images/banner.jpg" alt="2:1,640*320" class="imgm">
+				</div>
+				<div class="swiper-slide">
+					<img src="images/banner.jpg" alt="2:1,640*320" class="imgm">
+				</div>
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+		<script src="weui/js/swiper.js"></script>
+		<script>
+		$(function(){
+			var swiperWidth = $(".banner").width();
+				swiperHeight = swiperWidth * 0.5;
+				$(".banner").css("height",swiperHeight);
+			$(".banner").swiper({
+				pagination: '.swiper-pagination',
+				loop: true,
+				autoplay: 3000,
+				autoplayDisableOnInteraction : false,
+			});
+		});
+		</script>
+		<!-- banner end -->
+
+		<div class="table btb bgf tc fs15 nav_job">
+			<a href="" class="table-cell vm br">
+				<p class="p10">转让</p>
+			</a>
+			<a href="" class="table-cell vm br">
+				<p class="p10">出租</p>
+			</a>
+			<a href="" class="table-cell vm">
+				<p class="p10">求租</p>
+			</a>
+		</div>
+
+		<ul class="m-list">
+			<li class="mt10 btb">
+				<a href="" class="table p10 bgf">
+					<div class="table-cell vm item-media">
+						<div class="ba item-pic"><img src="images/img_media.jpg" alt="" class="imgm"></div>
+					</div>
+					<div class="table-cell vm pl10 fs12 col3">
+						<h3 class="fs14 single-line">人民广场养生会所整体转让</h3>
+						<p class="single-line">上海 |黄埔-南京东路</p>
+						<p class="single-line"><em class="colred">75000元/月</em> | 500平方</p>
+					</div>
+				</a>
+				<span class="m-tip tbg-1">转<br>让</span>
+			</li>
+			<li class="mt10 btb">
+				<a href="" class="table p10 bgf">
+					<div class="table-cell vm item-media">
+						<div class="ba item-pic"><img src="images/img_media.jpg" alt="" class="imgm"></div>
+					</div>
+					<div class="table-cell vm pl10 fs12 col3">
+						<h3 class="fs14 single-line">人民广场养生会所整体转让</h3>
+						<p class="single-line">上海 |黄埔-南京东路</p>
+						<p class="single-line"><em class="colred">75000元/月</em> | 500平方</p>
+					</div>
+				</a>
+				<span class="m-tip tbg-2">出<br>租</span>
+			</li>
+			<li class="mt10 btb">
+				<a href="" class="table p10 bgf">
+					<div class="table-cell vm item-media">
+						<div class="ba item-pic"><img src="images/img_media.jpg" alt="" class="imgm"></div>
+					</div>
+					<div class="table-cell vm pl10 fs12 col3">
+						<h3 class="fs14 single-line">人民广场养生会所整体转让</h3>
+						<p class="single-line">上海 |黄埔-南京东路</p>
+						<p class="single-line"><em class="colred">75000元/月</em> | 500平方</p>
+					</div>
+				</a>
+				<span class="m-tip tbg-3">求<br>租</span>
+			</li>
+			<li class="mt10 btb">
+				<a href="" class="table p10 bgf">
+					<div class="table-cell vm item-media">
+						<div class="ba item-pic"><img src="images/img_media.jpg" alt="" class="imgm"></div>
+					</div>
+					<div class="table-cell vm pl10 fs12 col3">
+						<h3 class="fs14 single-line">人民广场养生会所整体转让</h3>
+						<p class="single-line">上海 |黄埔-南京东路</p>
+						<p class="single-line"><em class="colred">75000元/月</em> | 500平方</p>
+					</div>
+				</a>
+				<span class="m-tip tbg-1">转<br>让</span>
+			</li>
+		</ul>
+
+		<a href="" class="brarc release_job">
+			<i></i><p class="tc fs12 colf">发布</p>
+		</a>
+
+	</section>
+	<!-- main主体 end -->
+
+</section>
+<!-- 主体 end -->
+
+<section class="search_wrap">
+
+	<dl class="table bb header">
+		<dd class="table-cell vm">
+			<a href="javascript:;" class="back"></a>
+		</dd>
+		<dt class="table-cell vm">
+			<input type="text" class="" name="" placeholder="请输入诊所搜索的关键词" >
+		</dt>
+		<dd class="table-cell vm">
+			<input type="submit" value="搜索">
+		</dd>
+	</dl>
+
+	<div class="p10 search_main">
+		<div class="fs13 item-tit">
+			<i class="mr5 sm-1"></i>最近搜索
+			<a href="" class="fr"><i class="sm-3"></i></a>
+		</div>
+		<div class="ptb10 item-con">
+			<a href="" class="btn-mini">足疗</a>
+			<a href="" class="btn-mini">养生</a>
+			<a href="" class="btn-mini">足疗</a>
+		</div>
+		<div class="fs13 item-tit">
+			<i class="mr5 sm-2"></i>热门搜索
+		</div>
+		<div class="ptb10 item-con">
+			<a href="" class="btn-mini">足疗</a>
+			<a href="" class="btn-mini">养生</a>
+			<a href="" class="btn-mini">足疗</a>
+			<a href="" class="btn-mini">养生</a>
+			<a href="" class="btn-mini">足疗</a>
+			<a href="" class="btn-mini">养生</a>
+			<a href="" class="btn-mini">足疗</a>
+		</div>
+	</div>
+
+
+</section>
+<script>
+$(function(){
+	$(document).on('click','.search_header .sH_search',function() {
+		$(".wrap").hide();
+		$(".search_wrap").show();
+	});
+	$(document).on('click','.header .back',function() {
+		$(".wrap").show();
+		$(".search_wrap").hide();
+	});
+});
+</script>
+<!-- 搜索定位弹窗 end -->
+
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

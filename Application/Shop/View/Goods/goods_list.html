@@ -1,0 +1,369 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+  <div class="top_fixed">
+    <div class="plr10 bb bgf box search_header">
+      <div class="bgf br50 flex-1 sH_main">
+        <a href="javascript:;" class="block col9 sH_search"><i class="icon_search"></i>搜索商品</a>
+      </div>
+    </div>
+  </div>
+  <!-- 顶部悬浮搜索 end -->
+
+  <!-- 底部悬浮 end -->
+
+  <section class="main">
+    <div class="screen_nav">
+      <div class="bgf btb tc item-hd">
+        <ul class="table fs14 col3">
+          <li class="table-cell order_type active">销量</li>
+          <li class="table-cell order_type">价格</li>
+        </ul>
+      </div>
+      <div class="item-bd">
+        <div class="item-bdbg"></div>
+        <ul class="bgf fs14 ">
+          <li class="plr10 bb order on " data-value="1">
+            <a href="javascript:;" >销量从高到低</a>
+          </li>
+          <li class="plr10 bb order" data-value="2">
+            <a href="javascript:;" >销量从低到高</a>
+          </li>
+        </ul>
+        <ul class="bgf fs14">
+          <li class="plr10 bb order" data-value="3" >
+            <a href="javascript:;" >价格从高到低</a>
+          </li>
+          <li class="plr10 bb order" data-value="4">
+            <a href="javascript:;" >价格从低到高</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <ul class="list-goods ajax_list">
+    </ul>
+    <div id="loading" class="tc" style="display: none"></div>
+    <div class="tc nothing step0 step" style="display: none;">
+      <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+      <span class="mt10 fs14 col9">暂无数据</span>
+    </div>
+    <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+      <span class="col9">—— <i></i> ——</span>
+      <p class="fs12 col9">亲，没有更多了哦~</p>
+    </div>
+  </section>
+  <!-- main主体 end -->
+  <section class="spec-wrap popup-wrap" style="display: none;"></section>
+
+<!-- 主体 end -->
+
+</block>
+
+<block name="reply_wrap">
+  <section class="search_wrap" style="z-index:2;">
+
+    <dl class="table bb header">
+      <dd class="table-cell">
+        <a href="javascript:;" class="back"></a>
+      </dd>
+      <dt class="table-cell">
+        <input type="text" value="{$search_kw}" name="search" placeholder="请输入商品的关键词" >
+      </dt>
+      <dd class="table-cell">
+        <input type="submit" value="搜索">
+      </dd>
+    </dl>
+
+    <div class="p10 search_main">
+      <div class="fs13 item-tit">
+        <i class="mr5 sm-1"></i>最近搜索
+        <a href="javascript:;" class="fr" id="clean-search" >
+          <notempty name="user_kw_info">
+            <i class="sm-3"></i>
+          </notempty>
+        </a>
+      </div>
+      <div class="ptb10 item-con user-search">
+      <notempty name="user_kw_info">
+        <foreach name="user_kw_info" item="val">
+        <a href="{:U('Shop/Goods/goods_list',['search_kw'=>$val])}" class="btn-mini search-kw">{$val}</a>　
+        </foreach>
+        <p  align="center" class="no-user-search" style="font-size:12px;display:none;">暂无搜索历史</p>
+
+      <else />
+        <p align="center" style="font-size:12px;">暂无搜索历史</p>
+      </notempty>
+      </div>
+      <div class="fs13 item-tit">
+        <i class="mr5 sm-2"></i>热门搜索
+      </div>
+      <div class="ptb10 item-con">
+        <foreach name="shop_kw_info" item="val">
+          <a href="{:U('Shop/Goods/goods_list',['search_kw'=>$val['word']])}" class="btn-mini search-kw">{$val['word']}</a>　
+        </foreach>
+      </div>
+    </div>
+  </section>
+</block>
+<block name="footer"></block>
+<block name="script">
+<script>
+$(function(){
+  //axaj 加载
+  $(document).ajaxStart(function() {
+      $.showLoading();
+  });
+  $(document).ajaxComplete(function() {
+      $.hideLoading();
+  });
+  $(window).bind('scroll', function() {
+      checkload(); //ajax 下拉加载更多内容
+  });
+
+  //初始化加载数据
+  // LoadList();
+  backList();
+
+
+
+  //====加入购物车Start
+  $(document).on('click','.to-cart',function(){
+    var id = $(this).attr('data-value');
+    getGoodsItemHtml(id);
+  })
+  //隐藏
+  $(document).on('click','.popup-overlay',function(){
+    $('.spec-wrap').empty();
+    $('.spec-wrap').hide();
+  });
+
+  //====加入购物车END
+
+  //排序
+  $(".order").click(function(){
+    $('.order,on').removeClass('on');
+    $(this).addClass('on');
+    $(".screen_nav .item-bd").hide();
+    $(".screen_nav .item-bd ul").hide();
+    $('.ajax_list').empty();
+    $("#full").hide();
+    $(".step0").hide();
+    n = 1;
+    ispost = temp = true;
+    order = $(this).attr('data-value');
+    LoadList();
+  })
+
+
+  //输入搜索
+  $(':submit').click(function(){
+    search_kw = $("input[name='search']").val();
+    if(!search_kw){
+      $.toast('请输入关键词','text');
+      return false;
+    }
+    location.href="{:U('Shop/Goods/goods_list/search_kw/\"+search_kw+\"')}";
+  })
+
+  //清除最近搜索
+  $('#clean-search').click(function(){
+    Cookies.set('yangsheng_home_user_search','');
+    $('#clean-search i,sm-3').remove();
+    $('.user-search a').remove();
+    $('.no-user-search').show();
+  })
+
+
+  $(".screen_nav .item-hd li").each(function(index){
+    $(this).on("click",function(){
+      // $(".screen_nav").addClass('top_fixed');
+
+      $(this).addClass("active").siblings().removeClass("active");
+      $(".screen_nav .item-bd").show();
+      $(".screen_nav .item-bd ul").eq(index).slideDown();
+    });
+  });
+
+
+  $(".screen_nav .item-bdbg").on("click",function(){
+    $(".screen_nav .item-bd ul").slideUp();
+    $(".screen_nav .item-bd").hide();
+    $(".screen_nav").removeClass('top_fixed');
+  });
+
+  //搜索弹出层
+  $(document).on('click','.search_header .sH_search',function() {
+    $(".search_wrap").show();
+    $(".wrap").hide();
+  });
+  $(document).on('click','.header .back',function() {
+    $(".search_wrap").hide();
+    $(".wrap").show();
+  });
+
+  //列表页返回
+  $(document).on("click",".g_detail",function(){
+      var $_this =$(this);
+      goUrl =($_this.attr('href'));
+
+      setStorage();
+
+      location.href = goUrl;
+      return false;
+  });
+});
+
+function checkload() {
+  if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+      $("#loading").show();
+      LoadList();
+  }
+}
+
+var n = 1;
+var ispost = temp = true;
+var type = "{$type}"; //分类
+var group = "{$group}";
+var order = 1;
+var search_kw="{$search_kw}";
+var columns = "{$columns}" ; //栏目
+
+function LoadList() {
+  if (ispost && temp) {
+      var url ="{:U('Shop/Goods/goods_list')}";
+      temp = false;
+      $.ajax({
+          url: url,
+          type: 'post',
+          dataType: 'json',
+          data: {n: n,columns:columns,type:type,group:group,order:order,search_kw:search_kw},
+          timeout: 9999,
+          success: function(data) {
+              n++;
+              temp = true;
+              if(data.status){
+                  if(data.msg == ''){
+                      temp = false;
+                      $("#full").show();
+                  }else{
+                      $("#loading").hide();
+                      $(".ajax_list").append(data.msg);
+                      // imgHeight();
+                      temp =true;
+                      // imglazyload();
+                      checkload();
+                  }
+              }else{
+                  temp = false;
+                  $("#loading").hide();
+                  $(".step0").show();
+              }
+              $(".lazy img").lazyload({  //图片延迟加载
+                  placeholder : "html/images/loading.gif",
+                  effect      : "fadeIn",
+                  threshold : 200
+              });
+          }
+      });
+  }else if(!ispost){
+    $("#full").show();
+  }
+}
+
+
+/**
+ * 从列表页跳转详情页前，把已经分页加载的数据，页码，scrollTop存入sessionStorage
+ */
+function setStorage(){
+  var listData =$('.ajax_list').html();
+  var aGoodsList = JSON.stringify(listData);//把json数据转为string字符串
+  var aGoodsParam = {
+      page: n,  //当前页码
+      top: $(window).scrollTop(),
+      order:order
+  };
+  aGoodsParam = JSON.stringify(aGoodsParam);
+  sessionStorage.setItem('aGoodsList', aGoodsList);//sessionStorage只能存储string字符串
+  sessionStorage.setItem('aGoodsParam', aGoodsParam);
+}
+
+/**
+ * 返回列表页时，取存储的sessionStorage数据，有，则取数据渲染页面，并滑到预期位置
+ * 删除sessionStorage存储的历史数据
+ * PS:这里只是再次访问该页面时,并不是返回列表时,只能做到在其他页清一次存储数据
+ */
+function backList() {
+  var aGoodsList  = JSON.parse(sessionStorage.getItem('aGoodsList'));
+  var aGoodsParam = JSON.parse(sessionStorage.getItem('aGoodsParam'));
+  //ios 端返回不执行JS
+  var u = navigator.userAgent;
+  var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+  if(isiOS){
+    LoadList();
+    return false;
+  }
+
+  // listData用于保存列表数据
+  // 页面加载时判断sessionStorage是否存有列表数据，有则赋值给listData，否则，listData取同步加载的第一页数据
+  window.listData = aGoodsList ? aGoodsList : '';
+  // console.log(aGoodsList);return false;
+  if (aGoodsList != null) {
+      // 加载列表
+      $('.ajax_list').html(aGoodsList);
+      // 更新加载状态
+      $('.order,on').removeClass('on');
+      $(this).addClass('on');
+      //排序状态
+      order = aGoodsParam.order;
+      $('.order').each(function(){
+        if(order == $(this).attr('data-value')){
+          $(this).addClass('on');
+        }
+      })
+      $('.order_type.active').removeClass('active');
+
+      if(order == 2 || order == 1){
+        $('.order_type:eq(0)').addClass('active');
+      }else if(order == 3 || order==4){
+        $('.order_type:eq(1)').addClass('active');
+      }
+
+      // 滚动到对应位置，并清除sessionStorage
+      document.body.scrollTop = aGoodsParam.top;
+      n = aGoodsParam.page;
+
+      sessionStorage.removeItem('aGoodsList');
+      sessionStorage.removeItem('aGoodsParam');
+  }else{
+      LoadList();
+  }
+}
+
+
+//加入购物车－－获取规格html
+function getGoodsItemHtml(id)
+{
+  $.ajax({
+    url:"{:U('Shop/Goods/item_detail')}",
+    type:'POST',
+    data:{id:id},
+    async:false,
+    dataType:'json',
+    beforeSend:function(){},
+    complete:function(){},
+    error:function(){},
+    success:function(data){
+      if(data.status){
+        $('.spec-wrap').append(data.html);
+        //展示
+        $('.spec-wrap').show();
+        // $('html,body').css({'height': '100%', 'overflow': 'hidden'});
+      }else{
+        $.alert('数据异常');
+      }
+    }
+  })
+}
+
+</script>
+</block>

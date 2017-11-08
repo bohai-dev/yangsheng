@@ -1,0 +1,37 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+    <section class="main">
+        <style>
+            body{ background-color: #bf1946; }
+        </style>
+        <div class="bgf QRcode_top">
+            <div class="table p20">
+                <div class="table-cell item-lt">
+                    <div class="item-pic brarc">
+                        <img src="{:getpics($user['avatar'])}" class="imgm" alt="头像">
+                    </div>
+                </div>
+                <div class="table-cell">
+                    <div class="pl10 bl fs13">
+                        <p>我是 <span class="blue">{$user.nickname}</span></p>
+                        <p class="mt5">我为{:C('WEB_SITE_TITLE')}代言</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative" style="padding:6% 0 12%;">
+                <img src="__HTML_IMG__/QRcode_logo.png" alt="" style="width:39%" class="imgm">
+            </div>
+        </div>
+
+        <div class="bg_own relative QRcode_wrap" style="padding:20% 0 30px;">
+            <img src="{:getpics($user['qrcode'])}" alt="" style="width:50%" class="imgm">
+            <p class="mt10 tc fs13 colf">长按此图，识别图片二维码，开启财富新模式！</p>
+        </div>
+
+    </section>
+
+</block>
+
+<block name="icon"></block>

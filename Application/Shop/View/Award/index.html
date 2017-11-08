@@ -1,0 +1,213 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+    <section class="main">
+
+        <div class="ptb10 user_head">
+            <dl class="clearfix p10">
+                <a href="javascript:;" class="set"></a>
+                <dt class="fl ml10 br50">
+                    <img src="{:getpics($userInfo['avatar'])}" alt="" class="imgm">
+                </dt>
+                <dd class="fs13 colf">
+                    <h2 class="mt5 mb10 fs18 colf">{$user.nickname}</h2>
+                    <span class="tel">{$user.mobile}</span>
+                    <span class="mt5 time">{:substr($user['create_time'],0,10)}加入{:C('WEB_SITE_TITLE')}</span>
+                </dd>
+            </dl>
+        </div>
+
+        <div class="table bgf tc fs14 menu">
+            <a href="{:U('Shop/Award/index')}" class="table-cell ptb10 bb col3 active">抽奖活动</a>
+            <a href="{:U('Shop/Award/my_award')}" class="table-cell ptb10 bb col3 ">领取记录</a>
+            <a href="{:U('Shop/Award/award_rule')}" class="table-cell ptb10 bb col3">活动规则</a>
+        </div>
+
+        <div class="bgf plr10 ba br5 lottery">
+            <!--<dl class="table tc fs14 item-hd">
+                <dd class="table-cell pr10"><a href="" class="br5 colf">点击签到</a></dd>
+                <dt class="table-cell">
+                    <span>99999颗</span>
+                </dt>
+                <dd class="table-cell pl10"><a href="" class="br5 colf">红心兑换</a></dd>
+            </dl>-->
+            <ul class="clearfix tc" id="lottery">
+                <li class="lottery-unit lottery-unit-0 active"><i style="background-image:url('{:getpics($award[0]['cover'])}')"></i>{$award[0]['title']}</li>
+                <li class="lottery-unit lottery-unit-1"><i style="background-image:url('{:getpics($award[1]['cover'])}')"></i>{$award[1]['title']}</li>
+                <li class="lottery-unit lottery-unit-2"><i style="background-image:url('{:getpics($award[2]['cover'])}')"></i>{$award[2]['title']}</li>
+                <li class="lottery-unit lottery-unit-3 nor"><i style="background-image:url('{:getpics($award[3]['cover'])}')"></i>{$award[3]['title']}</li>
+                <li class="lottery-unit lottery-unit-9"><i style="background-image:url('{:getpics($award[9]['cover'])}')"></i>{$award[9]['title']}</li>
+                <li class="click"><em class="fs18">抽奖</em><!--还剩次数 99 次--></li>
+                <li class="lottery-unit lottery-unit-4 nor"><i style="background-image:url('{:getpics($award[4]['cover'])}')"></i>{$award[4]['title']}</li>
+                <li class="lottery-unit lottery-unit-8"><i style="background-image:url('{:getpics($award[8]['cover'])}')"></i>{$award[8]['title']}</li>
+                <li class="lottery-unit lottery-unit-7"><i style="background-image:url('{:getpics($award[7]['cover'])}')"></i>{$award[7]['title']}</li>
+                <li class="lottery-unit lottery-unit-6"><i style="background-image:url('{:getpics($award[6]['cover'])}')"></i>{$award[6]['title']}</li>
+                <li class="lottery-unit lottery-unit-5 nor"><i style="background-image:url('{:getpics($award[5]['cover'])}')"></i>{$award[5]['title']}</li>
+            </ul>
+        </div>
+
+        <div class="bgf ba br5 winners">
+            <div class="ptb10 tc fs15 item-hd">获奖名单</div>
+            <div class="item-bd" id="win-con">
+                <ul class="tc" id="win-con1">
+                    <foreach name="award_record" item="list">
+                        <li class="table ptb10 bt">
+                            <div class="table-cell name">{:get_username($list['uid'])}</div>
+                            <div class="table-cell prize">{$list.title}</div>
+                            <div class="table-cell">{$list.time}</div>
+                        </li>
+                    </foreach>
+                </ul>
+                <ul class="tc" id="win-con2"></ul>
+            </div>
+        </div>
+
+        <div class="tip_lottery" style="display:none;">
+            <div class="item-bg"></div>
+            <div class="item-show">
+                <a href="javascript:;" class="close"></a>
+                <span><img src="__HTML_IMG__/tip_lottery.png" alt="" class="imgm"></span>
+                <p  id = "myprizename1" class="mt10 tc fs14 colf">恭喜你抽中小米手机一部！</p>
+            </div>
+        </div>
+    </section>
+</block>
+
+<block name="icon"></block>
+
+<block name="script">
+    <script>
+        var speed=50; //数字越大速度越慢
+        var tab=document.getElementById("win-con");
+        var tab1=document.getElementById("win-con1");
+        var tab2=document.getElementById("win-con2");
+        tab2.innerHTML = tab1.innerHTML;  //克隆tab1为tab2
+        function Marquee(){
+            if (tab2.offsetHeight - tab.scrollTop <= 0) { //当滚动至tab1与tab2交界时
+                tab.scrollTop -= tab1.offsetHeight  //tab跳到最顶端
+            }else{
+                tab.scrollTop++
+            }
+        }
+        var MyMar=setInterval(Marquee,speed);
+        tab.onmouseover=function() {clearInterval(MyMar)};  // 鼠标移上时清除定时器达到滚动停止的目的
+        tab.onmouseout=function() {MyMar=setInterval(Marquee,speed)};  //鼠标移开时重设定时器
+    </script>
+
+
+    <script type="text/javascript">
+        var lottery = {
+            index: 0, //当前转动到哪个位置，起点位置
+            count: 0, //总共有多少个位置
+            timer: 0, //setTimeout的ID，用clearTimeout清除
+            speed: 20, //初始转动速度
+            times: 0, //转动次数
+            cycle: 50, //转动基本次数：即至少需要转动多少次再进入抽奖环节
+            prize: 0, //中奖位置
+            init: function(id) {
+                if ($("#" + id).find(".lottery-unit").length > 0) {
+                    $lottery = $("#" + id);
+                    $units = $lottery.find(".lottery-unit");
+                    this.obj = $lottery;
+                    this.count = $units.length;
+                    $lottery.find(".lottery-unit-" + this.index).addClass("active");
+                }
+            },
+            roll: function() {
+                var index = this.index;
+                var count = this.count;
+                var lottery = this.obj;
+                $(lottery).find(".lottery-unit-" + index).removeClass("active");
+                index += 1;
+                if (index > count - 1) {
+                    index = 0;
+                }
+                $(lottery).find(".lottery-unit-" + index).addClass("active");
+                this.index = index;
+                return false;
+            },
+            stop: function(index) {
+                this.prize = index;
+                return false;
+            }
+        };
+
+        function roll() {
+            lottery.times += 1;
+            var prize_site = $("#lottery").data("prizeSite");
+            console.log(prize_site);
+            if (lottery.times > (lottery.cycle + 10) && lottery.index == prize_site) {
+                var prize_id = $("#lottery").data("prizeId");
+                var prize_name = $("#lottery").data("prizeName");
+                $("#personal_stars").html($("#stars1").val()+"颗");
+                clearTimeout(lottery.timer);
+                lottery.prize = -1;
+                lottery.times = 0;
+                click = false;
+                //alert(lottery.index);
+                //alert(prize_name)//"中奖名称："+"前端中奖位置："+prize_site+"\n"+//+"\n中奖id："+prize_id
+                $("#myprizename1").html(prize_name);
+                $(".tip_lottery").show();
+
+            } else {
+                if (lottery.times < lottery.cycle) {
+                    lottery.speed -= 10;
+                } else if (lottery.times == lottery.cycle) {
+                    var index = Math.random() * (lottery.count) | 0;
+                    lottery.prize = index;
+                } else {
+                    if (lottery.times > lottery.cycle + 10 && ((lottery.prize == 0 && lottery.index == 7) || lottery.prize == lottery.index + 1)) {
+                        lottery.speed += 110;
+                    } else {
+                        lottery.speed += 20;
+                    }
+                }
+                if (lottery.speed < 40) {
+                    lottery.speed = 40;
+                }
+                lottery.roll();
+                lottery.timer = setTimeout(roll, lottery.speed);
+            }
+            return false;
+        }
+
+        var click = false;
+
+        $(function() {
+            lottery.init('lottery');
+            var notice ="确认用"+"{:C('award_score')}"+"积分抽奖吗";
+            $("#lottery .click").click(function() {
+                $.confirm(notice, function(){
+                    if (click) {
+                        return false;
+                    } else {
+                        lottery.speed = 100;
+                        $.ajax({
+                            url:"{:U('lottery')}",
+                            type:'post',
+                            dataType:'json',
+                            success:function(data){
+                                if(data.status){
+                                    var prizeSite = data.site;
+                                    $("#lottery").data("prizeSite",prizeSite);
+                                    $("#lottery").data("prizeId", data.rid);
+                                    $("#lottery").data("prizeName", data.prize_name);
+                                    roll();
+                                    click = true;
+                                }else{
+                                    $.alert(data.info);
+                                }
+                            },
+                            error:function(){
+                                $.alert('服务器连接失败，请稍后重试');
+                            }
+                        });
+                    }
+                });
+            });
+            $('.close,.tip_lottery').on('click',function(){
+                $('.tip_lottery').hide();
+            })
+        })
+    </script>
+</block>

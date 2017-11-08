@@ -1,0 +1,312 @@
+<extend name="$_home_public_layout"/>
+<block name="style">
+    <link rel="stylesheet" href="__HTML_CSS__/toutiao.css" />
+</block>
+<block name="header">
+    <div class="top_fixed">
+        <div class="plr10 bb bgf box search_header flex-col-center" style="background-color: #dd073a;height: 48px;line-height: 48px;">
+            <img src="__HTML_IMG__/toutiaologo.png" alt="" class="block" style="height: 20px;margin-right: 15px;">
+            <div class="bgf br5 flex-1 sH_main">
+                <a href="javascript:;" class="block col9 sH_search"><i class="icon_search"></i><notempty name="keywords">{$keywords}<else/>搜索本地招聘信息</notempty></a>
+            </div>
+        </div>
+        <notempty name="type">
+            <div class="plr10 bgf know-nav-wrap">
+                <div class="swiper-container bgf fs14 know-nav">
+                    <div class="swiper-wrapper">
+                        <a href="javascript:;" data-values="all" class="tc swiper-slide change  <empty name="keywords">on</empty>">全部</a>
+                        <volist name="type" id="list">
+                            <a href="javascript:;" data-values="{$list.id}" class="tc swiper-slide change">{$list.title}</a>
+                        </volist>
+                    </div>
+                </div>
+            </div>
+        </notempty>
+    </div>
+    <script src="__HTML_WEUI__/js/swiper.js"></script>
+    <script>
+        $(function(){
+            var num =parseInt('{:count($type)}');
+            if(num >= 6){
+              num = 6;
+            }
+            var _index = $('.know-nav .on').index();
+            var mySwiper1 = new Swiper('.know-nav',{
+                slidesPerView : num,
+                paginationClickable: true,
+                spaceBetween: 15,
+                freeMode: true,
+                initialSlide: _index
+            });
+        })
+    </script>
+</block>
+<block name="footer"></block>
+<block name="wrap">
+  <section class="main" style="padding-top: 88px;">
+      <notempty name="banner">
+          <div class="swiper-container banner">
+              <div class="swiper-wrapper">
+                  <foreach name="banner" item="list">
+                      <eq name="list['is_url']" value="0">
+                          <a href="{$list.url}" class="swiper-slide">
+                              <img src="{$list.cover_url}"  alt="" class="imgm">
+                          </a>
+                          <else/>
+                          <a href="{:U('Shop/Bulletin/adver_detail',['id'=>$list['id']])}" class="swiper-slide">
+                              <img src="{$list.cover_url}" alt="" class="imgm">
+                          </a>
+                      </eq>
+                  </foreach>
+              </div>
+              <div class="swiper-pagination"></div>
+          </div>
+          <script src="__HTML_WEUI__/js/swiper.js"></script>
+          <script>
+              $(function(){
+                  var swiperWidth = $(".banner").width();
+                  swiperHeight = swiperWidth * 0.5;
+                  $(".banner").css("height",swiperHeight);
+                  $(".banner").swiper({
+                      pagination: '.swiper-pagination',
+                      loop: true,
+                      autoplay: 3000,
+                      autoplayDisableOnInteraction : false,
+                  });
+              });
+          </script>
+      </notempty>
+
+      <!-- banner end -->
+    <ul class="bgf btb last list_headline ajax_list">
+    </ul>
+    <div id="loading" class="tc" style="display: none"></div>
+    <div class="tc nothing step0 step" style="display: none;">
+      <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+      <span class="mt10 fs14 col9">暂无数据</span>
+    </div>
+    <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+      <span class="col9">—— <i></i> ——</span>
+      <p class="fs12 col9">亲，没有更多了哦~</p>
+    </div>
+  </section>
+</block>
+<block name="extra">
+    <section class="search_wrap">
+        <form action="{:U('Shop/Bulletin/index')}" method="post" id="form1">
+            <dl class="table bb header">
+                <dd class="table-cell">
+                    <a href="javascript:;" class="back"></a>
+                </dd>
+                <dt class="table-cell">
+                    <input type="text" class="" value="{$keywords}" name="keywords" placeholder="请输入搜索的关键词" >
+                </dt>
+                <dd class="table-cell">
+                    <input type="submit" value="搜索">
+                </dd>
+            </dl>
+        </form>
+        <div class="p10 search_main">
+            <notempty name="cookie_key">
+                <div class="fs13 item-tit head_con">
+                    <i class="mr5 sm-1"></i>最近搜索
+                    <a href="javascript:;" class="fr del"><i class="sm-3"></i></a>
+                </div>
+                <div class="ptb10 item-con">
+                    <volist name="cookie_key" id="vo" offset="0" length='9'>
+                        <a href="javascript:;" class="btn-mini">{$vo}</a>
+                    </volist>
+                </div>
+            </notempty>
+            <notempty name="search">
+            <div class="fs13 item-tit">
+                <i class="mr5 sm-2"></i>热门搜索
+            </div>
+            <div class="ptb10 item-con">
+                <foreach name="search" item="list">
+                    <a href="javascript:;" class="btn-mini">{$list}</a>
+                </foreach>
+            </div>
+            </notempty>
+        </div>
+    </section>
+    <script>
+        var forum_type_id ='all';
+        /**
+         * 从列表页跳转详情页前，把已经分页加载的数据，页码，scrollTop存入sessionStorage
+         */
+        function setStorage(){
+            var listData =$('.ajax_list').html();
+            var aList = JSON.stringify(listData);//把json数据转为string字符串
+            var aParam = {
+                page: n,  //当前页码
+                top: $(window).scrollTop(),
+                'type_id':forum_type_id
+            };
+            aParam = JSON.stringify(aParam);
+            sessionStorage.setItem('aList_data', aList);//sessionStorage只能存储string字符串
+            sessionStorage.setItem('aParam_data', aParam);
+        }
+
+        /**
+         * 返回列表页时，取存储的sessionStorage数据，有，则取数据渲染页面，并滑到预期位置
+         * 删除sessionStorage存储的历史数据
+         */
+        function backList() {
+            var aList = JSON.parse(sessionStorage.getItem('aList_data'));
+            var aParam = JSON.parse(sessionStorage.getItem('aParam_data'));
+            // listData用于保存列表数据
+            // 页面加载时判断sessionStorage是否存有列表数据，有则赋值给listData，否则，listData取同步加载的第一页数据
+            window.listData = aList ? aList : '';
+            if (aList != null) {
+                // 加载列表
+                $('.ajax_list').html(aList);
+                // 更新加载状态
+                if (aParam.nomore) {
+                    $('#auditin').addClass('nomore');
+                    $('#J_noMore').removeClass('hide');
+                } else {
+                    $('#auditin').removeClass('nomore');
+                    $('#J_noMore').addClass('hide');
+                }
+
+                // 滚动到对应位置，并清除sessionStorage
+                document.body.scrollTop = aParam.top;
+                n = aParam.page;
+                forum_type_id = aParam.type_id;
+                $('.know-nav-wrap .change').each(function () {
+                    if ($(this).attr('data-values') == forum_type_id) {
+                        $(this).addClass('on').siblings().removeClass('on');
+                    }
+                });
+                sessionStorage.removeItem('aList_data');
+                sessionStorage.removeItem('aParam_data');
+            } else {
+                LoadList();
+            }
+        }
+        $(function(){
+            $('#form1').on('submit',function(){
+                var  keywords =$("input[name='keywords']").val();
+                if(keywords==''){
+                    $.alert('请输入关键字搜索');
+                    return false;
+                }
+            });
+            $(document).on("click",".go_die",function(){
+                var $_this =$(this);
+                var $href =($_this.attr('href'));
+                setStorage();
+                location.href($href);
+                return false;
+            });
+            $(document).on('click','.del',function(){
+                Cookies.set('yangsheng_home_news_search','');
+                $('.head_con').remove();
+            });
+            $(document).on('click','.btn-mini',function(){
+                var $this =$(this);
+                $("input[name='keywords']").val($this.html());
+            });
+            $(document).on('click','.search_header .sH_search',function() {
+                $(".wrap").hide();
+                $(".search_wrap").show();
+            });
+            $(document).on('click','.header .back',function() {
+                $(".wrap").show();
+                $(".search_wrap").hide();
+            });
+        });
+    </script>
+    <!-- 搜索定位弹窗 end -->
+</block>
+<block name="script">
+<script>
+  $(function(){
+
+    $(window).bind('scroll', function() {
+        checkload(); //ajax 下拉加载更多内容
+    });
+    backList();
+    //初始化加载数据
+    $('.change').on('click',function(){
+        var $this =$(this);
+        var data_value =$this.attr('data-values');
+        $this.addClass('on').siblings().removeClass('on');
+        ajax_data(data_value);
+    });
+  });
+
+
+  function  ajax_data(type){
+        temp =true;
+        n=1;
+        $('.ajax_list li').remove();
+        $('.nothing').hide();
+        $('.nomore').hide();
+        LoadList();
+  }
+  function checkload() {
+      if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+          $("#loading").show();
+          LoadList();
+      }
+  }
+
+  var n = 1;
+  var ispost = temp = true;
+  function LoadList() {
+    var keywords ="{$keywords}";
+    var type =$('.know-nav-wrap .on').attr('data-values');
+    forum_type_id =type;
+    if (ispost && temp) {
+        var url ="{:U('Shop/Bulletin/index')}";
+        temp = false;
+        $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            data: {n: n,type:type,keywords:keywords},
+            async: true,
+            timeout: 9999,
+            beforeSend:function(){
+              $.showLoading();
+            },
+            complete:function(){
+              $.hideLoading();
+            },
+            success: function(data) {
+                n++;
+                temp = true;
+                if(data.status){
+                    if(data.msg == ''){
+                        temp = false;
+                        $("#full").show();
+                    }else{
+                        $("#loading").hide();
+                        $(".ajax_list").append(data.msg);
+                        imgHeight2();
+                        temp =true;
+                        imglazyload();
+                        checkload();
+                    }
+                }else{
+                    temp = false;
+                    $("#loading").hide();
+                    $(".step0").show();
+                }
+                $(".lazy img").lazyload({  //图片延迟加载
+                    placeholder : "html/images/loading.gif",
+                    effect      : "fadeIn",
+                    threshold : 200
+                });
+            },
+            error:function(){
+            }
+        });
+    }else if(!ispost){
+        $("#full").show();
+    }
+  }
+</script>
+</block>

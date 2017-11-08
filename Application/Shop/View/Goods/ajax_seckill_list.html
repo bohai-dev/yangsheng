@@ -1,0 +1,56 @@
+<foreach name="info" item="value">
+    <eq name="value['sales_point']" value="100">
+      <li class="p10 bb">
+        <a href="{:U('Shop/Goods/detail',['id'=>$value['id']])}" class="table">
+          <div class="table-cell vm item-img">
+            <div class="br5 item-pic">
+              <img src="{:getpics($value['cover'])}" alt="" class="imgm">
+            </div>
+          </div>
+          <div class="table-cell vm pl10 item-con">
+            <p class="fs14 col3">{$value['title']}</p>
+            <div class="mt10">
+              <div class="colred">¥<em class="fs15 mr5">{$value['seckill_price']}</em><s class="col9">¥{$value['original_price']}</s></div>
+              <div class="col9 progress fs10">
+                <span class="fl">已抢{$value['sales_point']}%</span>
+                <p class="fl"><i style="width:{$value['sales_point']}%;"></i></p>
+              </div>
+            </div>
+          </div>
+        </a>
+        <div class="tr item-buy">
+          <a href="{:U('Shop/Goods/detail',['id'=>$value['id']])}" class="br3 tc fs14 colf bg0">已抢光</a>
+          <p class="fs12 col9">{$value['seckill_sales']}件抢光啦</p>
+        </div>
+      </li>
+    <else/>
+      <li class="p10 bb">
+        <a href="{:U('Shop/Goods/detail',['id'=>$value['id']])}" class="table">
+          <div class="table-cell vm item-img">
+            <div class="br5 item-pic">
+              <img src="{:getpics($value['cover'])}" alt="" class="imgm">
+            </div>
+          </div>
+          <div class="table-cell vm pl10 item-con">
+            <p class="fs14 col3">{$value['title']}</p>
+            <div class="mt10">
+              <div class="colred">¥<em class="fs15 mr5">{$value['seckill_price']}</em><s class="col9">¥{$value['original_price']}</s></div>
+              <div class="col9 progress fs10">
+                <span class="fl">已抢{$value['sales_point']}%</span>
+                <p class="fl"><i style="width:{$value['sales_point']}%;"></i></p>
+              </div>
+            </div>
+          </div>
+        </a>
+        <div class="tr item-buy">
+          <a href="{:U('Shop/Goods/detail',['id'=>$value['id']])}" class="br3 tc fs14 colf">去抢购</a>
+          <p class="fs12 col9">已抢{$value['seckill_sales']}件</p>
+        </div>
+      </li>
+    </eq>
+
+</foreach>
+
+
+
+

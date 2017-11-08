@@ -1,0 +1,116 @@
+<extend name="$_home_public_layout"/>
+
+<block name="footer">
+    <div class="foot_fixed buycart_submit">
+        <a href="javascript:;" class="btn-block bg_own">确定</a>
+    </div>
+</block>
+<block name="wrap">
+
+
+    <section class="main">
+        <p class="p10 bgf col0 fs13 tc">
+            设置发票信息
+        </p>
+
+        <p class="mt10 p10 bgf col0 fs13">
+            发票开立的金额为实际支付金额（订单总额扣除购物卡、抵用券优惠券、积分抵扣、返利等支付后的余额）。
+        </p>
+
+        <div class="mt10 pl10 bgf fs13 col0 bb">
+            <p class="ptb10 fs14 bb">发票类型</p>
+            <div class="ptb10 weui_cells_checkbox">
+                <label class="weui_check_label mr10 fs13" for="invoice1">
+                    <input type="radio" class="weui_check" name="receipt_type" value="1" id="invoice1" checked>
+                    <i class="weui_icon_checked"></i>
+                    <span>纸质发票</span>
+                </label>
+               <!--  <label class="weui_check_label mr10 fs13" for="invoice2">
+                    <input type="radio" class="weui_check" name="receipt_type" value="2" id="invoice2">
+                    <i class="weui_icon_checked"></i>
+                    <span>电子发票</span>
+                </label> -->
+            </div>
+        </div>
+        <div class="pl10 bgf fs13 col0 bb">
+            <p class="ptb10 fs14 bb">发票抬头</p>
+            <div class="ptb10 weui_cells_checkbox">
+                <label class="weui_check_label mr10 fs13" for="invoice-tit1">
+                    <input type="radio" class="weui_check" name="receipt_tit" value="1" id="invoice-tit1" checked>
+                    <i class="weui_icon_checked"></i>
+                    <span>个人</span>
+                </label>
+                <label class="weui_check_label mr10 fs13" for="invoice-tit2">
+                    <input type="radio" class="weui_check" name="receipt_tit" value="2" id="invoice-tit2">
+                    <i class="weui_icon_checked"></i>
+                    <span>公司</span>
+                </label>
+            </div>
+            <div class="form-group pb10 pr10">
+                <input type="text" class="form-unify" name="receipt_name" style="padding: 5px 10px;margin: 0;" placeholder="请输入抬头名称">
+            </div>
+         <!--    <p class="col0 fs13 pb10">艾玛莎基仅为所购买商品者提供机打纸质发票。公司抬头务必填写正确，艾玛莎基只提供次页面填写抬头名称为标准，不承担为客户造成的损失！</p> -->
+             <p class="col0 fs13 pb10">艾玛莎基网目前仅为所购买的商品提供纸质发票。请正确填写发票抬头</p>
+        </div>
+        <div class="mt10 pl10 bgf fs13 col0 bb">
+            <p class="ptb10 fs14 bb">发票内容</p>
+            <div class="ptb10 weui_cells_checkbox">
+                <label class="weui_check_label mr10 fs13" for="invoice-detail1">
+                    <input type="checkbox" class="weui_check" checked disabled name="invoice-detail" id="invoice-detail1">
+                    <i class="weui_icon_checked"></i>
+                    <span>明细</span>
+                </label>
+            </div>
+        </div>
+
+    </section>
+</block>
+<block name="script">
+    <script>
+
+        $(function(){
+
+            $('.btn-block').on('click',function(){
+                var receipt_type =$('input[name="receipt_type"]:checked').val();
+                var receipt_tit =$('input[name="receipt_tit"]:checked').val();
+                var receipt_name =$('input[name="receipt_name"]').val();
+                if(receipt_tit==2 &&  !receipt_name){
+                    $.alert('请填写发票抬头');
+                    return false;
+                }
+
+                Cookies.set('yangsheng_home_default_receipt_type',  receipt_type);
+                Cookies.set('yangsheng_home_default_receipt_tit',  receipt_tit);
+                Cookies.set('yangsheng_home_default_receipt_title',  receipt_name);
+                location.href= "{$from}";
+            });
+
+
+            check_receipt();
+            $(document).on('click','[name=receipt_tit]',function(){
+                check_receipt();
+            })
+
+            //为了 IOS
+            $(document).on('click','[name=receipt_name]',function(){
+                if($(this).attr('readonly')){
+                    $(this).blur();
+                }
+            })
+
+        })
+
+        function check_receipt()
+        {
+            var choose = $('[name=receipt_tit]:checked').val();
+            if(choose ==1){
+                $('[name=receipt_name]').blur();
+                $('[name=receipt_name]').val('个人');
+                $('[name=receipt_name]').attr('readonly','readonly');
+            }else{
+                $('[name=receipt_name]').val('');
+                $('[name=receipt_name]').removeAttr("readonly");
+            }
+        }
+    </script>
+</block>

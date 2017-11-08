@@ -1,0 +1,126 @@
+<volist name="lists" id="list">
+   <!-- <a href="{:U('Forum/Index/detail',array('id'=>$list['id']))}" class="p10 bb bgf go_die flex-box ">
+        <div class="flex-grow-0 mr10">
+            <div class="item-pic">
+                <img src="{$list.avatar}" alt="">
+            </div>
+        </div>
+        <div class="single-line fs13">
+            <eq name="list['top']" value="1">
+                <span class="flag-red">置顶</span>
+            </eq>
+            <eq name="list['classic']" value="1">
+                <span class="flag-green">精华</span>
+            </eq>
+            <foreach name="list['type_title']" item="vo">
+                <span class="flag-cyan">{$vo}</span>
+            </foreach>
+            <span> {$list.title}</span>
+        </div>
+    </a>-->
+    <li class="p10 bgf mb10">
+        <div class="flex-box item-head">
+            <div class="brarc pic-view"><img src="{$list.avatar}" alt="" class="imgm"></div>
+            <div class="flex-grow-1">
+                <span class="fs14 col3 blue">{$list.username}</span>
+                <eq name="list['top']" value="1">
+                    <i class="co-1">置顶</i>
+                </eq>
+                <eq name="list['classic']" value="1">
+                    <i class="co-2">精华</i>
+                </eq>
+            </div>
+        </div>
+        <a href="{:U('Forum/Index/detail',array('id'=>$list['id']))}" class="ptb10 item-main go_die">
+            <article class="fs14 col3 m-editor" style="line-height: 1.8em">
+                {:ReStrLen($list['content'],45,'...')}
+            </article>
+            <notempty name="list['pics']">
+                <gt name="list['pics']|count" value="1">
+                    <div class="weui-row item-show" style="max-height: none">
+                        <volist name="list['pics']" id="vo">
+                            <div class="weui-col-33 mt10 ">
+                                <div class="item-pic"><img src="{:getpics($vo)}" alt="" class="imgm"></div>
+                            </div>
+                        </volist>
+                        <if condition="($list['pics']%3 eq 2)">
+                            <div class="weui-col-33 ">
+
+                            </div>
+                        </if>
+                    </div>
+                    <else/>
+                    <div class="weui-row mt10 item-show" style="max-height:none;">
+                        <img src="{:getpics($list['pics'][0])}" alt="" class="block" style="max-height: 200px;max-width: 100%;" >
+                    </div>
+                </gt>
+            </notempty>
+        </a>
+        <div class="flex-box fs12 col3 item-foot">
+            <span class="flex-grow-1 col9">
+                <foreach name="list['type_title']" item="vo">
+                    {$vo}
+                </foreach> {:substr($list['time'],0,10)}</span>
+            <div class="clearfix">
+                <a href="javascript:;" class="it-1 like_num <eq name="list['like']" value="1">on</eq>" data-value="{$list.id}"><i class="it-1"></i><span>{$list.like_num}</span></a>
+                <a href="{:U('Forum/Index/comment_list',array('id'=>$list['id']))}" class="it-2 comment"  data-value="{$list.id}"><i class="it-2"></i><span class="comment_num">{$list.comment}</span></a>
+                <a href="javascript:;" class="it-4 show-confirm" data-value="{$list.id}"><i class="it-4"></i><span class="score">{$list.reward_num}</span></a>
+<!--                <a href="" class="it-1 on">380</a>
+                <a href="" class="it-2">18</a>
+                <a href="" class="it-4">18</a>-->
+            </div>
+        </div>
+    </li>
+</volist>
+<!--<li class="mt10 p10 btb bgf">
+        <div class="table item-head">
+            <div class="table-cell vm">
+                <div class="brarc item-pic"><img src="{$list.avatar}" alt="" class="imgm"></div>
+                <div class="ml10 item-info">
+                    <span class="fs14 col3 single-line">{$list.username}</span>
+                    <p class="fs12 col9 single-line">{$list.date_time}前</p>
+                </div>
+            </div>
+            <eq name="list['attention']" value="1">
+                <div class="table-cell vm item-like">
+                    <a href="javascript:;" data-value="{$list.uid}" class="fr fs12 btn-mini cancel btn-mini_solid">+ 已关注</a>
+                </div>
+            <else/>
+                <div class="table-cell vm item-like">
+                    <a href="javascript:;"  data-value="{$list.uid}" class="fr fs12 attention btn-mini">+ 关注</a>
+                </div>
+            </eq>
+        </div>
+        <div class="mt10 item-main">
+            <article class="fs12 col3 m-editor ptb5">
+                <a href="{:U('Forum/Index/detail',array('id'=>$list['id']))}"><p><foreach name="list['type_title']" item="vo"><span class="btn-d">{$vo}</span></foreach>{$list.title}</p></a>
+                <a href="javascript:;" class="m-more"><em class="ml10">全文</em></a>
+            </article>
+            <notempty name="list['pics']">
+                <gt name="list['pics']|count" value="1">
+                    <div class="weui-row   item-show">
+                        <foreach name="list['pics']" item="vo" >
+                            <div class="weui-col-33 mt10 ">
+                                <div class="item-pic"><img src="{:getpics($vo)}" alt="" class="imgm"></div>
+                            </div>
+                        </foreach>
+                        <if condition="(count($list['pics']) eq 2) or (count($list['pics']) eq 5) or (count($list['pics']) eq 8)">
+                            <div class="weui-col-33 ">
+
+                            </div>
+                        </if>
+                    </div>
+                    <else/>
+                    <div class="weui-row mt10 item-show">
+                        <img src="{:getpics($list['pics'][0])}" alt="" class="imgm">
+                    </div>
+                </gt>
+            </notempty>
+        </div>
+        <div class="table mt10 ba tc fs12 item-foot">
+            <a href="javascript:;" class="table-cell vm like_num <eq name="list['like']" value="1">on</eq>" data-value="{$list.id}"><i class="it-1"></i><span>{$list.like_num}</span></a>
+            <a href="{:U('Forum/Index/comment_list',array('id'=>$list['id']))}" class="table-cell vm comment"  data-value="{$list.id}"><i class="it-2"></i><span class="comment_num">{$list.comment}</span></a>
+            <a href="javascript:;" class="table-cell vm share"><i class="it-3"></i>分享</a>
+            <a href="javascript:;" class="table-cell vm show-confirm" data-value="{$list.id}"><i class="it-4"></i><span class="score">{$list.reward_num}</span></a>
+        </div>
+    </li>-->

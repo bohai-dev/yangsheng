@@ -1,0 +1,166 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <section class="main">
+
+        <p class="p10 tc fs13 col3">内容经审核选入精选，作者奖励<em class="col_own">100积分</em></p>
+        <form>
+            <ul class="btb bgf last fs14 col3 m-form">
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell m-form-tit">
+                        <span class="col_own">标　　题</span>
+                    </label>
+                    <div class="table-cell">
+                        <input type="text" class="form-unify" name="title" placeholder="6-30字，不能填写电话">
+                    </div>
+                </li>
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell m-form-tit">
+                        <span class="col_own">标　　签</span>
+                    </label>
+                    <div class="table-cell arrowR">
+                        <input type="text" class="form-unify"  unselectable="true"  onfocus="this.blur()"  readonly name="type" placeholder="请选择" id="opt-label" >
+                    </div>
+                    <input type="hidden" name="true_type" id="true_type" >
+                </li>
+                <li class="table plr10 bb">
+                    <label for="" class="table-cell vt m-form-tit">
+                        <span class="col_own">内　　容</span>
+                    </label>
+                    <div class="table-cell vt">
+                        <textarea name="content" cols="" rows="5" class="form-unify" placeholder="填写内容"></textarea>
+                    </div>
+                </li>
+            </ul>
+
+            <ul class="clearfix multi-upload">
+                <li class="mt10 mr10 bg_own item-hd">
+                    <i class=""></i>
+                    <p class="tc fs12 colf">添加照片</p>
+                </li>
+                <li class="mt10 ba br3 upload-file" style="cursor: pointer;">
+                    <input type="file" style="visibility: hidden">
+                </li>
+            </ul>
+        </form>
+
+        <div class="btn_submit">
+            <button class="bg_own btn-block">确认发布</button>
+        </div>
+
+
+
+    </section>
+    <!-- main主体 end -->
+</block>
+<block name="footer"></block>
+<block name="icon"></block>
+<block name="script">
+    <script>
+        // 上传图片
+        function uploadcard(localIds) {
+            var localId = localIds.pop();
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    var serverId = res.serverId; // 返回图片的服务器端ID
+                    afterUploadcard(serverId);
+                },
+                fail: function (res) {
+                    alert(JSON.stringify(res));
+                }
+            });
+        }
+
+        //上传图片回调
+        function afterUploadcard(serverId) {
+            $.post("{:U('Home/Weixin/download_img')}", {media_id: serverId}, function (data, textStatus, xhr) {
+                if (data.status) {
+                    if($(".multi-upload li").length>10){
+                        $.toast('最多传上传9张图片','text');
+                        return false;
+                    }else{
+                        $('.upload-file').before('<li class="mt10 mr10 ba br3 upload-img" style="background-image:url(' + data.src + ');"><input type="hidden" name="pics[]" value="' + data.id + '" /><a href="javascript:;" class="br50 upload-close"></a></li>');
+                        if (localIds.length > 0) {
+                            uploadcard(localIds);
+                        }
+                    }
+                } else {
+                    $.alert('上传失败，请重新上传资料');
+                }
+            }, 'json').error(function () {
+                $.alert('错误的数据')
+            });
+        }
+        $(function() {
+            $("#opt-label").select({
+                title: "请选择标签",
+                multi: false,
+                items: {$type},
+                onChange: function(d) {
+                    console.log(this, d);
+                }
+            });
+            wx.config({$jsapi});
+            $(document).on('click','.upload-file',function(){
+                if($(".multi-upload li").length>10){
+                    $.toast('最多传上传9张图片','text');
+                    return false;
+                }
+                wx.chooseImage({
+                    count: 9, // 默认9
+                    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                    success: function (res) {
+                        localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                        uploadcard(localIds);
+                    }
+                });
+            });
+            $(document).on('click','.upload-close',function(){
+                $(this).parent('li').remove();
+            });
+            $('.btn-block').on('click',function(){
+                if($("input[name='title']").val()==''){
+                    $.toptip('请输入标题');
+                    $("input[name='title']").focus();
+                    return false;
+                }
+                if($("input[name='type']").val()==''){
+                    $.toptip('请选择标签');
+                    $("input[name='type']").focus();
+                    return false;
+                }
+                if($("input[name='content']").val()==''){
+                    $.toptip('请输入内容');
+                    $("input[name='content']").focus();
+                    return false;
+                }
+               /* if($("input[name='pics[]']").val()=='' || $("input[name='pics[]']").val()==null){
+                    $.toptip('请上传图片');
+                    return false;
+                }*/
+                $('#true_type').val($("input[name='type']").data('values'));
+                $.ajax({
+                    url:"{:U('post')}",
+                    type:'post',
+                    dataType:'json',
+                    data:$('form').serialize(),
+                    success:function(data){
+                        if(data.status){
+                            $.alert(data.info,function(){
+                                location.href ="{:U('Forum/Index/index')}";
+                            });
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+
+        });
+    </script>
+</block>

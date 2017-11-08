@@ -1,0 +1,231 @@
+<case value="picture_crop">
+    <script src="__PUBLIC__/libs/layer/layer.js"></script>
+    <script src="__PUBLIC__/libs/cropper/cropper.js"></script>
+    <link rel="stylesheet" href="__PUBLIC__/libs/cropper/cropper.css">
+
+    <div class="form-group item_{$[type]form.name} {$[type]form.extra_class|default=''}">
+        <label class="left control-label">{$[type]form.title}：</label>
+        <div class="right row">
+            <div  id="[type]{$group_k|default=''}_upload_box_{$[type]k}" class="wu-example">
+                <!--用来存放文件信息-->
+                <div id="[type]{$group_k|default=''}_upload_list_{$[type]k}" class="uploader-list col-xs-12 img-box">
+                    <notempty name="[type]form.value">
+                        <div id="[type]{$group_k|default=''}_upload_preview_{$[type]k}" class="col-md-4 file-item thumbnail">
+                            <i class="fa fa-times-circle remove-picture"></i>
+                            <img src="{$[type]form.value|get_cover}" data-id="{$[type]form.value}">
+                        </div>
+                    <else />
+                        <div id="[type]{$group_k|default=''}_upload_preview_{$[type]k}" class="col-md-4 file-item thumbnail hidden">
+                            <i class="fa fa-times-circle remove-picture"></i>
+                            <img>
+                        </div>
+                    </notempty>
+                </div>
+                <div class="btns col-xs-12">
+                    <input type="hidden" id="[type]{$group_k|default=''}_upload_input_{$[type]k}" name="{$[type]form.name}" value="{$[type]form.value}">
+                    <div id="[type]{$group_k|default=''}_upload_{$[type]k}">上传图片</div>
+                    <button id="ctlBtn" class="btn btn-default hidden">开始上传</button>
+                    <notempty name="[type]form.tip">
+                        <span class="check-tips text-muted small">{$[type]form.tip}</span>
+                    </notempty>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                var postPicData = {};
+                $(function(){
+                    var uploader_[type]{$group_k|default=''}_upload_{$[type]k} = WebUploader.create({
+                        auto: true,                                                                    // 选完文件后，是否自动上传
+                        duplicate: true,                                                               // 同一文件是否可以重复上传
+                        swf: '__LYUI__/swf/uploader.swf',                                               // swf文件路径
+                        server: '{:U(MODULE_MARK."/Upload/upload", array("dir" => "image"))}',    // 文件接收服务端
+                        pick: '#[type]{$group_k|default=''}_upload_{$[type]k}',                                   // 选择文件的按钮
+                        resize: false,                                                                 // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+                        //fileNumLimit: 1,                                                             // 验证文件总数量, 超出则不允许加入队列
+                        fileSingleSizeLimit:<php> echo C('UPLOAD_FILE_SIZE') ? : 2; </php>*1024*1024,  // 验证单个文件大小是否超出限制, 超出则不允许加入队列
+                        // 文件过滤
+                        accept: {
+                            title: 'Images',
+                            extensions: 'gif,jpg,jpeg,bmp,png',
+                            mimeTypes: 'image/*'
+                        }
+                    });
+
+                    // 文件上传过程中创建进度条实时显示。
+                    uploader_[type]{$group_k|default=''}_upload_{$[type]k}.on( 'uploadProgress', function( file, percentage ) {
+                        $( '#[type]{$group_k|default=''}_upload_preview_{$[type]k}').removeClass('hidden');
+                        var $li = $( '#[type]{$group_k|default=''}_upload_preview_{$[type]k}'),
+                            $percent = $li.find('.progress .progress-bar');
+                        // 避免重复创建
+                        if ( !$percent.length ) {
+                            $percent = $('<div class="progress"><div class="progress-bar"></div></div>')
+                                    .appendTo( $li )
+                                    .find('.progress-bar');
+                        }
+                        $percent.css( 'width', percentage * 100 + '%' );
+                    });
+
+                    // 完成上传完了，成功或者失败，先删除进度条。
+                    uploader_[type]{$group_k|default=''}_upload_{$[type]k}.on( 'uploadComplete', function( file ) {
+                        $( '#[type]{$group_k|default=''}_upload_preview_{$[type]k}' ).find('.progress').remove();
+                    });
+
+                    // 文件上传成功，给item添加成功class, 用样式标记上传成功。
+                    uploader_[type]{$group_k|default=''}_upload_{$[type]k}.on( 'uploadSuccess', function( file , response) {
+                        $( '#[type]{$group_k|default=''}_upload_preview_{$[type]k}' ).addClass('upload-state-done');
+                        var response = response;
+                        if(response.status == 0){
+                            $.alertMessager(response.info);
+                        } else {
+                            $( '#[type]{$group_k|default=''}_upload_input_{$[type]k}' ).attr('value', response.id);
+                            $( '#[type]{$group_k|default=''}_upload_preview_{$[type]k} img').attr('src', response.url);
+                            $( '#[type]{$group_k|default=''}_upload_preview_{$[type]k} img').attr('data-id', response.id);
+
+                            //在这里面输入任何合法的js语句
+                            layer.open({
+                              type: 1, //page层
+                              // area: ['60%', '80%'],
+                              area: ['800px', '442px'],
+                              title: '图片裁剪',
+                              shade: 0.6, //遮罩透明度
+                              moveType: 1, //拖拽风格，0是默认，1是传统拖动
+                              shift: -1, //0-6的动画形式，-1不开启
+                              content: $('#crop_win').text()
+                            });
+                            var $preview = $('#[type]{$group_k|default=''}_upload_crop_{$[type]k}');
+                            $preview.attr('src', response.url).data('id', response.id);
+                            if ( {$[type]form.options.aspectRatio} == 1 ) {
+                            	// 判断裁剪比例为1:1时，给第二个预览添加圆角属性，用于预览圆形头像。
+                            	$(".preview-md").addClass("br50");
+                            }
+                            var cropper = $preview.cropper({
+                              aspectRatio: {$[type]form.options.aspectRatio|default=1},
+                              viewMode: 2,
+                              preview: '.img-preview', // 裁剪预览 2016-10-27 pangjian
+                              crop: function(e) {
+                                // Output the result data for cropping image.
+                                postPicData = {
+                                    x:e.x,
+                                    y:e.y,
+                                    height:e.height,
+                                    width: e.width,
+                                    rotate:e.rotate,
+                                    scaleX:e.scaleX,
+                                    scaleY:e.scaleY,
+                                };
+                                // console.log(postPicData);
+                              }
+                            });
+                            // 重置
+                            $(document).on('click','#resetImage',function () {
+                            	$preview.cropper('reset');
+                            })
+
+                            // 确定裁剪按钮
+                            $(document).on('click','#[type]{$group_k|default=''}_upload_crop_{$[type]k}_btn',function () {
+                                console.log(postPicData);
+                                $.ajax({
+                                    url: '{:U(MODULE_MARK."/Upload/crop", array("dir" => "image"))}',
+                                    type: 'POST',
+                                    dataType: 'json',
+                                    data: {
+                                        id: $preview.data('id'),
+                                        data:postPicData,
+                                        targetWidth:{$[type]form.options.targetWidth|default=180},
+                                        targetHeight:{$[type]form.options.targetHeight|default=180}
+                                    },
+                                })
+                                .done(function(data) {
+                                    if(data.status){
+                                        $( '#[type]{$group_k|default=''}_upload_input_{$[type]k}' ).attr('value', data.id);
+                                        $( '#[type]{$group_k|default=''}_upload_preview_{$[type]k} img').attr('src', data.path);
+                                        $( '#[type]{$group_k|default=''}_upload_preview_{$[type]k} img').attr('data-id', data.id);
+                                        layer.closeAll();
+                                    }else{
+                                        $.alertMessager(data.info);
+                                    }
+                                    console.log("success");
+                                })
+                                .fail(function(data) {
+                                    $.alertMessager('数据格式不对'+data);
+                                    console.log("error");
+                                })
+                                .always(function(data) {
+                                    console.log(data);
+                                    console.log("complete");
+                                });
+
+                            });
+                        }
+                    });
+
+                    // 文件上传失败，显示上传出错。
+                    uploader_[type]{$group_k|default=''}_upload_{$[type]k}.on( 'uploadError', function( file ) {
+                        $.alertMessager('error');
+                        var $li = $( '#[type]{$group_k|default=''}_upload_preview_{$[type]k}'),
+                            $error = $li.find('div.error');
+                        // 避免重复创建
+                        if ( !$error.length ) {
+                            $error = $('<div class="error"></div>').appendTo( $li );
+                        }
+                        $error.text('上传失败');
+                    });
+
+                    // 删除图片
+                    $(document).on('click', '#[type]{$group_k|default=''}_upload_list_{$[type]k} .remove-picture', function() {
+                        $( '#[type]{$group_k|default=''}_upload_input_{$[type]k}' ).val('') //删除后覆盖原input的值为空
+                        $( '#[type]{$group_k|default=''}_upload_preview_{$[type]k}').addClass('hidden');
+                    });
+                });
+            </script>
+        </div>
+    </div>
+
+
+	<style>
+	.br3{ border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px; -o-border-radius:3px; }
+	.br50{ border-radius:50%; -webkit-border-radius:50%; -moz-border-radius:50%; -o-border-radius:50%; }
+	.box-b{ -moz-box-sizing:border-box; -webkit-box-sizing:border-box; -o-box-sizing:border-box; -ms-box-sizing:border-box; box-sizing:border-box; }
+	.dome-row{ height: 100%; margin: 0 auto; padding: 10px; position: relative; }
+	.dome-row .col-lt{ padding-right: 245px; height: 100%; }
+	.dome-row .col-rt{ width: 235px; padding-left: 10px; position: absolute; top: 10px; bottom: 10px; right: 10px; }
+	.cropper-container{ width: 100%; height: 100%; }
+	.cropper-preview{ margin-left: -10px; }
+	.cropper-preview .img-preview{ float: left; width: 100%; background-color: #f7f7f7; border: 1px #e3e3e3 solid; text-align: center; margin-left: 10px; margin-bottom: 10px; overflow: hidden; }
+	.cropper-preview .img-preview img{ max-width: 100%; }
+	.cropper-preview .preview-lg { width: 235px; height: 140px; }
+	.cropper-preview .preview-md { width: 150px; height: 85px; }
+	.cropper-preview .preview-sm { width: 75px; height: 42px; }
+	.ImgUpload-label{ display: block; margin-top: 20px; }
+	.ImgUpload-file{ position: absolute; left: -9999em; }
+	.ImgUpload-label span{ display: block; padding: 4px 10px; text-align: center; font-size: 15px; line-height: 2em; color: #fff; background-color: #3EA9F5; border: 1px #269ef4 solid; }
+	.ImgUpload-label.cropper-reset span{ background-color: #ababab; border-color: #929292; }
+	</style>
+    <script type="text" id="crop_win">
+	    <div class="dome-row">
+			<div class="col-lt">
+				<div class="cropper-container">
+					<img id="[type]{$group_k|default=''}_upload_crop_{$[type]k}" src="" />
+				</div>
+			</div>
+			<div class="col-rt">
+				<div class="clearfix cropper-preview">
+					<div class="box-b img-preview preview-lg"></div>
+					<div class="box-b img-preview preview-md"></div>
+					<div class="box-b img-preview preview-sm"></div>
+				</div>
+				<div class="">
+					<label class="ImgUpload-label" for="[type]{$group_k|default=''}_upload_crop_{$[type]k}_btn">
+						<input class="ImgUpload-file" id="[type]{$group_k|default=''}_upload_crop_{$[type]k}_btn" />
+						<span class="br3">裁　剪</span>
+					</label>
+					<label class="ImgUpload-label cropper-reset" for="resetImage">
+						<input class="ImgUpload-file" id="resetImage" />
+						<span class="br3">重　置</span>
+					</label>
+				</div>
+			</div>
+		</div>
+	</script>
+</case>
+

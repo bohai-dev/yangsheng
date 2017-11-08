@@ -1,0 +1,135 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <form action="">
+        <ul class="bgf fs14 col3 user_data">
+            <li class="table plr10 bb">
+                <div class="table-cell col6 item-lt">头　　像</div>
+                <div class="table-cell">
+                    <a href="javascript:;" class="block ptb10 upload-file ">
+                        <div class="brarc item-pic">
+                            <img src="{:getpics($user['avatar'])}" alt="" class="imgm">
+                            <input name="avatar" type="hidden" value="{$user.avatar}">
+                        </div>
+                    </a>
+                </div>
+            </li>
+            <li class="table plr10 bb">
+                <div class="table-cell col6 item-lt">用户昵称</div>
+                <div class="table-cell">
+                    <input name="nickname" type="text"  value="{$user.nickname}"class="form-unify" placeholder="请输入昵称">
+                </div>
+            </li>
+            <li class="table plr10 bb">
+                <div class="table-cell col6 item-lt">联系电话</div>
+                <div class="table-cell">
+                    <input name="mobile" type="text" class="form-unify" placeholder="" value="{$user.mobile}">
+                </div>
+            </li>
+            <li class="table plr10 bb">
+                <div class="table-cell col6 item-lt">密码修改</div>
+                <div class="table-cell">
+                    <input name="password" type="password" class="form-unify"  placeholder="请重新输入密码">
+                </div>
+            </li>
+            <li class="table plr10 bb">
+                <div class="table-cell">
+                    <a href="{:U('Member/address')}" class="block col6 arrowR" style="padding:13px 0;">地址管理</a>
+                </div>
+            </li>
+        </ul>
+        <!-- 个人资料填写 end -->
+        <div class="p10 btn_submit">
+            <button type="button" class="bg_own br5 sub btn-block">确认修改</button>
+        </div>
+        <!-- 表单提交 end -->
+    </form>
+
+</block>
+<block name="footer"></block>
+<block name="script">
+    <script>
+        // 上传图片
+        function uploadcard(localIds,num) {
+            var localId = localIds.pop();
+            wx.uploadImage({
+                localId: localId, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    var serverId = res.serverId; // 返回图片的服务器端ID
+                    afterUploadcard(serverId,num);
+                },
+                fail: function (res) {
+                    alert(JSON.stringify(res));
+                }
+            });
+        }
+
+        //上传图片回调
+        function afterUploadcard(serverId,num) {
+            $.post("{:U('Home/Weixin/download_img')}", {media_id: serverId}, function (data, textStatus, xhr) {
+                if (data.status) {
+                    $(".item-pic img").attr('src',data.src);
+                    $('input[name="avatar"]').val(data.id);
+                    if (localIds.length > 0) {
+                        uploadcer(localIds);
+                    }
+                    $.alert('上传成功！');
+                } else {
+                    $.alert('上传失败，请重新上传资料');
+                }
+            }, 'json').error(function () {
+                $.alert('错误的数据')
+            });
+        }
+        $(function(){
+            wx.config({$jsapi});
+            $(document).on('click','.upload-file',function(){
+                wx.chooseImage({
+                    count: 1, // 默认9
+                    sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                    sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                    success: function (res) {
+                        localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                        uploadcard(localIds,0);
+                    }
+                });
+            });
+            $('.sub').on('click',function(){
+                var nickname = $("input[name='nickname']").val();
+                var mobile = $("input[name='mobile']").val();
+                if(!nickname){
+                    $.toast("请完善您的姓名！", "text");
+                    return false;
+                }
+                if(!mobile){
+                    $.toast("请输入手机号码！", "text");
+                    return false;
+                }
+                if(!mobile.match(/^1[3|4|5|7|8][0-9]{9}$/)) {
+                    $.toast("手机号码格式不正确！", "text");
+                    return false;
+                }
+                $.ajax({
+                    url:"{:U('Member/setting')}",
+                    dataType:'json',
+                    type:'post',
+                    data:$('form').serialize(),
+                    success:function(data){
+                        if(data.status){
+                            setTimeout(function(){
+                                $.toast("操作成功", function(){
+                                    location.href = "{:U('index')}";
+                                });
+                            }, 0);
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+                        $.alert('服务器连接失败');
+                    }
+                });
+            });
+        });
+    </script>
+</block>

@@ -1,0 +1,57 @@
+<extend name="$_home_public_layout"/>
+<block name="footer">
+
+</block>
+<block name="wrap">
+        <ul class="fs14 col3 item-form">
+            <li class="p10 colred">*提现到微信钱包</li>
+            <li class="table box-b plr10 bgf">
+                <div class="table-cell vm col6 w80">提现金额</div>
+                <div class="table-cell vm">
+                    <input name="money" type="number" class="" placeholder="本次最多可提现¥{$user.money}元" style="border: none;padding:13px 10px;">
+                </div>
+            </li>
+        </ul>
+
+        <div class="mt10 p10">
+            <div class="fs15 col6">财富变现规则：</div>
+            <article class="mt5 fs14 col9">
+                <p>1. 设置提现{:C('least_money')}元起</p>
+                <p>2. 为了您的资金安全，提现资金24小时内审核到账</p>
+            </article>
+        </div>
+
+        <div class="p10 btn_submit">
+            <button type="button" class="bg_own br5 btn-block">立即提现</button>
+        </div>
+
+</block>
+<block name="script">
+    <script>
+        $(function(){
+            $('.btn-block').on('click',function(){
+                if($('input[name="money"]').val()==''){
+                    $.toptip('请输入提现金额');
+                    return false;
+                }
+                $.ajax({
+                    url:"{:U('apply')}",
+                    dataType:'json',
+                    type:'post',
+                    data:{money:$('input[name="money"]').val()},
+                    success:function(data){
+                        if(data.status){
+                            $.alert(data.info,function(){
+                                location.href ="{:U('Member/commission')}";
+                            });
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+                    }
+                });
+            });
+        });
+    </script>
+</block>

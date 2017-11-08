@@ -1,0 +1,571 @@
+<extend name="$_home_public_layout"/>
+<block name="footer">
+    <div class="foot_fixed">
+        <div class="ptb10 bt" style="background-color: #eaedf1;">
+            <a href="javascript:;" class="replay-btn bgf tc fs13 col0 " style="width: 150px;border-radius: 6px;border:1px solid #e1e1e1;display: block;margin-right: auto;margin-left: auto;padding:6px 0;">发表评论</a>
+        </div>
+    </div>
+    <!--  -->
+</block>
+<block name="wrap">
+    <section class="main">
+
+        <ul class="forum_list" style="margin-top: -11px;">
+            <!--<li class="mt10 p10 bt">
+                <div class="table item-head">
+                    <div class="table-cell vm">
+                        <a href="{:U('personal_list',['id'=>$detail['uid']])}" class="brarc item-pic"><img src="{$detail.avatar}" alt="" class="imgm"></a>
+                        <div class="ml10 item-info">
+                            <a href="{:U('personal_list',['id'=>$detail['uid']])}" class="fs14 blue single-line">{$detail.nickname}</a>
+                            <p class="fs12 col9 single-line mt5">{:date('m-d H:i',strtotime($detail['time']))}</p>
+                        </div>
+                    </div>
+                    <div class="table-cell vm item-like">
+                        <eq name="detail['attention']" value="1">
+                            <a href="javascript:;" data-value="{$detail.uid}" class="fr fs12 follow-btn active cancel">+ 已关注</a>
+                            <else/>
+                            <a href="javascript:;" data-value="{$detail.uid}" class="fr fs12 follow-btn attention">+ 关注</a>
+                        </eq>
+                        &lt;!&ndash; <a href="" class="fr fs12 btn-mini btn-mini_solid">+ 已关注</a> &ndash;&gt;
+                    </div>
+                </div>
+                <div class="mt10 item-main">
+                    <article class="fs13 col3 m-editor">
+                        <div class="tc fs15  col0">{$detail.title}</div>
+                        <p>{$detail.content}</p>
+                    </article>
+                    <notempty name="detail['pics']">
+                       &lt;!&ndash; <gt name="detail['pics']|count" value="1">
+                            <div class="weui-row   item-show">
+                                <foreach name="detail['pics']" item="vo" >
+                                    <div class="weui-col-33 mt10 ">
+                                        <div class="item-pic"><img src="{:getpics($vo)}" alt="" class="imgm"></div>
+                                    </div>
+                                </foreach>
+                                <if condition="(count($detail['pics']) eq 2) or (count($detail['pics']) eq 5) or (count($detail['pics']) eq 8)">
+                                    <div class="weui-col-33 ">
+
+                                    </div>
+                                </if>
+                            </div>
+                            <else/>
+                            <div class="weui-row mt10 item-show">
+                                <img src="{:getpics($detail['pics'][0])}" alt="" class="imgm">
+                            </div>
+                        </gt>&ndash;&gt;
+                        <div class="weui-row mt10 item-show">
+                            <foreach name="detail['pics']" item="vo" >
+                                <img src="{:getpics($vo)}" alt="" class="imgm mb10">
+                            </foreach>
+                        </div>
+                    </notempty>
+                </div>
+            </li>-->
+            <li class="p10 bgf">
+                <div class="item-main">
+                    <article class="fs13 col3 m-editor">
+                        <div class="tc fs16 col0 mt20" style="font-weight:bold">{$detail.title}</div>
+                        <p class="col9 fs10 tc mt5">{:date('Y-m-d H:i',strtotime($detail['time']))}</p>
+                        <div class="mt20 flex-box flex-center ">
+                            <div class="brarc item-pic" style="width:25px;height: 25px;margin-right: 8px;"><img src="{$detail.avatar}" alt="" class="imgm"></div>
+                            <div class="item-info mr10">
+                                <a href="{:U('personal_list',['id'=>$detail['uid']])}">
+                                    <span class="fs13 col3 single-line">{$detail.nickname}</span>
+                                </a>
+                            </div>
+                            <div class="item-like block">
+                                <eq name="detail['attention']" value="1">
+                                     <a href="javascript:;"  data-value="{$detail.uid}"  class="fs12 follow-btn active cancel" style="display: block;padding: 4px 10px 4px 4px;border-radius:2px;">+ 已关注</a>
+                                <else/>
+                                    <a href="javascript:;"  data-value="{$detail.uid}"  class="fs12 follow-btn  attention" style="display: block;padding: 4px 10px 4px 4px;border-radius:2px;">+ 关注</a>
+                                </eq>
+                                <!-- <a href="" class="fs12 follow-btn" style="display: block">+ 关注</a> -->
+                            </div>
+                        </div>
+                        <div class="mt20 fs14" style="line-height: 1.8em">{$detail.content}</div>
+                    </article>
+                    <notempty name="detail['pics']">
+                    <div class="weui-row mt10 item-show">
+                        <foreach name="detail['pics']" item="vo" >
+                            <img src="{:getpics($vo)}" alt="" class="imgm" style="margin-bottom: 10px;">
+                        </foreach>
+                    </div>
+                    </notempty>
+                </div>
+            </li>
+            <li class="bgf">
+                <!-- <div class="table bgf btb tc fs12 item-foot" style="background: #fff">
+                    <a href="" class="table-cell vm"><i class="it-1"></i>380</a>
+                    <a href="" class="table-cell vm"><i class="it-2"></i>18</a>
+                    <a href="" class="table-cell vm"><i class="it-3"></i>分享</a>
+                    <a href="" class="table-cell vm"><i class="it-4"></i>18</a>
+                </div> -->
+                <div class="p10 bt bgf flex-box flex-between item-foot" style="background-color: #fff">
+                    <div class="col1 ">
+                        阅读  {$detail.read_num}
+                    </div>
+                    <div>
+                        <span class="mr20 "><span class="mr5">点赞</span><em  style="cursor: pointer" class="Icon-up1 like_num <eq name="detail['like']" value="1">on</eq>"  data-value="{$detail.id}"></em><span class="score">{$detail.like_num}</span></span>
+                        <span><span class="mr5"><a href="{:U('Forum/Index/award_list',array('id'=>$detail['id']))}">打赏</a></span><i style="cursor: pointer" class="it-4 show-confirm" data-value="{$detail.id}"></i>{$detail.reward_num}</span>
+                    </div>
+                </div>
+            </li>
+           <!-- <li class="bgf">
+                <div class="table bgf btb tc fs12 item-foot" style="background: #fff">
+                    <a href="javascript:;" class="table-cell vm like_num <eq name="detail['like']" value="1">on</eq>"  data-value="{$detail.id}"><i class="it-1"></i><span>{$detail.like_num}</span></a>
+                    <a href="{:U('Forum/Index/comment_list',array('id'=>$detail['id']))}" class="table-cell vm"><i class="it-2"></i>{$detail.comment}</a>
+                    <a href="javascript:;" class="table-cell vm share"><i class="it-3"></i>分享</a>
+                    <a href="javascript:;" class="table-cell vm show-confirm" data-value="{$detail.id}"><i class="it-4"></i><span class="score">{$detail.reward_num}</span></a>
+                </div>
+            </li>-->
+        </ul>
+       <!-- <notempty name="comment">
+            <div>
+                <p class="fs13 col6 p10">热门评论</p>
+            </div>
+            <div class="bgf pt10 detail_eval">
+                <ul class="list_eval">
+                    <foreach name="comment" item="list">
+                        <li class="p10 bb">
+                            <div class="clearfix item-hd">
+                                <div class="fl ba brarc item-pic"><img src="{:getpics(get_user_info($list['uid'],'admin_user','avatar'))}" alt="" class="imgm"></div>
+                                <span class="fl plr10">{:get_user_info($list['uid'],'admin_user','nickname')}</span>
+                                <p style="cursor: pointer" class="fr col6 up1 comment_like <eq name="list['like']" value="1">on</eq>" data-value="{$list.id}"><i class="Icon-up1"></i><span>{$list.like_num}</span></p>
+                            </div>
+                            <div class="mt5 fs14 col3 item-bd">
+                                <p>{$list.comment}</p>
+                            </div>
+                            <p class="fs12 col9">{:date('m-d h:i',(strtotime($list['comment_time'])))}</p>
+                        </li>
+                    </foreach>
+                </ul>
+                <a href="javascript:;" class="block p5 tc fs13 col3 show_all">查看全部评论</a>
+            </div>
+        </notempty>
+        <script>
+           /* $(".up1").on("click",function(){
+                $(this).addClass('on');
+            })*/
+        </script>-->
+        <div class="detail_eval">
+            <!-- <p class="fs15 col0 tc pt10 subtitle">热门评论</p> -->
+            <ul class="list_eval">
+                <li class="mt10 pl10 bgf bb">
+                    <a href="javascript:;" data-values="1" class="thr-title fs13 mr10 wocao">评论<span class="text_comment_num">{:count($comment)}</span></a>
+                    <a href="javascript:;" data-values="2" class="thr-title fs13 active wocao">赞<span class="text_like_num">{$detail.like_num}</span></a>
+                </li>
+                <notempty name="comment" item="list">
+                    <foreach name="comment" item="list">
+                        <li class="p10 bb bgf list_comment">
+                            <div class="clearfix item-hd">
+                                <a href="{:U('personal_list',['id'=>$list['uid']])}" class="fl ba brarc item-pic"><img src="{:getpics(get_user_info($list['uid'],'admin_user','avatar'))}" alt="" class="imgm"></a>
+                                <a href="{:U('personal_list',['id'=>$list['uid']])}" class="blue fl plr10">{:get_user_info($list['uid'],'admin_user','nickname')}</a>
+                            </div>
+                            <div class="mt5 fs14 col3 item-bd" style="padding-left:40px; ">
+                                <div>{$list.comment}</div>
+                                <div class="flex-box flex-between">
+                                    <p class="mt5 fs12 col9">{:date('m-d H:i',(strtotime($list['comment_time'])))} <a href="{:U('forum_comment_list',['id'=>$list['id']])}" class="ml10 col0"><gt name="list['num']" value="0">{$list.num}条回复</gt></a></p>
+                                    <div class="flex-box">
+                                        <eq name="userInfo['id']" value="$list['uid']"><i class="del-comment mr10" data-values="{$list['id']}" style="cursor: pointer"></i></eq>
+                                        <p  style="cursor: pointer"  data-value="{$list.id}" class="fr mr10 col6 up1 comment_like <eq name="list['like']" value="1">on</eq>"><i class="Icon-up1"></i><span>{$list.like_num}</span></p>
+                                        <a href="javascript:;" class="col6 rep-btn" data-values="{$list['id']}" data-name="{$list['nickname']}" ><i class="Icon-rep" ></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </foreach>
+                        <a href="javascript:;" class="block p10 tc fs13 col9 total_comment">已显示全部评论</a>
+                    <else/>
+                    <div class="p10 col9 fs13 tc nomore list_comment">
+                        <span class="col9">—— <i></i> ——</span>
+                        <p class="fs12 col9">暂无评论</p>
+                    </div>
+                </notempty>
+                <notempty name="forum_like">
+                    <foreach name="forum_like" item="list" >
+                        <li class="flex-box flex-between bb bgf box-b p10 list_forum" style="display: none">
+                            <a href="{:U('personal_list',['id'=>$list['uid']])}" class="flex-box">
+                                <p class="item-pic br50 mr10" style="width: 40px;height: 40px;">
+                                    <img src="{:getpics(get_user_info($list['uid'],'admin_user','avatar'))}" alt="" class="imgm">
+                                </p>
+								<span class="col3 fs13">
+									{:get_user_info($list['uid'],'admin_user','nickname')}
+								</span>
+                            </a>
+                        </li>
+                    </foreach>
+                    <else/>
+                    <div class="p10 col9 fs13 tc nomore list_forum" style="display: none">
+                        <span class="col9">—— <i></i> ——</span>
+                        <p class="fs12 col9">暂无点赞</p>
+                    </div>
+                </notempty>
+            </ul>
+        </div>
+        <!-- 商品评价 end -->
+        <script>
+            $(function() {
+                $(".forum_list .item-pic").each(function(){
+                    var w = $(this).width();
+                    $(this).css({"height": w});
+                });
+            });
+        </script>
+        <div class="share_main" style="cursor: pointer"></div>
+
+    </section>
+</block>
+<block name="extra">
+    <section class="reply_wrap">
+        <dl class="table bgf header">
+            <dd class="table-cell vm">
+                <a href="javascript:;" class="back"></a>
+            </dd>
+            <dt class="table-cell vm">
+            <p class="tc">评论</p>
+            </dt>
+            <dd class="table-cell vm"></dd>
+        </dl>
+
+        <form action="">
+            <div class="p10 btb bgf fs14 col6 relative">
+                <textarea name="content" cols="" rows="5" class="form-unify" placeholder="请填写您的评论" id="textArea" onkeyup="words_deal();"></textarea>
+                <span class="fs12 col9 textNum"><em>0</em>/100</span>
+            </div>
+
+            <div class="mt20 p10">
+                <button type="button" class="bg_own br5 btn-block">确认发布</button>
+            </div>
+        </form>
+    </section>
+
+</block>
+<block name="icon"></block>
+
+<block name="script">
+    <script>
+        // 微信分享
+        wx.config({$jsapi});
+        wx.ready(function() {
+            //分享到朋友圈
+            wx.onMenuShareTimeline({
+                title: '{$wechatShare["title"]}',
+                link: '{$wechatShare["link"]}',
+                imgUrl: '{$wechatShare["imgUrl"]}',
+                success: function () {},
+                cancel: function () {}
+            });
+            //分享给朋友
+            wx.onMenuShareAppMessage({
+                title: '{$wechatShare["title"]}',
+                desc: '{$wechatShare["desc"]}',
+                link: '{$wechatShare["link"]}',
+                imgUrl: '{$wechatShare["imgUrl"]}',
+                type: '{$wechatShare["type"]}',
+                dataUrl: "",
+                success: function () {},
+                cancel: function () {}
+            });
+            //分享到QQ
+            wx.onMenuShareQQ({
+                title: '{$wechatShare["title"]}',
+                desc: '{$wechatShare["desc"]}',
+                link: '{$wechatShare["link"]}',
+                imgUrl: '{$wechatShare["imgUrl"]}',
+                success: function () {},
+                cancel: function () {}
+            });
+            //分享到腾讯微博
+            wx.onMenuShareWeibo({
+                title: '{$wechatShare["title"]}',
+                desc: '{$wechatShare["desc"]}',
+                link: '{$wechatShare["link"]}',
+                imgUrl: '{$wechatShare["imgUrl"]}',
+                success: function () {},
+                cancel: function () {}
+            });
+        });
+        var comment_num =0;
+        var scroll_top=0;
+        function check_login(){
+            if({$uid} == 0){
+                Cookies.set('{$Think.const.ENV_PRE}Home_before_reg', '{:get_url()}');
+                location.href = '{:U('Home/Member/login')}';
+                return false;
+            }else{
+                return true;
+            }
+        }
+        $(function(){
+
+            $(document).scrollTop({$scroll_top|default=0});
+
+            $(window).scroll(function () {
+                scroll_top = $(window).scrollTop(); //这个方法是当前滚动条滚动的距离
+            });
+
+            $('.wocao').on('click',function(){
+                var $this =$(this);
+                $value =$this.attr('data-values');
+
+                if($value==1){
+                    $this.removeClass('active').siblings().addClass('active');
+                    $('ul .list_forum').hide();
+                    $('ul .list_comment').show();
+                    $('.total_comment').show();
+                }else{
+                    $this.removeClass('active').siblings().addClass('active');
+                    $('ul .list_comment').hide();
+                    $('.total_comment').hide();
+                    $('ul .list_forum').show();
+                }
+            });
+            $(document).on('click','.del-comment',function(){
+                check_login();
+                var $this =$(this);
+                $.confirm('确定删除评论吗',function(){
+                    $.ajax({
+                        url:"{:U('del_comment')}",
+                        type:'post',
+                        dataType:'json',
+                        async: false,
+                        data:{id:$this.attr('data-values')},
+                        success:function(data){
+                            if(data.status){
+                                $this.closest('li').remove();
+                            }else{
+                                $.alert(data.info);
+                            }
+                        },
+                        error:function(){
+
+                        }
+                    });
+                })
+            });
+            $(document).on("click",".share",function() {
+                $(".share_main").show();
+            });
+            $(document).on("click",".share_main",function() {
+                $(".share_main").hide();
+            });
+            $(document).on("click",".comment_like",function(){
+                check_login();
+                var $this =$(this);
+                if(!$this.hasClass("on")){
+                    var type =1;
+                }else{
+                    var type =2;
+                }
+                $.ajax({
+                    url:"{:U('comment_like')}",
+                    type:'post',
+                    dataType:'json',
+                    async: false,
+                    data:{id:$this.attr('data-value'),type:type},
+                    success:function(data){
+                        if(data.status){
+                            if(type==1){
+                                $this.addClass('on');
+                                var num =parseInt(parseInt($this.children('span').html())+1);
+                                $this.html('<i class="Icon-up1"></i><span>'+num+'</span>');
+                            }else{
+                                $this.removeClass('on');
+                                var num =parseInt(parseInt($this.children('span').html())-1);
+                                $this.html('<i class="Icon-up1"></i><span>'+num+'</span>');
+                            }
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+            // 取消关注
+            $(document).on('click','.cancel',function(){
+                check_login();
+                var $this =$(this);
+                $.ajax({
+                    url:"{:U('attention')}",
+                    type:'post',
+                    dataType:'json',
+                    data:{attend_uid:$this.attr('data-value'),type:2},
+                    success:function(data){
+                        if(data.status){
+                            $this.removeClass('active');
+                            $this.html('+ 关注');
+                            $this.removeClass('cancel');
+                            $this.addClass('attention');
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+            //回复
+            $(document).on('click','.rep-btn',function() {
+                var res =check_login();
+                if(!res){
+                    return false;
+                }
+                var $this =$(this);
+                comment_num =$this.attr('data-values');
+                $(".wrap").hide();
+                $(".reply_wrap").show();
+                $('[name="content"]').attr('placeholder','回复：'+$this.attr('data-name'));
+                $('.reply_wrap form').attr('action',"{:U('comment_reply')}");
+            });
+            //评论
+            $(document).on('click','.replay-btn',function(){
+                var res =check_login();
+                if(!res){
+                    return false;
+                }
+                var $this =$(this);
+                comment_num =$this.attr('data-values');
+                $(".wrap").hide();
+                $(".reply_wrap").show();
+                $('[name="content"]').attr('placeholder','请填写您的评论');
+                $('.reply_wrap form').attr('action',"{:U('Forum/Index/comment')}");
+            })
+            //提交评论内容
+            $(document).on('click','.btn-block',function(){
+                check_login();
+                if($('[name="content"]').val()==null || $('[name="content"]').val()==''){
+                    $.alert('请填写评论内容');
+                    return false;
+                }
+                var poatUrl = $('.reply_wrap form').attr('action');
+                $.ajax({
+                    url:poatUrl,
+                    dataType:'json',
+                    type:'post',
+                    data:{posts_id:{$detail['id']},comment_id:comment_num,content:$('[name="content"]').val()},
+                    success:function(data){
+                        if(data.status){
+                            $.toast(data.info,function(){
+                                location.reload(true);
+                            });
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+
+                });
+                return false;
+            });
+
+            //评论弹层消失
+            $(document).on('click','.reply_wrap .back',function() {
+                $(".wrap").show();
+                $(".reply_wrap").hide();
+            });
+
+
+
+            // 关注
+            $(document).on('click','.attention',function(){
+                check_login();
+                var $this =$(this);
+                $.ajax({
+                    url:"{:U('attention')}",
+                    type:'post',
+                    dataType:'json',
+                    data:{attend_uid:$this.attr('data-value'),type:1},
+                    success:function(data){
+                        if(data.status){
+                            $this.addClass('active');
+                            $this.addClass('cancel');
+                            $this.removeClass('attention');
+                            $this.html('+ 已关注');
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+
+            // 点赞
+            $(document).on('click','.like_num',function(){
+                check_login();
+                var $this =$(this);
+                if(!$this.hasClass("on")){
+                    var type =1;
+                }else{
+                    var type =2;
+                }
+
+
+                $.ajax({
+                    url:"{:U('like')}",
+                    type:'post',
+                    dataType:'json',
+                    async: false,
+                    data:{id:$this.attr('data-value'),type:type},
+                    success:function(data){
+                        if(data.status){
+                            if(type==1){
+                                $this.addClass('on');
+                                var num =parseInt(parseInt($this.next('span').html())+1);
+                                $('.score').text(num);
+                                $('.text_like_num').text(num);
+                            }else{
+                                $this.removeClass('on');
+                                var num =parseInt(parseInt($this.next('span').html())-1);
+                                $('.score').text(num);
+                                $('.text_like_num').text(num);
+                            }
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+
+            // 打赏
+            $(document).on("click", ".show-confirm", function() {
+                check_login();
+                var $this =$(this);
+                $.confirm({$score_html}, "确认打赏?", function() {
+                    var post_id =$this.attr('data-value');
+                    var value = $('input[name="radio-integral"]:checked').val();
+                    $.ajax({
+                        url:"{:U('Forum/Index/reward')}",
+                        dataType:'json',
+                        type:'post',
+                        data:{posts_id:post_id,value:value},
+                        success:function(data){
+                            if(data.status){
+                                $.alert(data.info,function(){
+                                    var num =parseInt($this.find('.score').html())+parseInt(value);
+                                    $this.find('.score').html(num);
+                                });
+                            }else{
+                                $.alert(data.info);
+                            }
+                        },
+                        error:function(){
+                            $.alert('服务器通讯失败');
+                        }
+                    });
+                }, function() {
+                    //取消操作
+                });
+            });
+        })
+    </script>
+</block>

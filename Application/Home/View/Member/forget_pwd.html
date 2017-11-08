@@ -1,0 +1,234 @@
+<extend name="$_home_public_layout" />
+<block name="footer">
+
+</block>
+<block name="wrap">
+    <form action="{:U('Home/Member/forget_pwd')}" method="post" name="forget_pass">
+        <!-- form start -->
+        <ul class="plr10 btb bgf fs14 last Login_form">
+            <li class="table bb">
+                <div class="table-cell ico-logfo">
+                    <i class="Lf-2"></i>
+                </div>
+                <div class="table-cell">
+                    <input name="mobile" type="text" class="form-unify" placeholder="请输入手机号码">
+                </div>
+            </li>
+            <li class="table bb">
+                <div class="table-cell ico-logfo">
+                    <i class="Lf-3"></i>
+                </div>
+                <div class="table-cell">
+                    <input name="password" type="password" class="form-unify" placeholder="请输入密码">
+                </div>
+            </li>
+            <li class="table bb">
+                <div class="table-cell ico-logfo">
+                    <i class="Lf-4"></i>
+                </div>
+                <div class="table-cell">
+                    <input name="verify_code" type="text" class="form-unify" placeholder="请输入短信验证码">
+                </div>
+                <div class="table-cell Login_code" style="width: 130px;">
+                    <a href="javascript:;" class="bg_own br5 btn-mini  code">获取验证码</a>
+                </div>
+            </li>
+        </ul>
+
+        <div class="plr10 btn_submit">
+            <button type="submit" id="submit_btn" class="bg_own br5 btn-block register">立即修改</button>
+            <a href="{:U('Member/login')}" class="block mt20 tc fs14 col_own">已经有账号，立即登陆</a>
+        </div>
+        <!-- form end -->
+    </form>
+</block>
+<block name="icon">
+
+</block>
+
+<block name="js">
+    <script>
+        //手机号码验证
+        function is_mobile(mobile) {
+            if (mobile == "") {
+                $.alert("请输入手机号");
+                // $("#phone").focus();
+                return false;
+            }
+            if (!mobile.match(/^0?(13[0-9]|17[0-9]|15[0-9]|18[0-9]|14[57])[0-9]{8}$/)) {
+                $.alert("请输入正确的手机号");
+                return false;
+            }
+            var msg = check_mobile(mobile);
+            if(msg){
+                $.alert(msg);
+                return false;
+            }
+            return true;
+        }
+        function  check_mobile(mobile){
+            var msg ='';
+            $.ajax({
+                        url: "{:U('checkMobileExist')}",
+                        type: 'POST',
+                        async: false,
+                        dataType: 'json',
+                        data: {mobile: mobile},
+                    })
+                    .done(function(data) {
+                        if(data.status){
+                            if(data.exist == 1){
+                                msg ='';
+                            }else{
+                                msg ='该手机还未注册，请先注册';
+                            }
+                        }
+                    })
+                    .fail(function() {
+                        $.alert('网络问题，请重试');
+                        console.log("error");
+                    })
+                    .always(function() {
+                        console.log("complete");
+                    });
+            return msg;
+        }
+        //倒计时
+        function now_time(time) {
+            var $this = $(".code");
+            if (time == 'undefined') {
+                time = 60;
+            }
+            $this.html(time + "秒后重发");
+            if (time > 0) {
+                time = time - 1;
+                setTimeout("now_time(" + time + ")", 1000)
+            } else {
+                $this.removeClass("btn-mini_active");
+                $this.html('获取验证码');
+            }
+        }
+
+        $(function() {
+            //检测账户是否存在
+           /* $('[name=mobile]').on('blur', function() {
+                var mobile = $('[name=mobile]').val();
+
+                if (!is_mobile(mobile)) {
+                    return false;
+                }
+                $.ajax({
+                            url: "{:U('checkMobileExist')}",
+                            type: 'POST',
+                            dataType: 'json',
+                            data: {
+                                mobile: mobile
+                            },
+                        })
+                        .done(function(data) {
+                            if (data.status) {
+                                if (data.exist == 0) {
+                                    $.alert('手机对应的账号不存在，请注册');
+                                    $('#submit_btn').prop({
+                                        disabled: true
+                                    });
+                                } else {
+                                    $(".code").removeClass('btn-mini_active');
+                                    $('#submit_btn').prop({
+                                        disabled: false
+                                    });
+                                }
+                            }
+                        })
+                        .fail(function() {
+                            $.alert('网络问题，请重试');
+                            console.log("error");
+                        })
+                        .always(function() {
+                            console.log("complete");
+                        });
+            });*/
+
+            //获取验证码
+            $(".code").on('click', function() {
+                if ($(this).hasClass('on')) {
+                    return false;
+                }
+                var mobile = $('[name=mobile]').val();
+
+                if (!is_mobile(mobile)) {
+                    return false;
+                }
+
+                var url = "{:U('miao_send')}";
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    async: false, //ajax同步
+                    dataType: "json",
+                    data: {
+                        mobile: mobile
+                    },
+                    timeout: 10000,
+                    error: function() {
+                        $.alert('发送失败，请重新获取验证码！');
+                    },
+                    success: function(data) {
+                        if (data.status) {
+                            // $(".code").addClass('on');
+                            $(".code").addClass('btn-mini_active');
+
+                            now_time(60);
+                        } else {
+                            $.alert('发送失败，超过同一号码获取验证码的上限！');
+                        }
+                    }
+                });
+            });
+
+            $('form[name="forget_pass"]').on('submit', function() {
+                var mobile = $('[name=mobile]').val();
+                if (!is_mobile(mobile)) {
+                    return false;
+                }
+                if($('[name=password]').val()==''){
+                    $.alert('请输入密码');
+                    return false;
+                }
+                if($('[name=verify_code]').val()==''){
+                    $.alert('请输入验证码');
+                    return false;
+                }
+                $.showLoading();
+                var $form = $(this);
+                $.ajax({
+                            url: $form.attr('action'),
+                            type: 'POST',
+                            dataType: 'json',
+                            data: $form.serialize(),
+                        })
+                        .done(function(data) {
+                            if (data.status) {
+                                setTimeout(function() {
+                                    $.toast("操作成功", function() {
+                                        location.href = '{:U('login')}';
+                                    });
+                                }, 0);
+                            } else {
+                                $.alert(data.info);
+                            }
+                            console.log("success");
+                        })
+                        .fail(function() {
+                            $.alert('网络超时，请再次尝试失败后联系管理员');
+                            console.log("error");
+                        })
+                        .always(function() {
+                            $.hideLoading();
+                        });
+
+                return false;
+            });
+        })
+    </script>
+</block>

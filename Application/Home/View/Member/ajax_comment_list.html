@@ -1,0 +1,91 @@
+<switch name="checkinfo">
+    <case value="1">
+        <foreach name="record" item="list">
+            <li class="p10 bb">
+                <div class="table item-head">
+                    <div class="table-cell item-lt vt">
+                        <div class="ba brarc item-pic"><img src="{:getpics(get_user_info($list['uid'],'admin_user','avatar'))}" alt="" class="imgm"></div>
+                    </div>
+                    <div class="table-cell pl10 item-hd">
+                        <div class="fs14 col3">{:get_user_info($list['uid'],'admin_user','nickname')} </div>
+                        <p class="fs12 col9">{:substr($list['comment_time'],0,10)}</p>
+                        <article class="mt10 col3 m-editor">
+                            <p>{$list.comment}</p>
+                        </article>
+                    </div>
+
+                </div>
+                
+                <!-- <div class="mt10 col6 box item-foot">
+                     <span>养生商城：</span>
+                     <p class="flex-1">谢谢支持，我们会努力挖掘更超值更优惠的活动给大家。</p>
+                 </div>-->
+            </li>
+        </foreach>
+    </case>
+    <case value="2">
+        <foreach name="record" item="list">
+            <li class="p10 bb">
+              <div class="table item-head">
+                <div class="table-cell item-lt">
+                  <div class="ba brarc item-pic"><img src="{$list['headimgurl']}" alt="" class="imgm"></div>
+                </div>
+                <div class="table-cell pl10 item-hd">
+                  <div class="fs14 col3">{$list['nickname']} <div class="star-show" data-score="{$list['rating']}"></div></div>
+                  <p class="fs12 col9">{:date('Y-m-d',strtotime($list['create_time']))}</p>
+                </div>
+              </div>
+              <article class="mt10 col3 m-editor">
+                {$list['content']}
+              </article>
+              <notempty name="list['reply']">
+              <div class="mt10 col6 box item-foot">
+                <span>养生商城：</span>
+                <p class="flex-1">{$list['reply']}</p>
+              </div>
+              </notempty>
+            </li>
+        </foreach>
+
+        <script>
+            $(function(){
+              $(".star-show").raty({
+                readOnly:true,
+                path:"html/images/star",
+                score: function() {
+                  return $(this).attr("data-score");
+                }
+              });
+              $(".star-opt").raty({
+                path:"html/images/star",
+              });
+            });
+        </script>
+
+    </case>
+    <case value="3">
+        <foreach name="record" item="list">
+          <li class="p10 bb">
+            <div class="table item-head">
+              <div class="table-cell item-lt">
+                <div class="ba brarc item-pic"><img src="{$list['headimgurl']}" alt="" class="imgm"></div>
+              </div>
+              <div class="table-cell pl10 item-hd">
+                <div class="fs14 col3">{$list['nickname']}</div>
+                <p class="fs12 col9">{:date('Y-m-d',strtotime($list['create_time']))}</p>
+              </div>
+            </div>
+            <article class="mt10 col3 m-editor">
+              {$list['content']}
+            </article>
+            <notempty name="list['reply']">
+            <div class="mt10 col6 box item-foot">
+              <span>养生商城：</span>
+              <p class="flex-1">{$list['reply']}</p>
+            </div>
+            </notempty>
+          </li>
+        </foreach>
+    </case>
+    <default />
+</switch>

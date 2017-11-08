@@ -1,0 +1,48 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+
+    <section class="main">
+
+    <article class="fs14 list_shop">
+     {$page_info['description']}
+    </article>
+
+
+    <ul class="weui-row mt10 list_goods">
+      <foreach name="columns_goods_info" item="val">
+      <li class="weui-col-50 mb10">
+        <a href="{:U('Shop/Goods/detail',['id'=>$val['id']])}" class="block ba bgf">
+          <div class="item-pic"><img src="{:getpics($val['cover'])}" alt="" class="imgm"></div>
+          <div class="p5 bt item-con">
+            <p class="fs14 col3 multi-line">{$val['title']}</p>
+            <div class="fs12">
+              <span class="fs13 colred">¥<em class="fs16">{$val['sale_price']}</em></span>
+              <del class="ml10 col9">¥{$val['original_price']}</del>
+            </div>
+          </div>
+        </a>
+      </li>
+      </foreach>
+    </ul>
+    <!-- 热销产品 end -->
+  </section>
+
+</block>
+
+<block name="script">
+  <script>
+  $(function() {
+    $(".list_shop .item-pic").each(function(){
+      var w = $(this).width();
+      var h = w/2;
+      $(this).css({"height": h});
+    });
+
+    $(".list_goods .item-pic").each(function(){
+      var w = $(this).width();
+      $(this).css({"height": w});
+    });
+  });
+  </script>
+</block>

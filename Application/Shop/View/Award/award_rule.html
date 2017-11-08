@@ -1,0 +1,38 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+
+    <section class="main">
+
+        <div class="ptb10 user_head">
+            <dl class="clearfix p10">
+                <a href="javascript:;" class="set"></a>
+                <dt class="fl ml10 br50">
+                    <img src="{:getpics($userInfo['avatar'])}" alt="" class="imgm">
+                </dt>
+                <dd class="fs13 colf">
+                    <h2 class="mt5 mb10 fs18 colf">{$user.nickname}</h2>
+                    <span class="tel">{$user.mobile}</span>
+                    <span class="mt5 time">{:substr($user['create_time'],0,10)}加入{:C('WEB_SITE_TITLE')}</span>
+                </dd>
+            </dl>
+        </div>
+
+
+        <div class="table bgf tc fs14 menu">
+            <a href="{:U('Shop/Award/index')}" class="table-cell ptb10 bb col3">抽奖活动</a>
+            <a href="{:U('Shop/Award/my_award')}" class="table-cell ptb10 bb col3 ">领取记录</a>
+            <a href="{:U('Shop/Award/award_rule')}" class="table-cell ptb10 bb active">活动规则</a>
+        </div>
+
+        <div class="mt10 mb10 bgf p10 btb fs14 col3 activity_rule">
+            {$info.content}
+        </div>
+
+
+
+
+
+
+    </section>
+</block>

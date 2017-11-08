@@ -1,0 +1,17 @@
+<foreach name="record" item="list">
+    <li class="p10 bb">
+        <a href="{:U('Shop/Goods/detail',array('id'=>$list['id']))}" class="table">
+            <div class="table-cell item-photo">
+                <div class="ba br3 item-pic">
+                    <img src="{:getpics($list['cover'])}" alt="" class="imgm">
+                </div>
+            </div>
+            <div class="table-cell pl10 item-con">
+                <h2 class="fs14 col3 multi-line">{$list.title} </h2>
+                <div class="mt10 fs12 m-price">
+                    <span class="colred">¥ <b class="fs15">{$list.sale_price}</b><s class="ml10 col9">¥ {$list.original_price}</s></span>
+                </div>
+            </div>
+        </a>
+    </li>
+</foreach>

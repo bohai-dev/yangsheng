@@ -1,0 +1,86 @@
+<foreach name="record" item="list">
+    <switch name="list['type']">
+        <case value="1">
+            <li class="mb10 btb relative">
+                <div class="m-state">
+                    <switch name ="list['status']">
+                        <case value="-1">已拒绝</case>
+                        <case value="0">审核中</case>
+                        <case value="1">已通过</case>
+                    </switch>
+                </div>
+                <a href="{:U('forum/rent/rent_detail',array('id'=>$list['id']))}" class="table p10 bgf">
+                    <div class="table-cell vm item-media">
+                        <div class="ba item-pic"><img src="{:getpics($list['pics'])}" alt="" class="imgm"></div>
+                    </div>
+                    <div class="table-cell vm pl10 fs12 col3">
+                        <h3 class="fs14 single-line">{$list.title}</h3>
+                        <p class="single-line">{$list.area} |{$list.address}</p>
+                        <p class="single-line"><em class="colred">{$list.price}元/月</em> | {$list.acreage}平方 <span class="fr col9">{:substr($list['time'],0,10)}</span></p>
+                    </div>
+                </a>
+                <span class="m-tip tbg-2">出<br>租</span>
+                <div class="p10 bt bgf tr fs12">
+                    <a href="{:U('Forum/Rent/post_rent')}" class="mr5 br50 btn-mini btn-mini_gray">增加</a>
+                    <a href="{:U('Forum/Rent/edit',array('id'=>$list['id']))}" class="mr5 br50 btn-mini btn-mini_gray">编辑</a>
+                    <a href="javascript:;"  data-value="{$list.id}" class="br50 btn-mini delete btn-mini_solid">删除</a>
+                </div>
+            </li>
+        </case>
+        <case value="2">
+            <li class="mb10 btb relative">
+                <div class="m-state">
+                    <switch name ="list['status']">
+                        <case value="-1">已拒绝</case>
+                        <case value="0">审核中</case>
+                        <case value="1">已通过</case>
+                    </switch>
+                </div>
+                <a href="{:U('forum/rent/rent_detail',array('id'=>$list['id']))}" class="table p10 bgf">
+                    <div class="table-cell vm item-media">
+                        <div class="ba item-pic"><img src="{:getpics($list['pics'])}" alt="" class="imgm"></div>
+                    </div>
+                    <div class="table-cell vm pl10 fs12 col3">
+                        <h3 class="fs14 single-line">{$list.title}</h3>
+                        <p class="single-line">{$list.area} |{$list.address}</p>
+                        <p class="single-line"><em class="colred">{$list.price}元/月</em> | {$list.acreage}平方 <span class="fr col9">{:substr($list['time'],0,10)}</span></p>
+                    </div>
+                </a>
+                <span class="m-tip tbg-3">求<br>租</span>
+                <div class="p10 bt bgf tr fs12">
+                    <a href="{:U('Forum/Rent/post_rent')}" class="mr5 br50 btn-mini btn-mini_gray">增加</a>
+                    <a href="{:U('Forum/Rent/edit',array('id'=>$list['id']))}" class="mr5 br50 btn-mini btn-mini_gray">编辑</a>
+                    <a href="javascript:;"  data-value="{$list.id}" class="br50 btn-mini delete btn-mini_solid">删除</a>
+                </div>
+            </li>
+        </case>
+        <case value="3">
+            <li class="mb10 btb relative">
+            <div class="m-state">
+                <switch name ="list['status']">
+                        <case value="-1">已拒绝</case>
+                        <case value="0">审核中</case>
+                        <case value="1">已通过</case>
+                    </switch>
+            </div>
+                <a href="{:U('forum/rent/rent_detail',array('id'=>$list['id']))}" class="table p10 bgf">
+                    <div class="table-cell vm item-media">
+                        <div class="ba item-pic"><img src="{:getpics($list['pics'])}" alt="" class="imgm"></div>
+                    </div>
+                    <div class="table-cell vm pl10 fs12 col3">
+                        <h3 class="fs14 single-line">{$list.title}</h3>
+                        <p class="single-line">{$list.area} |{$list.address}</p>
+                        <p class="single-line"><em class="colred">{$list.price}元/月</em> | {$list.acreage}平方 <span class="fr col9">{:substr($list['time'],0,10)}</span></p>
+                    </div>
+                </a>
+                <span class="m-tip tbg-1">转<br>让</span>
+                <div class="p10 bt bgf tr fs12">
+                    <a href="{:U('Forum/Rent/post_rent')}" class="mr5 br50 btn-mini btn-mini_gray">增加</a>
+                    <a href="{:U('Forum/Rent/edit',array('id'=>$list['id']))}" class="mr5 br50 btn-mini btn-mini_gray">编辑</a>
+                    <a href="javascript:;"  data-value="{$list.id}" class="br50 btn-mini delete btn-mini_solid">删除</a>
+                </div>
+            </li>
+        </case>
+    </switch>
+
+</foreach>

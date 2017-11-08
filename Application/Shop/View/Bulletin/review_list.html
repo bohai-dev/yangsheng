@@ -1,0 +1,214 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+
+  <div class="foot_fixed">
+    <div class="p5 bt box reply_fixed">
+      <i class=""><img src="__HTML__/images/icon_reply.png" alt="" class="imgm"></i>
+      <a href="javascript:;" class="flex-1 ba br5 bgf fs14 col9">写评论</a>
+    </div>
+  </div>
+
+
+  <section class="main">
+    <ul class="bgf btb last fs13 list_comment ajax_list">
+    </ul>
+    <div id="loading" class="tc" style="display: none"></div>
+    <div class="tc nothing step0 step" style="display: none;">
+      <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+      <span class="mt10 fs14 col9">暂无数据</span>
+    </div>
+    <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+      <span class="col9">—— <i></i> ——</span>
+      <p class="fs12 col9">亲，没有更多了哦~</p>
+    </div>
+    <!-- 商品评价 end -->
+
+  </section>
+  <!-- main主体 end -->
+</block>
+<block name="reply_wrap">
+<section class="reply_wrap" style="z-index:2;">
+  <dl class="table bgf header">
+    <dd class="table-cell vm">
+      <a href="javascript:;" class="back"></a>
+    </dd>
+    <dt class="table-cell vm">
+      <p class="tc">评论</p>
+    </dt>
+    <dd class="table-cell vm"></dd>
+  </dl>
+
+  <form action="{:U('')}">
+    <div class="p10 btb bgf fs14 col6 relative">
+      <textarea name="" cols="" rows="5" class="form-unify" placeholder="请填写您的评论" id="textArea" onkeyup="words_deal();"></textarea>
+      <span class="fs12 col9 textNum"><em>0</em>/100</span>
+    </div>
+
+    <div class="mt20 p10">
+      <button type="button" class="bg_own br5 btn-block">确认发布</button>
+    </div>
+  </form>
+</section>
+</block>
+
+
+<block name="script">
+<script src="__HTML__/js/jquery.raty.min.js"></script>
+<script>
+  $(function(){
+    $(window).bind('scroll', function() {
+        checkload(); //ajax 下拉加载更多内容
+    });
+
+    //初始化加载数据
+    LoadList();
+
+    //发布评论
+    $(":button").click(function(){
+      var content = $('textarea').val();
+      var bid = {$id};
+      var url = "{:U('Shop/Bulletin/review')}";
+      if(!content){
+        $.toast('请填写您的评论','text');
+        return false;
+      }
+      $.ajax({
+        url:url,
+        dataType:'json',
+        type:'POST',
+        data:{content:content,bid:bid},
+        beforeSend:function(){
+        },
+        success:function(data){
+          if(data.status){
+            setTimeout(function(){
+              $.toast(data.info,function(){
+                location.reload(true);
+              });
+            }, 0);
+          }else{
+             $.alert(data.info);
+          }
+        },
+        complete:function(){
+        },
+        error:function(){
+        }
+      })
+    })
+
+    $(document).on('click','.reply_fixed a',function() {
+      checkLogin();
+
+    });
+    $(document).on('click','.reply_wrap .back',function() {
+      $(".wrap").show();
+      $(".reply_wrap").hide();
+    });
+  });
+
+  //评论检查登录
+  function checkLogin()
+  {
+    var uid = {$uid};
+    if(uid){
+      $(".wrap").hide();
+      $(".reply_wrap").show();
+      return false;
+    }
+    var url = "{:U('Shop/Bulletin/ajaxCheckLogin')}";
+    $.ajax({
+      url:url,
+      type:'POST',
+      data:{},
+      dataType:'json',
+      async:false,
+      beforeSend:function(){
+      },
+      complete:function(){
+      },
+      success:function(data){
+        if(data.status){
+          $(".wrap").hide();
+          $(".reply_wrap").show();
+        }else{
+          if(data.url){
+              location.href=data.url;
+            // $.confirm("立即登录", function() {
+            // }, function() { //取消后的回调函数
+            // });
+          }
+          return false;
+        }
+      },
+      error:function(){
+
+      }
+    })
+  }
+
+
+  function checkload() {
+    if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+        $("#loading").show();
+        LoadList();
+    }
+  }
+
+  var n = 1;
+  var ispost = temp = true;
+  var id={$id};
+  function LoadList() {
+    if (ispost && temp) {
+        var url ="{:U('Shop/Bulletin/review_list')}";
+        temp = false;
+        $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            data: {n: n,id: id},
+            async: true,
+            timeout: 9999,
+            beforeSend:function(){
+              $.showLoading();
+            },
+            complete:function(){
+              $.hideLoading();
+            },
+            success: function(data) {
+                n++;
+                temp = true;
+                if(data.status){
+                    if(data.msg == ''){
+                        temp = false;
+                        $("#full").show();
+                    }else{
+                        $("#loading").hide();
+                        $(".ajax_list").append(data.msg);
+                        imgHeight();
+                        temp =true;
+                        imglazyload();
+                        checkload();
+                    }
+                }else{
+                    temp = false;
+                    $("#loading").hide();
+                    $(".step0").show();
+                }
+                $(".lazy img").lazyload({  //图片延迟加载
+                    placeholder : "html/images/loading.gif",
+                    effect      : "fadeIn",
+                    threshold : 200
+                });
+            },
+            error:function(){
+            }
+        });
+    }else if(!ispost){
+        $("#full").show();
+    }
+  }
+
+</script>
+</block>

@@ -1,0 +1,235 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+<section class="wrap">
+
+  <div class="top_fixed">
+    <div class="plr10 bb bgf box search_header">
+      <div class="bgf br50 flex-1 sH_main">
+        <a href="javascript:;" class="block col9 sH_search"><i class="icon_search"></i>搜索全部商品</a>
+      </div>
+    </div>
+  </div>
+  <!-- 顶部悬浮搜索 end -->
+
+ <!--  <div class="foot_fixed">
+    <footer class="table bt bgf tc fs12 footer">
+      <a href="#" class="table-cell"><i class="fi-1"></i>首页</a>
+      <a href="#" class="table-cell active"><i class="fi-2"></i>分类</a>
+      <a href="#" class="table-cell"><i class="fi-3"></i>论坛</a>
+      <a href="#" class="table-cell"><i class="fi-4 hint-num"><em>2</em></i>购物车</a>
+      <a href="#" class="table-cell"><i class="fi-5"></i>我的</a>
+    </footer>
+  </div> -->
+  <!-- 底部悬浮 end -->
+
+  <section class="main">
+
+    <div class="weui_tab mt10 bgf bt classify">
+      <div class="weui_navbar classify_nav">
+        <a href="javascript:;" id="0" class="weui_navbar_item table bb {$pid?:'weui_bar_item_on'} ">
+          <div class="table-cell vm br">全部</div>
+        </a>
+        <foreach name="type" item="val">
+        <a href="javascript:;" id="{$val['id']}" class="weui_navbar_item table bb {$pid==$val['id']?'weui_bar_item_on':''}">
+          <div class="table-cell vm br">{$val['title']}</div>
+        </a>
+      </foreach>
+      </div>
+      <div class="weui_tab_bd tc fs14 classify_list">
+        <ul class="weui_tab_bd_item clearfix p10 weui_tab_bd_item_active ajax_list">
+        </ul>
+        <div id="loading" class="tc" style="display: none"></div>
+        <div class="tc nothing step0 step" style="display: none;">
+          <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+          <span class="mt10 fs14 col9">暂无数据</span>
+        </div>
+        <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+          <span class="col9">—— <i></i> ——</span>
+          <p class="fs12 col9">亲，没有更多了哦~</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+  <!-- main主体 end -->
+
+</section>
+<!-- 主体 end -->
+
+<section class="search_wrap">
+
+  <dl class="table bb header">
+    <dd class="table-cell vm">
+      <a href="javascript:;" class="back"></a>
+    </dd>
+    <dt class="table-cell vm">
+      <input type="text"  name="search" placeholder="请输入关键词" >
+    </dt>
+    <dd class="table-cell vm">
+      <input type="submit"  value="搜索">
+    </dd>
+  </dl>
+
+  <div class="p10 search_main">
+    <div class="fs13 item-tit">
+      <i class="mr5 sm-1"></i>最近搜索
+      <a href="javascript:;" class="fr" id="clean-search" >
+        <notempty name="user_search_info">
+          <i class="sm-3"></i>
+        </notempty>
+      </a>
+    </div>
+    <div class="ptb10 item-con user-search">
+    <notempty name="user_kw_info">
+      <foreach name="user_kw_info" item="val">
+      <a href="{:U('Shop/Goods/goods_list',['search_kw'=>$val])}" class="btn-mini search-kw">{$val}</a>　
+      </foreach>
+      <p  align="center" class="no-user-search" style="font-size:12px;display:none;">暂无搜索历史</p>
+
+    <else />
+      <p align="center" style="font-size:12px;">暂无搜索历史</p>
+    </notempty>
+    </div>
+    <div class="fs13 item-tit">
+      <i class="mr5 sm-2"></i>热门搜索
+    </div>
+    <div class="ptb10 item-con">
+      <foreach name="shop_kw_info" item="val">
+        <a href="{:U('Shop/Goods/goods_list',['search_kw'=>$val['word']])}" class="btn-mini search-kw">{$val['word']}</a>　
+      </foreach>
+    </div>
+  </div>
+
+</section>
+<!-- 搜索定位弹窗 end -->
+
+</block>
+
+<block name="script">
+<script>
+  $(function(){
+    //axaj 加载
+    $(document).ajaxStart(function() {
+        $.showLoading();
+    });
+    $(document).ajaxComplete(function() {
+        $.hideLoading();
+    });
+    $(window).bind('scroll', function() {
+        checkload(); //ajax 下拉加载更多内容
+    });
+
+    //初始化加载数据
+    LoadList();
+
+    //左侧点击事件
+    $('.weui_navbar_item').click(function(){
+      $('.ajax_list li').remove();
+      $("#loading").hide();
+      $(".step0").hide();
+      $("#full").hide();
+      n = 1;
+      ispost = temp = true;
+      check =$(this).attr('id');
+      $('.weui_bar_item_on').removeClass('weui_bar_item_on');
+      $(this).addClass('weui_bar_item_on');
+      LoadList();
+    })
+
+
+    //搜索 实现功能
+    $(':submit').click(function(){
+      search_kw = $("input[name='search']").val();
+      if(!search_kw){
+        $.toast('请输入关键词','text');
+        return false;
+      }
+      location.href="{:U('Shop/Goods/goods_list/search_kw/\"+search_kw+\"')}";
+    })
+
+    //清除最近搜索
+    $('#clean-search').click(function(){
+      Cookies.set('yangsheng_home_user_search','');
+      $('#clean-search i,sm-3').remove();
+      $('.user-search a').remove();
+      $('.no-user-search').show();
+    })
+
+    // 页面
+    $(".classify_list .item-pic").each(function(){
+      var w = $(this).width();
+      $(this).css({"height": w});
+    });
+
+    var winh = $(window).height(),
+    divh = winh - 101;
+    $(".classify_nav,.classify_list").css({"height":divh});
+
+    //搜索 html
+    $(document).on('click','.search_header .sH_search',function() {
+      // $(".wrap").hide();
+      $(".search_wrap").show();
+    });
+    $(document).on('click','.header .back',function() {
+      // $(".wrap").show();
+      $(".search_wrap").hide();
+    });
+  });
+
+
+
+
+  function checkload() {
+      if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+          $("#loading").show();
+          LoadList();
+      }
+  }
+
+  var n = 1;
+  var ispost = temp = true;
+  var check = "{$pid?$pid:0}"; //分类
+  function LoadList() {
+      if (ispost && temp) {
+          var url ="{:U('Shop/Goods/index')}";
+          temp = false;
+          $.ajax({
+              url: url,
+              type: 'post',
+              dataType: 'json',
+              data: {n: n,check:check},
+              async: false,
+              timeout: 9999,
+              success: function(data) {
+                  n++;
+                  temp = true;
+                  if(data.status){
+                      if(data.msg == ''){
+                          temp = false;
+                          $("#full").show();
+                      }else{
+                          $("#loading").hide();
+                          $(".ajax_list").append(data.msg);
+                          imgHeight();
+                          temp =true;
+                          imglazyload();
+                          checkload();
+                      }
+                  }else{
+                      temp = false;
+                      $("#loading").hide();
+                      $(".step0").show();
+                  }
+                  $(".lazy img").lazyload({  //图片延迟加载
+                      placeholder : "html/images/loading.gif",
+                      effect      : "fadeIn",
+                      threshold : 200
+                  });
+              }
+          });
+      }else if(!ispost){
+          $("#full").show();
+      }
+  }
+</script>
+</block>

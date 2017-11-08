@@ -1,0 +1,23 @@
+<foreach name="record" item="list">
+    <li class="mb10 btb relative">
+        <div class="m-state">
+            <switch name ="list['status']">
+            <case value="-1">已拒绝</case>
+            <case value="0">审核中</case>
+            <case value="1">已通过</case>
+
+        </switch>
+        </div>
+        <div class="table p10 bgf">
+            <a href="{:U('Forum/Job/recruit_detail',array('id'=>$list['id']))}"  class="table-cell fs12 col3">
+                <h3 class="fs14 single-line">{$list.position} | {$list.prov}</h3>
+                <p class="single-line"><em class="mr10 colred">{$list.salary}/月</em>{$list.sex}</p>
+                <p class="single-line"><span class="mr10">【{$list.company}】</span>{$list.city}-{$list.country}</p>
+            </a>
+            <div class="table-cell fs12 item-ope" >
+                <a href="{:U('Forum/Job/edit',array('id'=>$list['id']))}" class="mr5 br50 btn-mini btn-mini_gray">编辑</a>
+                <a href="javascript:;" data-value="{$list.id}" class="br50 btn-mini delete btn-mini_solid">删除</a>
+            </div>
+        </div>
+    </li>
+</foreach>

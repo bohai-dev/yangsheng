@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>thr 回复</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<div class="foot_fixed">
+			<div class="ptb10 bt" style="background-color: #eaedf1;">
+				<a href="javascript:;" class="replay-btn bgf tc fs13 col0" style="width: 150px;border-radius: 6px;border:1px solid #e1e1e1;display: block;margin-right: auto;margin-left: auto;padding:6px 0;">发表评论</a>
+			</div>
+	</div>
+
+	<section class="main">
+		<div class="detail_eval">
+			<!-- <p class="fs15 col0 tc pt10 subtitle">热门评论</p> -->
+			<ul class="list_eval">
+				<li class="p10 bb bgf">
+					<div class="clearfix item-hd">
+						<div class="fl ba brarc item-pic"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+						<span class="fl plr10">Miyako 美妍</span>
+						<p class="fr col6 up1"><i class="Icon-up1"></i>236</p>
+					</div>
+					<div class="mt5 fs14 col3 item-bd" style="padding-left:40px; ">
+						<div>清洁的很干净，阿姨卫生做的很好，厨房抽油烟机的死 角部分也清洁过了，有需要会再预约的。</div>
+						<p class="mt5 fs12 col9">04-13 14:04</p>
+					</div>
+					<div class="mt10 fs12 col6 box item-foot">
+						<span>艾玛莎基：</span>
+						<p class="flex-1">谢谢支持，我们会努力挖掘更超值更优惠的活动给大家。</p>
+					</div>
+				</li>
+				<li class="mt10 pl10 bgf bb">
+					<span class="thr-title fs13 col_own">热门回复</span>
+				</li>
+				<li class="p10 bb bgf">
+					<div class="clearfix item-hd">
+						<div class="fl ba brarc item-pic"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+						<span class="fl plr10">Miyako 美妍</span>
+						<p class="fr col6 up1"><i class="Icon-up1"></i>236</p>
+					</div>
+					<div class="mt5 fs14 col3 item-bd" style="padding-left:40px; ">
+						<div>清洁的很干净，阿姨卫生做的很好，厨房抽油烟机的死 角部分也清洁过了，有需要会再预约的。</div>
+						<p class="mt5 fs12 col9">04-13 14:04</p>
+					</div>
+				</li>
+			</ul>
+			<a href="javascript:;" class="block p10 tc fs13 col9">已显示全部评论</a>
+		</div>
+		<script src="js/jquery.raty.min.js"></script>
+		<script>
+			$(".up1").on("click",function(){
+				$(this).addClass('on');
+			})
+		</script>
+		<!-- 商品评价 end -->
+
+	</section>
+	<!-- main主体 end -->
+
+</section>
+<!-- 主体 end -->
+
+<section class="reply_wrap">
+	<dl class="table bgf header">
+		<dd class="table-cell vm">
+			<a href="javascript:;" class="back"></a>
+		</dd>
+		<dt class="table-cell vm">
+			<p class="tc">评论</p>
+		</dt>
+		<dd class="table-cell vm"></dd>
+	</dl>
+
+	<form action="">
+		<div class="p10 btb bgf fs14 col6 relative">
+			<textarea name="" cols="" rows="5" class="form-unify" placeholder="请填写您的评论" id="textArea" onkeyup="words_deal();"></textarea>
+			<span class="fs12 col9 textNum"><em>0</em>/100</span>
+		</div>
+
+		<div class="mt20 p10">
+			<button type="button" class="bg_own br5 btn-block">确认发布</button>
+		</div>
+	</form>
+</section>
+<script>
+$(function(){
+	$(document).on('click','.replay-btn',function() {
+		$(".wrap").hide();
+		$(".reply_wrap").show();
+	});
+	$(document).on('click','.reply_wrap .back',function() {
+		$(".wrap").show();
+		$(".reply_wrap").hide();
+	});
+});
+</script>
+<!-- 填写评论弹窗 end -->
+
+
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

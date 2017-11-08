@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>11.1抽奖</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<section class="main">
+
+		<div class="ptb10 user_head">
+			<dl class="clearfix p10">
+				<a href="" class="set"></a>
+				<dt class="fl ml10 br50">
+					<img src="images/img_head.jpg" alt="" class="imgm">
+				</dt>
+				<dd class="fs13 colf">
+					<h2 class="mt5 mb10 fs18 colf">用户A</h2>
+					<span class="tel">18712349876</span>
+					<span class="mt5 time">2016.03.18加入窝优</span>
+				</dd>
+			</dl>
+		</div>
+
+		<div class="table bgf tc fs14 menu">
+			<a href="" class="table-cell ptb10 bb col3 active">抽奖活动</a>
+			<a href="" class="table-cell ptb10 bb col3">领取记录</a>
+			<a href="" class="table-cell ptb10 bb col3">活动规则</a>
+		</div>
+
+		<div class="bgf plr10 ba br5 lottery">
+			<dl class="table tc fs14 item-hd">
+				<dd class="table-cell pr10"><a href="" class="br5 colf">点击签到</a></dd>
+				<dt class="table-cell">
+					<span>99999颗</span>
+				</dt>
+				<dd class="table-cell pl10"><a href="" class="br5 colf">红心兑换</a></dd>
+			</dl>
+			<ul class="clearfix tc" id="lottery">
+				<li class="lottery-unit lottery-unit-0 active"><i class="lot-1"></i>10颗红心</li>
+				<li class="lottery-unit lottery-unit-1"><i class="lot-3"></i>小米5</li>
+				<li class="lottery-unit lottery-unit-2"><i class="lot-2"></i>神秘红包</li>
+				<li class="lottery-unit lottery-unit-3 nor"><i class="lot-1"></i>5颗红心</li>
+				<li class="lottery-unit lottery-unit-9"><i class="lot-2"></i>神秘红包</li>
+				<li class="click"><em class="fs18">抽奖</em>还剩次数 99 次</li>
+				<li class="lottery-unit lottery-unit-4 nor"><i class="lot-1"></i>5颗红心</li>
+				<li class="lottery-unit lottery-unit-8"><i class="lot-1"></i>10颗红心</li>
+				<li class="lottery-unit lottery-unit-7"><i class="lot-3"></i>小米5</li>
+				<li class="lottery-unit lottery-unit-6"><i class="lot-2"></i>神秘红包</li>
+				<li class="lottery-unit lottery-unit-5 nor"><i class="lot-1"></i>5颗红心</li>
+			</ul>
+		</div>
+
+		<div class="bgf ba br5 winners">
+			<div class="ptb10 tc fs15 item-hd">获奖名单</div>
+			<div class="item-bd" id="win-con">
+				<ul class="tc" id="win-con1">
+					<li class="table ptb10 bt">
+						<div class="table-cell name">张三</div>
+						<div class="table-cell prize">iphone SE</div>
+						<div class="table-cell">2016-05-26 14:24:06</div>
+					</li>
+					<li class="table ptb10 bt">
+						<div class="table-cell name">李四</div>
+						<div class="table-cell prize">88元红包</div>
+						<div class="table-cell">2016-05-26 14:24:06</div>
+					</li>
+					<li class="table ptb10 bt">
+						<div class="table-cell name">王五</div>
+						<div class="table-cell prize">神秘红包</div>
+						<div class="table-cell">2016-05-26 14:24:06</div>
+					</li>
+				</ul>
+				<ul class="tc" id="win-con2"></ul>
+			</div>
+		</div>
+
+	    <div class="tip_lottery" style="display:block;">
+	        <div class="item-bg"></div>
+	        <div class="item-show">
+	            <a href="javascript:;" class="close"></a>
+	            <span><img src="images/tip_lottery.png" alt="" class="imgm"></span>
+	            <p class="mt10 tc fs14 colf">恭喜你抽中小米手机一部！</p>
+	        </div>
+	    </div>
+
+
+
+
+	</section>
+
+
+
+</section>
+
+<script>
+	var speed=50; //数字越大速度越慢
+	var tab=document.getElementById("win-con");
+	var tab1=document.getElementById("win-con1");
+	var tab2=document.getElementById("win-con2");
+	tab2.innerHTML = tab1.innerHTML;  //克隆tab1为tab2
+	function Marquee(){
+		if (tab2.offsetHeight - tab.scrollTop <= 0) { //当滚动至tab1与tab2交界时
+			tab.scrollTop -= tab1.offsetHeight  //tab跳到最顶端
+		}else{
+			tab.scrollTop++
+		}
+	}
+	var MyMar=setInterval(Marquee,speed);
+	tab.onmouseover=function() {clearInterval(MyMar)};  // 鼠标移上时清除定时器达到滚动停止的目的
+	tab.onmouseout=function() {MyMar=setInterval(Marquee,speed)};  //鼠标移开时重设定时器
+</script>
+
+
+<script type="text/javascript">
+    var lottery = {
+        index: 0, //当前转动到哪个位置，起点位置
+        count: 0, //总共有多少个位置
+        timer: 0, //setTimeout的ID，用clearTimeout清除
+        speed: 20, //初始转动速度
+        times: 0, //转动次数
+        cycle: 50, //转动基本次数：即至少需要转动多少次再进入抽奖环节
+        prize: 0, //中奖位置
+        init: function(id) {
+            if ($("#" + id).find(".lottery-unit").length > 0) {
+                $lottery = $("#" + id);
+                $units = $lottery.find(".lottery-unit");
+                this.obj = $lottery;
+                this.count = $units.length;
+                $lottery.find(".lottery-unit-" + this.index).addClass("active");
+            }
+        },
+        roll: function() {
+            var index = this.index;
+            var count = this.count;
+            var lottery = this.obj;
+            $(lottery).find(".lottery-unit-" + index).removeClass("active");
+            index += 1;
+            if (index > count - 1) {
+                index = 0;
+            }
+            $(lottery).find(".lottery-unit-" + index).addClass("active");
+            this.index = index;
+            return false;
+        },
+        stop: function(index) {
+            this.prize = index;
+            return false;
+        }
+    };
+
+    function roll() {
+        lottery.times += 1;
+        lottery.roll();
+        var prize_site = $("#lottery").attr("prize_site");
+        if (lottery.times > lottery.cycle + 10 && lottery.index == prize_site) {
+            var prize_id = $("#lottery").attr("prize_id");
+            var prize_name = $("#lottery").attr("prize_name");
+            alert("前端中奖位置："+prize_site+"\n"+"中奖名称："+prize_name+"\n中奖id："+prize_id)
+            clearTimeout(lottery.timer);
+            lottery.prize = -1;
+            lottery.times = 0;
+            click = false;
+
+        } else {
+            if (lottery.times < lottery.cycle) {
+                lottery.speed -= 10;
+            } else if (lottery.times == lottery.cycle) {
+                var index = Math.random() * (lottery.count) | 0;
+                lottery.prize = index;
+            } else {
+                if (lottery.times > lottery.cycle + 10 && ((lottery.prize == 0 && lottery.index == 7) || lottery.prize == lottery.index + 1)) {
+                    lottery.speed += 110;
+                } else {
+                    lottery.speed += 20;
+                }
+            }
+            if (lottery.speed < 40) {
+                lottery.speed = 40;
+            }
+            lottery.timer = setTimeout(roll, lottery.speed);
+        }
+        return false;
+    }
+
+    var click = false;
+
+    $(function() {
+        lottery.init('lottery');
+        $("#lottery .click").click(function() {
+             if (click) {
+                return false;
+            } else {
+                lottery.speed = 100;
+                $.post("ajax.php", {uid: 1}, function(data) { //获取奖品，也可以在这里判断是否登陆状态
+                    $("#lottery").attr("prize_site", data.prize_site);
+                    $("#lottery").attr("prize_id", data.prize_id);
+                    $("#lottery").attr("prize_name", data.prize_name);
+                    roll();
+                    click = true;
+                    return false;
+                }, "json")
+            }
+        });
+    })
+</script>
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

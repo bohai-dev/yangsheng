@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<title>微信调试器</title>
+<!-- head 中 -->
+    <link rel="stylesheet" href="__HTML_WEUI__/lib/weui.css">
+    <link rel="stylesheet" href="__HTML_WEUI__/css/jquery-weui.css">
+<style>
+	.demos-header {
+	    padding: 35px 0;
+	}
+	.demos-title {
+	    text-align: center;
+	    font-size: 34px;
+	    color: #3cc51f;
+	    font-weight: 400;
+	    margin: 0 15%;
+	}
+	.weui_cell_ft pre{
+		float: left;
+	}
+</style>
+</head>
+<body ontouchstart="">
+	<header class="demos-header">
+      <h1 class="demos-title">调试</h1>
+    </header>
+    <div class="weui_cells weui_cells_access">
+        <a class="weui_cell" href="javascript:;">
+          <div class="weui_cell_bd weui_cell_primary">
+            <p>用户设备</p>
+          </div>
+          <div class="weui_cell_ft "><pre id="userAgent"></pre></div>
+        </a>
+        <a class="weui_cell" href="javascript:;">
+          <div class="weui_cell_bd weui_cell_primary">
+            <p>用户</p>
+          </div>
+          <div class="weui_cell_ft ">
+          	<p>
+          	<select name="admin_uid">
+          		<option value="">请选择</option>
+          		<volist name="user_list" id="vo">
+          		<option value="{$vo.id}" data-aid="{$vo.admin_uid}" data-openid="{$vo.openid}">
+          			{$vo.username}|{$vo.mobile}|admin_uid:{$vo.admin_uid}|uid: {$vo.id}|{$vo.openid}
+      			</option>
+          		</volist>
+          	</select>
+          	</p>
+          </div>
+        </a>
+        <a class="weui_cell" href="javascript:;" onclick="authDebug.clearWexinOpenid()">
+          <div class="weui_cell_bd weui_cell_primary">
+            <p>weixin_openid 状况</p>
+          </div>
+          <div class="weui_cell_ft ">
+          	<pre for="{$Think.const.ENV_PRE}Home_openid"></pre>
+          </div>
+        </a>
+        <a class="weui_cell" href="javascript:;" onclick="authDebug.clearUid()">
+          <div class="weui_cell_bd weui_cell_primary">
+            <p>Uid 状况</p>
+          </div>
+          <div class="weui_cell_ft ">
+          	<pre for="{$Think.const.ENV_PRE}Home_uid"></pre>
+          </div>
+        </a>
+        <a class="weui_cell" href="javascript:;" onclick="authDebug.clearAdminUid()">
+          <div class="weui_cell_bd weui_cell_primary">
+            <p>admin_uid 状况</p>
+          </div>
+          <div class="weui_cell_ft ">
+          	<pre for="{$Think.const.ENV_PRE}Home_admin_uid"></pre>
+          </div>
+        </a>
+      </div>
+    <br><br>
+	<!-- <a href="javascript:;" class="weui_btn weui_btn_primary">提交</a> -->
+	<a href="javascript:;authDebug.clearAll()" class="weui_btn weui_btn_warn">清空所有</a>
+	<!-- body 最后 -->
+    <script src="__HTML_WEUI__/lib/jquery-2.1.4.js"></script>
+	<script src="__HTML_WEUI__/js/jquery-weui.js"></script>
+	<script src="__HTML_JS__/js.cookie.js"></script>
+
+	<script type="text/javascript">
+		function refresh_cookie(){
+			console.log(Cookies.get());
+			$.each(Cookies.get(), function(index, e){
+				$('pre[for="'+index+'"]').text(e);
+			});
+		}
+		var cookie_prefix = '{$Think.const.ENV_PRE}Home_';
+		var authDebug = {
+			clearAll: function(){
+				var that = this;
+				$.confirm("确认清除全部cookie缓存吗", function() {
+					that.clear();
+					location.reload(true);
+				}, function() {
+			  		//点击取消后的回调函数
+			  	});
+			},
+			clearWexinOpenid: function(){
+				this.clear('{$Think.const.ENV_PRE}Home_openid');
+			},
+			clearUid:function(){
+				this.clear('{$Think.const.ENV_PRE}Home_uid');
+			},
+			clearAdminUid:function(){
+				this.clear('{$Think.const.ENV_PRE}Home_admin_uid');
+			},
+			// clearTelAndCode: function(){
+			// 	this.clear(['tel', 'verify_code']);
+			// },
+			// clearPassword: function(){
+			// 	this.clear(['password', 'set_password']);
+			// },
+			clear: function(keys){
+				if(typeof keys == 'string'){
+					$.confirm("确认清除"+keys+'吗？', function() {
+				  		Cookies.remove(keys);
+				  		location.reload(true);
+			  		}, function() {
+				  		//点击取消后的回调函数
+				  	});
+				}else{
+					keys = keys || Cookies.get();
+					$.each(keys, function(index, val) {
+						console.log(index);
+				 		Cookies.remove(index);
+					});
+					// for (var i = keys.length - 1; i >= 0; i--) {
+					// 	Cookies.remove(keys[i]);
+					// };
+					location.reload(true);
+				}
+			},
+			jump: function(){
+				var url = $('[name="url"]').val();
+				if(url == ''){
+					alert('请填写地址');
+					return;
+				}else{
+					if(url.indexOf('http') == -1){
+						location.href = '/'+ url;
+					}else{
+						cookie.href = url;
+					}
+				}
+			}
+		};
+		$(function(){
+			$('#userAgent').text(navigator.userAgent);
+			refresh_cookie();
+
+			//更换用户
+			$('[name=admin_uid]').on('change', function(){
+				var val = this.value;
+				if(val == ''){
+					$.alert('请选择用户');
+					return false;
+				}
+				var data = $(this).find('option[value='+val+']').data();
+				console.log(data);
+				Cookies.set(cookie_prefix+'uid', val);
+				Cookies.set(cookie_prefix+'admin_uid', data.aid);
+				Cookies.set(cookie_prefix+'openid', data.openid);
+				$.toast('更换用户成功', function(){
+					location.reload(true);
+				});
+			});
+		});
+	</script>
+</body>
+</html>

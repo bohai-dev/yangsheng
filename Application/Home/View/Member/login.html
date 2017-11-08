@@ -1,0 +1,107 @@
+<extend name="$_home_public_layout" />
+<block name="footer">
+
+</block>
+<block name="wrap">
+    <div class="Login_logo">
+        <!-- <img src="images/logo.png" alt="" class="imgm">-->
+    </div>
+
+    <form action="{:U('login')}" class="plr10 Login_wrap">
+        <!-- form start -->
+        <ul class="plr10 ba br5 bgf fs14 last Login_form">
+            <li class="table bb">
+                <div class="table-cell ico-logfo">
+                    <i class="Lf-2"></i>
+                </div>
+                <div class="table-cell">
+                    <input name="mobile" type="text" class="form-unify" placeholder="请输入手机号码">
+                </div>
+            </li>
+            <li class="table bb">
+                <div class="table-cell ico-logfo">
+                    <i class="Lf-3"></i>
+                </div>
+                <div class="table-cell">
+                    <input name="password" type="password" class="form-unify" placeholder="请输入密码">
+                </div>
+            </li>
+        </ul>
+
+        <div class="btn_submit">
+            <button type="button" onclick="check()";  class="bg_own br5 btn-block  xilu_btn">登陆</button>
+            <div class="clearfix mt20 tc fs13">
+                <a href="{:U('Member/forget_pwd')}" class="fl col_own">忘记密码</a>
+                <a href="{:U('Member/register')}" class="fr col_own">免费注册</a>
+            </div>
+        </div>
+        <!-- form end -->
+    </form>
+</block>
+<block name="icon">
+
+</block>
+<block name="script">
+    <script>
+
+            //手机号码验证
+        function is_mobile(mobile) {
+            if (mobile == "") {
+                $.alert("请输入手机号");
+                // $("#phone").focus();
+                return false;
+            }
+            if (!mobile.match(/^1[3|4|5|7|8][0-9]{9}$/)) {
+                $.alert("请输入正确的手机号");
+                return false;
+            }
+            // var msg = check_mobile(mobile);
+            // if(msg){
+            //     $.alert(msg);
+            //     return false;
+            // }
+            return true;
+        }
+
+
+        function check(){
+            var mobile = $("input[name='mobile']").val();
+            var password = $("input[name='password']").val();
+            is_mobile(mobile);
+            if(!password){
+                $.alert("请输入密码");
+                return false;
+            }
+
+            $.showLoading();
+            var $form = $('form');
+            $.ajax({
+                        url: $form.attr('action'),
+                        type: 'POST',
+                        dataType: 'json',
+                        data: $form.serialize(),
+                    })
+                    .done(function(data) {
+                        if(data.status){
+                            setTimeout(function(){
+                                $.toast("登录成功", function(){
+                                    location.href = data.url;
+                                });
+                            }, 0);
+                        }else{
+                            $.alert(data.info);
+                        }
+                    })
+                    .fail(function() {
+                        $.alert('网络超时，请再次尝试失败后联系管理员');
+                        console.log("error");
+                    })
+                    .always(function() {
+                        $.hideLoading();
+                    });
+
+            return false;
+
+        }
+    </script>
+</block>

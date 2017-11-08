@@ -1,0 +1,148 @@
+<extend name="$_admin_public_layout"/>
+
+<block name="style">
+    <link rel="stylesheet" type="text/css" href="__LYUI__/css/lyui.extend.min.css">
+</block>
+
+<block name="script">
+    <script type="text/javascript" src="__LYUI__/js/lyui.extend.min.js"></script>
+    <script src="__PUBLIC__/libs/chart/1.x/Chart.min.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            // 用户增长曲线图
+            var chart_data = {
+                labels: {$user_reg_date},
+                datasets: [{
+                    label: "用户增长曲线图",
+                    fillColor: "rgba(151,187,205,0.2)",
+                    strokeColor: "rgba(151,187,205,1)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    data: {$user_reg_count}
+                }]
+            };
+            var chart_options = {
+                scaleLineColor : "rgba(0,0,0,.1)", //X/Y轴的颜色
+                scaleLineWidth : 1, //X/Y轴的宽度
+            };
+            var chart_element = document.getElementById("mychart").getContext("2d");
+            var myLine = new Chart(chart_element).Line(chart_data, chart_options);
+
+            // 日期
+            $('#start_date').datetimepicker({
+                format      : 'yyyy-mm-dd',
+                autoclose   : true,
+                minView     : 'month',
+                todayBtn    : 'linked',
+                language    : 'en',
+                initialDate : '{$start_date}',
+                fontAwesome : true,
+            });
+            $('#end_date').datetimepicker({
+                format      : 'yyyy-mm-dd',
+                autoclose   : true,
+                minView     : 'month',
+                todayBtn    : 'linked',
+                language    : 'en',
+                initialDate : '{$end_date}',
+                fontAwesome : true,
+            });
+        });
+
+//*******************************************************
+
+        // $(function(){
+            // 初始化日期范围插件
+            // $('#start_date').daterangepicker({
+                // "showDropdowns": true,
+                // "autoApply": false,
+                // "dateLimit": {
+                //     "days": 365 * 100
+                // },
+                // "linkedCalendars": false,
+                // "ranges": {
+                //     "一周内": [
+                //         moment().subtract(6, 'days'),
+                //         moment()
+                //     ],
+                //     "一月内": [
+                //        moment().subtract(29, 'days'),
+                //        moment()
+                //     ],
+                //     "本月内": [
+                //         moment().startOf('month'),
+                //         moment().endOf('month')
+                //     ],
+                //     "上个月": [
+                //         moment().subtract(1, 'month').startOf('month'),
+                //         moment().subtract(1, 'month').endOf('month')
+                //     ]
+                // },
+        //         autoUpdateInput: false,
+        //         locale : {
+        //             format: 'YYYY-MM-DD',
+        //             separator: ' - ',
+        //             applyLabel: '确定',
+        //             cancelLabel: '取消',
+        //             fromLabel: '从',
+        //             toLabel: '到',
+        //             customRangeLabel: '日期范围',
+        //             daysOfWeek: ['日', '一', '二', '三', '四', '五','六'],
+        //             monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+        //             firstDay: 1
+        //         },
+        //         "startDate": "2015-12-06",
+        //         "endDate": "2016-12-05",
+        //         "minDate": "YYYY-MM-DD",
+        //         "maxDate": "YYYY-MM-DD"
+        //     }, function(start, end, label) {
+        //         console.log("New date range selected: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + " (predefined range: " + label + ")");
+        //     });
+
+        //     $('#_date_3').on('apply.daterangepicker', function(ev, picker) {
+        //           $(this).val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
+        //     });
+
+        //     $('#_date_3').on('cancel.daterangepicker', function(ev, picker) {
+        //         $(this).val('');
+        //     });
+
+        // })
+
+
+//*******************************************************
+
+    $('a.label-success[name="<?php echo $type ?>"]').css('color','black').on('click',function(){return false;});
+
+
+    </script>
+</block>
+
+<block name="main">
+    <div class="chart">
+        <div class="panel-body">
+            <div class="col-xs-12 col-sm-6 col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-area-chart"></i> 用户增长统计&nbsp;&nbsp;&nbsp;
+                        <a class="label label-success" name='' href="{:U('',['type'=>''])}">按天统计</a>&nbsp;&nbsp;
+                        <a class="label label-success"  name='month' href="{:U('',['type'=>'month'])}">按月统计</a>&nbsp;&nbsp;
+                        <a class="label label-success"  name='year' href="{:U('',['type'=>'year'])}">按年统计</a>
+                    </div>
+                    <div class="panel-body">
+                        <h5 class="text-center">
+                            <form action="{:U('',['type'=>$type])}" method="get">
+                                <input id="start_date" name="start_date" value="{$start_date}"> 至
+                                <input id="end_date" name="end_date" value="{$end_date}">
+                                <input id="submit" type="submit" class="btn btn-xs btn-default search-btn" value="查询">
+                            </form>
+                        </h5>
+                        <canvas id="mychart" style="width:100%;height:300px;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</block>

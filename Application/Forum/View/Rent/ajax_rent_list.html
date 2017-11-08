@@ -1,0 +1,70 @@
+<foreach name="list" item="list">
+    <switch name="list['type']">
+        <case value="1">
+            <li class="mt10 btb">
+                <a href="{:U('forum/rent/rent_detail',array('id'=>$list['id']))}" class="table p10 bgf">
+                    <div class="table-cell vm item-media">
+                        <div class="ba item-pic"><img src="{:getpics($list['pics'])}" alt="" class="imgm"></div>
+                    </div>
+                    <div class="table-cell vm pl10 fs12 col3">
+                        <h3 class="fs14 single-line">{$list.title}</h3>
+                        <p class="single-line">{$list.area} |{$list.address}</p>
+                        <p class="single-line"><em class="colred">{$list.price}元/月</em> | {$list.acreage}平方</p>
+                    </div>
+                </a>
+                <span class="m-tip tbg-2">出<br>租</span>
+                <present name="member">
+                    <div class="p10 bt bgf tr fs12">
+                        <a href="" class="mr5 br50 btn-mini btn-mini_gray">增加</a>
+                        <a href="" class="mr5 br50 btn-mini btn-mini_gray">编辑</a>
+                        <a href="" class="br50 btn-mini btn-mini_solid">删除</a>
+                    </div>
+                </present>
+            </li>
+        </case>
+        <case value="2">
+            <li class="mt10 btb">
+                <a href="{:U('forum/rent/rent_detail',array('id'=>$list['id']))}" class="table p10 bgf">
+                    <div class="table-cell vm item-media">
+                        <div class="ba item-pic"><img src="{:getpics($list['pics'])}" alt="" class="imgm"></div>
+                    </div>
+                    <div class="table-cell vm pl10 fs12 col3">
+                        <h3 class="fs14 single-line">{$list.title}</h3>
+                        <p class="single-line">{$list.area} |{$list.address}</p>
+                        <p class="single-line"><em class="colred">{$list.price}元/月</em> | {$list.acreage}平方</p>
+                    </div>
+                </a>
+                <span class="m-tip tbg-3">求<br>租</span>
+                <present name="member">
+                    <div class="p10 bt bgf tr fs12">
+                        <a href="" class="mr5 br50 btn-mini btn-mini_gray">增加</a>
+                        <a href="" class="mr5 br50 btn-mini btn-mini_gray">编辑</a>
+                        <a href="" class="br50 btn-mini btn-mini_solid">删除</a>
+                    </div>
+                </present>
+            </li>
+        </case>
+        <case value="3">
+            <li class="mt10 btb">
+                <a href="{:U('forum/rent/rent_detail',array('id'=>$list['id']))}" class="table p10 bgf">
+                    <div class="table-cell vm item-media">
+                        <div class="ba item-pic"><img src="{:getpics($list['pics'])}" alt="" class="imgm"></div>
+                    </div>
+                    <div class="table-cell vm pl10 fs12 col3">
+                        <h3 class="fs14 single-line">{$list.title}</h3>
+                        <p class="single-line">{$list.area} |{$list.address}</p>
+                        <p class="single-line"><em class="colred">{$list.price}元/月</em> | {$list.acreage}平方</p>
+                    </div>
+                </a>
+                <span class="m-tip tbg-1">转<br>让</span>
+                <present name="member">
+                    <div class="p10 bt bgf tr fs12">
+                        <a href="" class="mr5 br50 btn-mini btn-mini_gray">增加</a>
+                        <a href="" class="mr5 br50 btn-mini btn-mini_gray">编辑</a>
+                        <a href="" class="br50 btn-mini btn-mini_solid">删除</a>
+                    </div>
+                </present>
+            </li>
+        </case>
+    </switch>
+</foreach>

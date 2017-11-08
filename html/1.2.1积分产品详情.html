@@ -1,0 +1,292 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>1.2.1积分产品详情</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<div class="foot_fixed">
+		<dl class="table tc goods_buy">
+			<dt class="table-cell br"><a href="" class="fs12 col6 gbuy-8 on">客服</a></dt>
+			<dt class="table-cell br"><a href="" class="fs12 col6 gbuy-1 hint-num">首页</a></dt>
+			<dt class="table-cell"><a href="" class="fs12 col6 gbuy-3 hint-num">购物车<em>2</em></a></dt>
+			<dd class="table-cell"><a href="" class="fs14 colf gbuy-5">加入购物车</a></dd>
+			<dd class="table-cell"><a href="" class="fs14 colf gbuy-6">立即购买</a></dd>
+		</dl>
+	</div>
+	<!-- 底部悬浮 end -->
+
+	<section class="main">
+
+		<div class="swiper-container detail_ban">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<img src="images/detail_ban2.jpg" alt="3:2,640*427" class="imgm">
+				</div>
+				<div class="swiper-slide">
+					<img src="images/detail_ban2.jpg" alt="3:2,640*427" class="imgm">
+				</div>
+				<div class="swiper-slide">
+					<img src="images/detail_ban2.jpg" alt="3:2,640*427" class="imgm">
+				</div>
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+		<script src="weui/js/swiper.js"></script>
+		<script>
+		$(function(){
+			var swiperWidth = $(".detail_ban").width();
+				swiperHeight = swiperWidth * (2/3);
+				$(".detail_ban").css("height",swiperHeight);
+			$(".detail_ban").swiper({
+				pagination: '.swiper-pagination',
+				paginationType: 'fraction',
+				loop: true,
+				autoplay: 3000,
+				autoplayDisableOnInteraction : false,
+			});
+		});
+		</script>
+		<!-- detail_ban end -->
+
+		<div class="p10 btb bgf detail_info">
+			<div class="table fs14 col3">
+				<p class="teble-cell">宇彩足浴牛奶润肤汤100袋/盒装牛奶泡澡泡脚足浴足疗用品特价包邮</p>
+				<a href="javascript:;" class="table-cell favor pl10 bl tc fs12">
+					<i class="Icon-favor"></i>
+					<p>收藏</p>
+				</a>
+			</div>
+			<div class="fs12 col9 m-price">
+				<b class="fs16 colred">¥ <em class="fs24">208.0</em></b>
+				<s class="ml10">¥268.0</s>
+				<span class="colred item-more share">已售：171</span>
+			</div>
+			<div class="mt5 col6 item-bot fs12">
+				<span class="col-4e">促销：</span>
+				<a href="" class="col0">宇彩足浴牛奶润肤汤100袋</a>
+			</div>
+		</div>
+
+		<ul class="mt10 btb last fs14 col3 detail_extra">
+			<li class="table bgf p10 bb">
+				<div class="table-cell item-lt vt">送至</div>
+				<div class="table-cell">
+					<p class="fs13 col0">上海 上海市 徐汇区</p>
+					<p class="fs12 col6 mt5"><i class="Icon-time"></i>15:00前完成下单，当天可发货，上海地区当天可送达</p>
+				</div>
+			</li>
+			<li class="table bgf p10 bb">
+				<div class="table-cell item-lt vt">运费</div>
+				<div class="table-cell">
+					<p class="fs13 col0">满95包邮（10kg内）</p>
+				</div>
+			</li>
+			<li class="mt10 bgf table p10 bb">
+				<div class="table-cell item-lt">积分</div>
+				<div class="table-cell">
+					<p class="fs13 col9">购买可得3积分</p>
+				</div>
+			</li>
+			<li class="p10 fs13 bg-f0 bb">
+				<span class="detail-tag">艾玛莎基&售后</span>
+				<span class="detail-tag">货到付款</span>
+				<span class="detail-tag">正品保证</span>
+				<span class="detail-tag">艾玛莎基&售后</span>
+			</li>
+			<li class="table bgf p10 bb">
+				<div class="table-cell item-lt">已选</div>
+				<a href="javascript:;" class="table-cell spec-btn arrowR">
+					<p class="fs13 col9">粉色L 1个</p>
+				</a>
+			</li>
+		</ul>
+
+		<div class="mt10 bgf btb detail_eval">
+			<div class="p10 bb item-tit">
+				<span class="fr col9">共234条评论</span>
+				<span class="fs15 col3">商品评价</span>
+			</div>
+			<ul class="list_eval">
+				<li class="p10 bb">
+					<div class="clearfix item-hd">
+						<div class="fl ba brarc item-pic"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+						<span class="fl plr10">Miyako 美妍</span>
+						<div class="fl star-show" data-score="5"></div>
+						<p class="fr col9">2016-09-01</p>
+					</div>
+					<div class="mt5 fs14 col3 item-bd">
+						<p>清洁的很干净，阿姨卫生做的很好，厨房抽油烟机的死 角部分也清洁过了，有需要会再预约的。</p>
+					</div>
+				</li>
+				<li class="p10 bb">
+					<div class="clearfix item-hd">
+						<div class="fl ba brarc item-pic"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+						<span class="fl plr10">zongliagn</span>
+						<div class="fl star-show" data-score="5"></div>
+						<p class="fr col9">2016-09-01</p>
+					</div>
+					<div class="mt5 fs14 col3 item-bd">
+						<p>清洁的很干净，阿姨卫生做的很好，厨房抽油烟机的死 角部分也清洁过了，有需要会再预约的。</p>
+					</div>
+				</li>
+			</ul>
+			<a href="" class="block p5 tc fs13 col3">查看全部评论</a>
+		</div>
+		<script src="js/jquery.raty.min.js"></script>
+		<!-- 商品评价 end -->
+<!--
+		<div class="p10 fs15 col3">猜你喜欢</div>
+		<ul class="weui-row list_goods">
+			<li class="weui-col-50">
+				<a href="" class="block ba bgf">
+					<div class="item-pic"><img src="images/img_goods-1.jpg" alt="" class="imgm"></div>
+					<div class="p5 bt item-con">
+						<p class="fs14 col3 multi-line">养生艾草艾叶泡脚粉</p>
+						<div class="fs12">
+							<span class="fs13 colred">¥<em class="fs16">59.0</em></span>
+							<del class="ml10 col9">¥699</del>
+						</div>
+					</div>
+				</a>
+			</li>
+			<li class="weui-col-50">
+				<a href="" class="block ba bgf">
+					<div class="item-pic"><img src="images/img_goods-2.jpg" alt="" class="imgm"></div>
+					<div class="p5 bt item-con">
+						<p class="fs14 col3 multi-line">亚琪诗桑拿按摩精油全身润 肤油按摩</p>
+						<div class="fs12">
+							<span class="fs13 colred">¥<em class="fs16">88.0</em></span>
+							<del class="ml10 col9">¥2299</del>
+						</div>
+					</div>
+				</a>
+			</li>
+		</ul> -->
+		<script>
+		$(function() {
+			$(".list_goods .item-pic").each(function(){
+				var w = $(this).width();
+				$(this).css({"height": w});
+			});
+		});
+		</script>
+
+		<div class="table mt10 bgf btb tc fs14 detail_nav">
+			<a href="javascript:;" class="table-cell active"><span>商品介绍</span></a>
+			<a href="javascript:;" class="table-cell"><span>规格参数</span></a>
+			<a href="javascript:;" class="table-cell"><span>售后保障</span></a>
+		</div>
+		<div class="p10 bb bgf detail_wrap">
+			<div class="detail_main">
+				<article class="fs12 col3 m-editor">
+					<img src="images/img_article.jpg" alt="">
+				</article>
+			</div>
+			<div class="detail_main">
+				<article class="fs12 col3 m-editor">
+					<p>撒范德萨的疯狂就恢复是电风扇的萨达发给破纽约太热注册全身心而对方评论口模块就能用混凝土管别人发的公司法拉开与国内出发而完成项目来看偶空间和投入大学生为所谓非居民及广东省是大法官就</p>
+				</article>
+			</div>
+			<div class="detail_main"></div>
+		</div>
+
+
+
+	</section>
+	<!-- main主体 end -->
+
+	<section class="spec-wrap popup-wrap" style="display: none;">
+		<div class="popup-overlay"></div>
+		<div class="popup-content">
+			<ul class="list_goods mt10">
+				<li class="p10 btb bgf">
+					<a href="" class="table">
+						<div class="table-cell item-photo">
+							<div class="ba br3 item-pic">
+								<img src="images/img_goods-1.jpg" alt="" class="imgm">
+							</div>
+						</div>
+						<div class="table-cell pl10 item-con">
+							<h2 class="fs13 col3 multi-line">「黄金双瓶」双萃赋活精华露 开启细胞级修护 双瓶能量 焕活年轻 </h2>
+							<div class="mt5 fs12 m-price">
+								<span class="colred">¥ <b class="fs15">680</b><em class="ml10 fs12 col9">好评：99%</em></span>
+								<!-- <em class="item-more"><img src="images/to-cart.png" style="width:30px" alt="" class="block"></em> -->
+							</div>
+						</div>
+					</a>
+				</li>
+			</ul>
+			<div class="p10 bgf col3 fs13">
+				<p>颜色</p>
+				<div class="radio-spec">
+					<label for="spec1" class="opt-label">
+						<input type="radio" class="opt-check" name="spec" id="spec1" checked>
+						<span class="opt-checked">黑色哎哎哎哎发发</span>
+					</label>
+					<label for="spec2" class="opt-label">
+						<input type="radio" class="opt-check" name="spec" id="spec2" checked>
+						<span class="opt-checked">黑色哎哎哎哎发发</span>
+					</label>
+					<label for="spec3" class="opt-label">
+						<input type="radio" class="opt-check" name="spec" id="spec3" checked>
+						<span class="opt-checked">黑色哎哎哎哎发发</span>
+					</label>
+				</div>
+			</div>
+			<div class="bt p10 fs13 bgf col0 box flex-between">
+				<span>购买数量</span>
+				<div class="bgf tc fs14 buy_num">
+					<i class="fr plus">+</i>
+					<input name="" type="text" class="fr tc value" value="1" disabled>
+					<i class="fr minus">-</i>
+				</div>
+			</div>
+				<!-- <div class="table">
+					<a href="" class="table-cell bg_ora btn-block" style="width:50%;display:table-cell;background-color: #ff9505">立即购买</a>
+					<a href="" class="table-cell bg_own btn-block" style="width:50%;display:table-cell">加入购物车</a>
+				</div> -->
+			<div class="bgf" style="height: 60px;"></div>
+			<a href="" class="bg_own btn-block">加入购物车</a>
+		</div>
+	</section>
+</section>
+
+
+<script>
+	$(".spec-btn").on("click",function(){
+		$(".spec-wrap").show();
+	});
+	$(".spec-wrap .popup-overlay").on("click",function(){
+		$(".spec-wrap").hide();
+	});
+	$(".favor").on("click",function(){
+		$(this).addClass('on');
+		$(this).find("p").html("已收藏");
+	});
+</script>
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

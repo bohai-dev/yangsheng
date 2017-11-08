@@ -1,0 +1,56 @@
+<foreach name="record" item="list" >
+    <li class="mb10 p10 btb bgf relative">
+        <div class="table item-head">
+            <div class="table-cell">
+                <div class="brarc item-pic"><img src="{$list.avatar}" alt="" class="imgm"></div>
+                <div class="ml10 item-info">
+                    <span class="fs14 col3 single-line">{:ReStrLen($list['username'],5,'')}</span>
+                    <p class="fs12 col9 single-line">{$list.date_time}前</p>
+                </div>
+            </div>
+            <div class="table-cell fs12 item-ope" style="width: 240px;">
+                <a href="javascript:;" class="mr5 br50 btn-mini audit">
+                    <switch name ="list['status']">
+                        <case value="-1">已拒绝</case>
+                        <case value="0">审核中</case>
+                        <case value="1">已通过</case>
+                    </switch>
+                </a>
+                <a href="{:U('Forum/Index/detail',array('id'=>$list['id']))}" class="mr5 br50 btn-mini btn-mini_outlined">查看</a>
+                <a href="{:U('Forum/Index/edit',array('id'=>$list['id']))}" class="mr5 br50 btn-mini btn-mini_gray">编辑</a>
+                <a href="javascript:;" data-value="{$list.id}" class="br50 btn-mini  delete btn-mini_solid">删除</a>
+            </div>
+        </div>
+        <div class="mt10 item-main">
+            <article class="fs12 col3 m-editor">
+                <p>{$list.content}</p>
+                <a href="javascript:;" class="m-more"><em class="ml10">全文</em></a>
+            </article>
+            <notempty name="list['pics']">
+                <gt name="list['pics']|count" value="1">
+                    <div class="weui-row  item-show" style="max-height:none;">
+                        <volist name="list['pics']" id="vo" >
+                            <div class="weui-col-33 mt10">
+                                <div class="item-pic"><img src="{:getpics($vo)}" alt="" class="imgm"></div>
+                            </div>
+                        </volist>
+                        <if condition="($list['pics']%3 eq 2)">
+                            <div class="weui-col-33 mt10">
+
+                            </div>
+                        </if>
+                    </div>
+                    <else/>
+                    <div class="weui-row mt10 item-show" style="max-height:none;">
+                        <img src="{:getpics($list['pics'][0])}" alt="" class="block" style="max-height: 200px;max-width: 100%;" >
+                    </div>
+                </gt>
+            </notempty>
+        </div>
+        <div class="table mt10 ba tc fs12 item-foot">
+            <a href="javascript:;" class="table-cell"><i class="it-1"></i>{$list.like_num}</a>
+            <a href="{:U('Forum/Index/comment_list',array('id'=>$list['id']))}" class="table-cell"><i class="it-2"></i><span class="comment_num">{$list.comment}</span></a>
+            <a href="{:U('Forum/Index/award_list',array('id'=>$list['id']))}" class="table-cell"><i class="it-4"></i>{$list.reward_num}</a>
+        </div>
+    </li>
+</foreach>

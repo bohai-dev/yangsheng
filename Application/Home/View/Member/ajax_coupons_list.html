@@ -1,0 +1,33 @@
+<foreach name="record" item="list">
+    <switch name="list['status']">
+        <case value="1">
+            <li class="bgf ba plr10 mb10"><a href="javascript:;">
+                <div class="ptb10 item-hd">
+                    <h2 class="fs14 col0">{$list['title']}</h2>
+                    <span class="mt10">¥  <b class="vb fs24">{$list.price}</b></span>
+                </div>
+                <div class="tr col6 item-bd">{:substr($list['start_time'],0,10)} - {:substr($list['end_time'],0,10)}</div>
+            </a></li>
+        </case>
+        <case value="2">
+            <li class="bgf ba plr10 mb10 used"><a href="javascript:;">
+                <div class="ptb10 item-hd">
+                    <h2 class="fs14 col0">{$list['title']}</h2>
+                    <span class="mt10">¥  <b class="vb fs24">{$list.price}</b></span>
+                </div>
+                <div class="tr col6 item-bd">{:substr($list['start_time'],0,10)} - {:substr($list['end_time'],0,10)}</div>
+            </a></li>
+        </case>
+        <case value="3">
+            <li class="bgf ba plr10 mb10 over"><a href="javascript:;">
+                <div class="ptb10 item-hd">
+                    <h2 class="fs14 col0">{$list['title']}</h2>
+                    <span class="mt10">¥  <b class="vb fs24">{$list.price}</b></span>
+                </div>
+                <div class="tr col6 item-bd">{:substr($list['start_time'],0,10)} - {:substr($list['end_time'],0,10)}</div>
+            </a></li>
+        </case>
+    </switch>
+</foreach>
+
+

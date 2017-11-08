@@ -1,0 +1,59 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+    <section class="main">
+
+        <div class="ptb10 user_head">
+            <dl class="clearfix p10">
+                <a href="javascript:;" class="set"></a>
+                <dt class="fl ml10 br50">
+                    <img src="{:getpics($userInfo['avatar'])}" alt="" class="imgm">
+                </dt>
+                <dd class="fs13 colf">
+                    <h2 class="mt5 mb10 fs18 colf">{$user.nickname}</h2>
+                    <span class="tel">{$user.mobile}</span>
+                    <span class="mt5 time">{:substr($user['create_time'],0,10)}加入{:C('WEB_SITE_TITLE')}</span>
+                </dd>
+            </dl>
+        </div>
+
+
+        <div class="table bgf tc fs14 menu">
+            <a href="{:U('Shop/Award/index')}" class="table-cell ptb10 bb col3">抽奖活动</a>
+            <a href="{:U('Shop/Award/my_award')}" class="table-cell ptb10 bb col3 active">领取记录</a>
+            <a href="{:U('Shop/Award/award_rule')}" class="table-cell ptb10 bb col3">活动规则</a>
+        </div>
+
+        <div class="mt10 p10 tc collect_site">
+            <empty name="address">
+                <span class="mr10 fs14">* 实物奖励邮寄地址</span>
+                <a href="{:U('Home/Member/address',array('from'=>'award'))}" class="br5 colf">填写地址管理</a>
+                <else/>
+                <span class="mr10 fs14">* 实物奖励邮寄地址:{$address.prov}{$address.city}{$address.country}{$address.detail}</span>
+            </empty>
+        </div>
+
+        <div class="bgf ba br5 tc collect_records">
+            <div class="ptb10 fs14 table item-hd">
+                <div class="table-cell item-w">礼包名称</div>
+                <div class="table-cell item-w">获取来源 </div>
+                <div class="table-cell">获取时间</div>
+            </div>
+            <ul class="item-bd">
+                <foreach name="award_record" item="list">
+                    <li class="table ptb10 bt">
+                        <div class="table-cell item-w">{$list.title}</div>
+                        <div class="table-cell item-w">积分兑换</div>
+                        <div class="table-cell">{$list.time}</div>
+                    </li>
+                </foreach>
+            </ul>
+        </div>
+
+
+
+
+
+
+    </section>
+</block>

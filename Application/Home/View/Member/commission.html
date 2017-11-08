@@ -1,0 +1,87 @@
+<extend name="$_home_public_layout"/>
+<block name="footer">
+
+</block>
+<block name="wrap">
+    <section class="main">
+
+        <div class="p10 view-head view-comm">
+            <div class="colf item-bd">
+                <p class="fs14">佣金总额：<b class="fs30">{$user.money}元</b></p>
+                <span class="mt10 fs14">快去发扩充更多团员一起享受收益吧！</span>
+                <a href="{:U('Home/Member/apply')}" class="br3 fs12 colf">申请提现</a>
+            </div>
+        </div>
+
+        <div class="table bgf btb tc fs15 comm_nav">
+            <a href="javascript:;" class="table-cell change vm br col6  active" data-value="1">可提现</a>
+            <a href="javascript:;" class="table-cell change vm col6"  data-value="2">已提现</a>
+        </div>
+
+        <div class="comm_con">
+            <ul class="view-list change1" >
+                <li class="p10 bb fs15 col6 comm_tit">
+                    累计佣金金额： <em class="colred">{$total_money}</em> 元
+                </li>
+                <foreach name="list" item="list">
+                    <li class="table bgf bb">
+                        <div class="table-cell vm p10">
+                            <p class="fs15 col3">{$list.title}</p>
+                            <p class="mt5 col9">{:substr($list['create_time'],0,10)}</p>
+                        </div>
+                        <div class="table-cell vm p10 item-right">
+                            <span class="fs16 plus">＋{$list.money}</span>
+                        </div>
+                    </li>
+                </foreach>
+
+            </ul>
+            <!-- 可提现 end -->
+            <ul class="view-list change2" style="display: none">
+                <li class="p10 bb fs15 col6 comm_tit">
+                    累计提现金额： <em class="colred">{$withdraw_total}</em> 元
+                </li>
+                <foreach name="withdraw_list" item="list">
+                    <li class="table bgf bb">
+                        <div class="table-cell vm p10">
+                            <p class="fs15 yellow">￥{$list.money}</p>
+                            <p class="mt5 col9">{:substr($list['create_time'],0,10)}</p>
+                        </div>
+                        <div class="table-cell vm p10 item-right">
+                            <span class="fs16 plus">
+                                <switch name="list['status']">
+                                    <case value="1">审核中</case>
+                                    <case value="2">已转账</case>
+                                    <case value="3">审核未通过</case>
+                                </switch>
+                            </span>
+                        </div>
+                    </li>
+                </foreach>
+
+            </ul>
+            <!-- 冻结中 end -->
+        </div>
+
+    </section>
+</block>
+
+<block name="icon"></block>
+
+<block name="script">
+    <script>
+            $(function(){
+                $('.change').on('click',function(){
+                    var $this =$(this);
+                    $(this).addClass('active').siblings().removeClass('active');
+                    if($this.attr('data-value')==1){
+                        $('.change1').show();
+                        $('.change2').hide();
+                    }else{
+                        $('.change2').show();
+                        $('.change1').hide();
+                    }
+                });
+            })
+    </script>
+</block>

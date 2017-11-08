@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>1.6广告样式1</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<section class="main">
+
+		<div class="p10 bg_own">
+			<p class="tc fs16 colf">热销排行榜</p>
+		</div>
+		<a href="" class="block">
+			<img src="images/img_index-ad.jpg" alt="" class="imgm">
+		</a>
+
+		<div class="p5 bg_own">
+			<p class="tc fs14 colf">热销排行榜(固定三个)</p>
+		</div>
+		<ul class="table bgf tc list_hots">
+			<li class="table-cell br">
+				<a href="" class="p10 block">
+					<div class="item-pic"><img src="images/img_seckill-1.jpg" alt="" class="imgm"></div>
+					<p class="fs13 col3 single-line">宇彩足浴牛奶润肤汤</p>
+					<em class="mt5 fs12 col_own">￥568.0</em>
+				</a>
+			</li>
+			<li class="table-cell br">
+				<a href="" class="p10 block">
+					<div class="item-pic"><img src="images/img_seckill-1.jpg" alt="" class="imgm"></div>
+					<p class="fs13 col3 single-line">宇彩足浴牛奶润肤汤</p>
+					<em class="mt5 fs12 col_own">￥568.0</em>
+				</a>
+			</li>
+			<li class="table-cell br">
+				<a href="" class="p10 block">
+					<div class="item-pic"><img src="images/img_seckill-1.jpg" alt="" class="imgm"></div>
+					<p class="fs13 col3 single-line">宇彩足浴牛奶润肤汤</p>
+					<em class="mt5 fs12 col_own">￥568.0</em>
+				</a>
+			</li>
+		</ul>
+
+		<div class="p5 bg_own">
+			<p class="tc fs14 colf">热销排行榜(滚动)</p>
+		</div>
+		<div class="bgf index_seckill">
+			<div class="swiper-container tc item-bd">
+				<div class="swiper-wrapper">
+					<a href="" class="swiper-slide p10 br">
+						<div class="item-pic"><img src="images/img_seckill-1.jpg" alt="" class="imgm"></div>
+						<p class="fs13 col3 single-line">宇彩足浴牛奶润肤汤</p>
+						<em class="mt5 fs12 col_own">￥568.0</em>
+					</a>
+					<a href="" class="swiper-slide p10 br">
+						<div class="item-pic"><img src="images/img_seckill-2.jpg" alt="" class="imgm"></div>
+						<p class="fs13 col3 single-line">薰衣草香浴盐</p>
+						<em class="mt5 fs12 col_own">￥568.0</em>
+					</a>
+					<a href="" class="swiper-slide p10 br">
+						<div class="item-pic"><img src="images/img_seckill-3.jpg" alt="" class="imgm"></div>
+						<p class="fs13 col3 single-line">汉方醋疗足浴剂</p>
+						<em class="mt5 fs12 col_own">￥568.0</em>
+					</a>
+					<a href="" class="swiper-slide p10 br">
+						<div class="item-pic"><img src="images/img_seckill-1.jpg" alt="" class="imgm"></div>
+						<p class="fs13 col3 single-line">宇彩足浴牛奶润肤汤</p>
+						<em class="mt5 fs12 col_own">￥568.0</em>
+					</a>
+					<a href="" class="swiper-slide p10 br">
+						<div class="item-pic"><img src="images/img_seckill-2.jpg" alt="" class="imgm"></div>
+						<p class="fs13 col3 single-line">薰衣草香浴盐</p>						<em class="mt5 fs12 col_own">￥568.0</em>
+					</a>
+					<a href="" class="swiper-slide p10 br">
+						<div class="item-pic"><img src="images/img_seckill-3.jpg" alt="" class="imgm"></div>
+						<p class="fs13 col3 single-line">汉方醋疗足浴剂</p>
+						<em class="mt5 fs12 col_own">￥568.0</em>
+					</a>
+				</div>
+				<!-- Add Scrollbar -->
+				<div class="swiper-scrollbar"></div>
+			</div>
+		</div>
+		<script src="weui/js/swiper.js"></script>
+		<script>
+		$(function(){
+			var swiper = new Swiper('.index_seckill .swiper-container', {
+				scrollbar: '.swiper-scrollbar',
+				scrollbarHide: true,
+				slidesPerView: 3,
+				paginationClickable: true,
+				freeMode: true
+			});
+		});
+		</script>
+
+		<div class="p10 tc nomore">
+			<span class="col9">—— <i></i> ——</span>
+			<p class="fs12 col9">亲，没有更多了哦~</p>
+		</div>
+
+		<div class="handle_fixed">
+			<a href="" class="ba brarc"><i class="hf-1"></i></a>
+			<a href="" class="ba brarc"><i class="hf-2"></i></a>
+			<a href="" class="ba brarc"><i class="hf-3"></i></a>
+			<a href="" class="ba brarc"><i class="hf-4"></i></a>
+		</div>
+
+	</section>
+	<!-- main主体 end -->
+
+</section>
+<!-- 主体 end -->
+
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

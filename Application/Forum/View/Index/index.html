@@ -1,0 +1,643 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <section class="main">
+
+        <dl class="table p10 header forum_head forum_headTop">
+            <dd class="table-cell vm">
+                <a href="javascript:;" class="br50 item-pic">
+                    <img src="{:getpics($user['avatar'])}" alt="" class="imgm">
+                </a>
+            </dd>
+            <dt class="table-cell vm">
+            <div class="table box-b ba br5 tc item-tab">
+                <a href="{:U('index')}" class="table-cell active">全部</a>
+                <a href="{:U('attention')}" class="table-cell">关注</a>
+            </div>
+            </dt>
+            <dd class="table-cell vm">
+                <a href="{:U('Home/Index/info',array('id'=>2))}" class="publish"></a>
+            </dd>
+        </dl>
+
+        <div class="swiper-container banner">
+            <div class="swiper-wrapper">
+                <foreach name="banner" item="list">
+                    <a href="{$list['url']?$list['url']:'javascript:;'}" class="swiper-slide">
+                        <img src="{:getpics($list['cover'])}" alt="2:1,640*320" class="imgm">
+                    </a>
+                </foreach>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <!-- banner end -->
+
+        <div class="clearfix pt10 btb bgf tc fs12 forum_nav">
+            <a href="{:U('Shop/Award/index')}" class="mb10">
+                <img src="__HTML_IMG__/icon-forum-1.png" alt="" class="imgm">
+                <p class="mt5 col9">积分抽奖</p>
+            </a>
+            <a href="{:U('Shop/Bulletin/index')}" class="mb10">
+                <img src="__HTML_IMG__/icon-forum-2.png" alt="" class="imgm">
+                <p class="mt5 col9">养生头条</p>
+            </a>
+            <a href="{:U('Forum/Job/index')}" class="mb10">
+                <img src="__HTML_IMG__/icon-forum-3.png" alt="" class="imgm">
+                <p class="mt5 col9">求职招聘</p>
+            </a>
+            <a href="{:U('Forum/Rent/index')}" class="mb10">
+                <img src="__HTML_IMG__/icon-forum-4.png" alt="" class="imgm">
+                <p class="mt5 col9">转让出租</p>
+            </a>
+        </div>
+        <notempty name="adver">
+            <div class="swiper-container mt10 p10 btb bgf tc fs12 forum_ad">
+                <div class="swiper-wrapper">
+                    <foreach name="adver" item="list">
+                        <div class="swiper-slide">
+                            <eq name="list['is_url']" value="0">
+                                <a href="{$list.url}" class="block ba br5">
+                                    <div class="item-pic"><img src="{$list.cover_url}" alt="" class="imgm"></div>
+                                   <!-- <p class="p5 bgf col9 single-line">{$list.title}</p>-->
+                                </a>
+                                <else/>
+                                <a href="{:U('Forum/Index/adver_detail',['id'=>$list['id']])}" class="block ba br5">
+                                    <div class="item-pic"><img src="{$list.cover_url}" alt="" class="imgm"></div>
+                                    <!-- <p class="p5 bgf col9 single-line">{$list.title}</p>-->
+                                </a>
+                            </eq>
+                        </div>
+                    </foreach>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </notempty>
+
+
+        <foreach name="middle_adver" item="list">
+            <eq name="list['is_url']" value="0">
+                <a href="{$list.url}" class="block mt10 btb">
+                    <img src="{$list.cover_url}"  alt="" class="imgm">
+                </a>
+                <else/>
+                <a href="{:U('Forum/Index/adver_detail',['id'=>$list['id']])}" class="block mt10 btb">
+                    <img src="{$list.cover_url}" alt="" class="imgm">
+                </a>
+            </eq>
+          <!--  <a href="{$list.url}" class="block mt10 btb">
+                <img src="{$list.cover_url}" alt="" class="imgm">
+            </a>-->
+
+        </foreach>
+
+        <!-- 广告 end -->
+                <!-- <div class="cTab_msk"></div> -->
+            <div class="mt10 btb bgf cTab_ico classify_tab cTab_show">
+                <!-- <div class="swiper-container tc fs12 cTab_nav">
+                    <div class="swiper-wrapper">
+                        <a href="javascript:;" data-value="all" class="swiper-slide active change"><span><i class="cTi-1"></i>全部</span></a>
+                        <foreach name="type" item="list">
+                            <a href="javascript:;"  data-value="{$list['id']}"  class="swiper-slide add-nav change"><span>
+                            <i class="cTi-2" style="background-image: none;">
+                                <img src="{:getpics($list['cover'])}" alt="icon" class="block">
+                                <img src="{:getpics($list['cover_status'])}" alt="icon" class="block">
+                            </i>{$list.title}</span></a>
+                        </foreach>
+                    </div>
+                </div>
+                <a href="javascript:;" class="cTab_more"></a> -->
+                <div class="bgf cTab_pop">
+                    <!-- <div class="tc fs15 col6 item-hd">全部分类</div> exchage -->
+                    <ul class="clearfix bt tc fs12 cTab_nav">
+                        <li class="bb active " data-value="all" >
+                            <a  href="javascript:;" class="change" data-value="all">
+                                <i class="cTi-1"></i>全部
+                            </a>
+                        </li>
+                        <foreach name="type" item="list">
+                            <li class="bb  " data-value="{$list['id']}">
+                                <a href="javascript:;" class="swiper-slide add-nav change" data-value="{$list['id']}">
+                                    <i class="cTi-2" style="background-image: none;">
+                                        <img src="{:getpics($list['cover'])}" alt="icon" class="block">
+                                        <img src="{:getpics($list['cover_status'])}" alt="icon" class="block">
+                                    </i>{$list.title}
+                                </a>
+                            </li>
+                        </foreach>
+                    </ul>
+                </div>
+            </div>
+        <!-- 论坛分类 end -->
+        <ul class="clearfix forum_list_v2 ajax_list"></ul>
+        <div class="placeholder" style="display: none;height: 700px;"></div>
+        <div id="loading" class="tc" style="display: none"></div>
+        <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+            <span class="col9">—— <i></i> ——</span>
+            <p class="fs12 col9">亲，没有更多了哦~</p>
+        </div>
+        <div class="tc nothing" style="display: none; margin-top:20px" >
+            <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+            <span class="mt10 fs14 col9">暂无记录</span>
+        </div>
+        <a href="{:U('post')}" class="brarc release_job" style=" bottom: 50px; right: 15px; height: 50px; width: 50px;">
+            <i></i><p class="tc fs12 colf">发布</p>
+        </a>
+        <script>
+            $(function() {
+                $(".forum_list .item-pic").each(function(){
+                    var w = $(this).width();
+                    $(this).css({"height": w});
+                });
+            });
+        </script>
+    </section>
+</block>
+<block name="extra">
+    <div class="popup-wrap">
+        <div class="popup-overlay"></div>
+        <div class="popup-content" style="top: 0px;">
+            <section class="reply_wrap" style="display: block">
+                <dl class="table bgf header">
+                    <dd class="table-cell vm">
+                        <a href="javascript:;" class="back"></a>
+                    </dd>
+                    <dt class="table-cell vm">
+                    <p class="tc">评论</p>
+                    </dt>
+                    <dd class="table-cell vm"></dd>
+                </dl>
+                    <div class="p10 btb bgf fs14 col6 relative">
+                        <textarea name="comment" cols="" rows="5" class="form-unify" placeholder="请填写您的评论" id="textArea" onkeyup="words_deal();"></textarea>
+                        <span class="fs12 col9 textNum"><em>0</em>/100</span>
+                    </div>
+
+                    <div class="mt20 p10">
+                        <button type="button" class="bg_own br5 btn-block">确认发布</button>
+                    </div>
+            </section>
+        </div>
+    </div>
+    <div class="share_main" style="cursor: pointer"></div>
+</block>
+<block name="icon"></block>
+<block name="script">
+    <script src="__HTML_WEUI__/js/swiper.js"></script>
+    <script>
+        // 微信分享
+        wx.config({$jsapi});
+        wx.ready(function() {
+            //分享到朋友圈
+            wx.onMenuShareTimeline({
+                title: '{$wechatShare["title"]}',
+                link: '{$wechatShare["link"]}',
+                imgUrl: '{$wechatShare["imgUrl"]}',
+                success: function () {},
+                cancel: function () {}
+            });
+            //分享给朋友
+            wx.onMenuShareAppMessage({
+                title: '{$wechatShare["title"]}',
+                desc: '{$wechatShare["desc"]}',
+                link: '{$wechatShare["link"]}',
+                imgUrl: '{$wechatShare["imgUrl"]}',
+                type: '{$wechatShare["type"]}',
+                dataUrl: "",
+                success: function () {},
+                cancel: function () {}
+            });
+            //分享到QQ
+            wx.onMenuShareQQ({
+                title: '{$wechatShare["title"]}',
+                desc: '{$wechatShare["desc"]}',
+                link: '{$wechatShare["link"]}',
+                imgUrl: '{$wechatShare["imgUrl"]}',
+                success: function () {},
+                cancel: function () {}
+            });
+            //分享到腾讯微博
+            wx.onMenuShareWeibo({
+                title: '{$wechatShare["title"]}',
+                desc: '{$wechatShare["desc"]}',
+                link: '{$wechatShare["link"]}',
+                imgUrl: '{$wechatShare["imgUrl"]}',
+                success: function () {},
+                cancel: function () {}
+            });
+        });
+
+        function checkload() {
+            if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+                $("#loading").show();
+                LoadList(forum_type_id);
+            }
+        }
+        var forum_type_id ='all';
+        var n = 1;
+        var ispost = temp = true;
+        function LoadList(type) {
+            if (ispost && temp) {
+                temp = false;
+                $.ajax({
+                    url: "{:U('index')}",
+                    type: 'post',
+                    dataType: 'json',
+                    data: {n: n,type:type},
+                    timeout: 9999,
+                    success: function(data) {
+                        n++;
+                        temp = true;
+                        if(data.status){
+                            if(data.msg == ''){
+                                temp = false;
+                                $('.placeholder').slideUp();
+                                $("#full").show();
+                            }else{
+                                $("#loading").hide();
+                                $(".ajax_list").append(data.msg);
+                                $('.placeholder').slideUp();
+                                $(".ajax_list .item-pic").each(function(){
+                                    var w = $(this).width();
+                                    $(this).css({"height": w});
+                                });
+                                temp =true;
+                                checkload();
+                                // 文本更多
+                                $(".m-editor").each(function() {
+                                    var _this = $(this)
+                                    var height = _this.height();
+                                    var more = _this.find('.m-more');
+                                    var len = _this.has(".m-more").length;
+                                    if ( len > 0 && height > 55 ) {
+                                        _this.css({'height': '55px','padding-bottom':'16px'});
+                                        more.show();
+                                        more.click(function() {
+                                            if ( !_this.hasClass('active') ) {
+                                                _this.addClass('active');
+                                            } else {
+                                                _this.removeClass('active');
+                                            }
+                                        });
+                                    } else {
+                                        more.hide();
+                                    }
+                                });
+                                $(".forum_list .item-pic").each(function(){
+                                    var w = $(this).width();
+                                    $(this).css({"height": w});
+                                });
+                            }
+                        }else{
+                            temp = false;
+                            $('.placeholder').slideUp();
+                            $("#loading").hide();
+                            $(".nothing").show();
+                        }
+                      /*  $(".lazy img").lazyload({  //图片延迟加载
+                            placeholder : "html/images/loading.gif",
+                            effect      : "fadeIn",
+                            threshold : 200
+                        });*/
+                    }
+                });
+            }else if(!ispost){
+                $('.placeholder').slideUp();
+                $("#full").show();
+            }
+        }
+        function check_login(){
+            if({$uid} == 0){
+                Cookies.set('{$Think.const.ENV_PRE}Home_before_reg', '{:get_url()}');
+                location.href = '{:U('Home/Member/login')}';
+                return false;
+            }else{
+                return true;
+            }
+        }
+        function ajax_list(type){
+           // var  height_ajax =$('.ajax_list').outerHeight();
+            $('.placeholder').show();
+            $(".ajax_list").empty();
+            $("#full").hide();
+            $('.nothing').hide();
+            n=1;
+            forum_type_id =type;
+            ispost = temp = true;
+            LoadList(type);
+        }
+        $(function(){
+            $(window).bind('scroll', function() {
+                checkload(); //ajax 下拉加载更多内容
+            });
+
+            backList();
+            // var index = $(".cTab_nav .active").index();
+            // if ( index < 3 ) {
+            //     index = index - index;
+            // } else {
+            //     index = index - 2;
+            // }
+            // var cTab_nav = new Swiper ('.cTab_nav', {
+            //    // $(".cTab_nav").swiper({
+            //     pagination: '',
+            //     initialSlide : index,
+            //     slidesPerView: '5',
+            //     freeMode: true
+            // });
+
+            //页面样式 JS S
+            var swiperWidth = $(".banner").width();
+            swiperHeight = swiperWidth * 0.5;
+            $(".banner").css("height",swiperHeight);
+            $(".banner").swiper({
+                pagination: '.swiper-pagination',
+                loop: true,
+                autoplay: 3000,
+                autoplayDisableOnInteraction : false,
+            });
+            var swiper = new Swiper('.forum_ad', {
+                pagination: '.swiper-pagination',
+                loop: false,
+                // autoplay: 3000,
+                autoplayDisableOnInteraction : false,
+                freeMode: true,
+                slidesPerView: 2.5,
+                spaceBetween: 10,
+                onInit: function(){
+                    forum_type();
+                    //Swiper初始化了
+                    //alert(swiper.activeIndex);提示Swiper的当前索引
+                }
+            });
+            var index = $(".cTab_nav .active").index();
+            $(".cTab_nav").swiper({
+                pagination: '',
+                initialSlide : index,
+                slidesPerView: '5',
+                freeMode: true,
+                onInit: function(swiper){
+                    forum_type();
+                }
+            });
+
+            $(".forum_ad .item-pic").each(function(){
+                var w = $(this).width();
+                var h = w/2;
+                $(this).css({"height": h});
+            });
+            //页面样式 JS E
+
+            // 取消关注
+            $(document).on('click','.cancel',function(){
+                check_login();
+                var $this =$(this);
+                $.ajax({
+                    url:"{:U('attention')}",
+                    type:'post',
+                    dataType:'json',
+                    data:{attend_uid:$this.attr('data-value'),type:2},
+                    success:function(data){
+                        if(data.status){
+                            $this.removeClass('btn-mini_solid');
+                            $this.html('+ 关注');
+                            $this.removeClass('cancel');
+                            $this.addClass('attention');
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+            // 关注
+            $(document).on('click','.attention',function(){
+                check_login();
+                var $this =$(this);
+                $.ajax({
+                    url:"{:U('attention')}",
+                    type:'post',
+                    dataType:'json',
+                    data:{attend_uid:$this.attr('data-value'),type:1},
+                    success:function(data){
+                        if(data.status){
+                            $this.addClass('btn-mini_solid');
+                            $this.addClass('cancel');
+                            $this.removeClass('attention');
+                            $this.html('+ 已关注');
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+            // 点赞
+            $(document).on('click','.like_num',function(){
+                check_login();
+                var $this =$(this);
+                if(!$this.hasClass("on")){
+                    var type =1;
+                }else{
+                    var type =2;
+                }
+                $.ajax({
+                    url:"{:U('like')}",
+                    type:'post',
+                    dataType:'json',
+                    async: false,
+                    data:{id:$this.attr('data-value'),type:type},
+                    success:function(data){
+                        if(data.status){
+                            if(type==1){
+                                $this.addClass('on');
+                                var num =parseInt(parseInt($this.children('span').html())+1);
+                                $this.html('<i class="it-1"></i><span>'+num+'</span>');
+                            }else{
+                                $this.removeClass('on');
+                                var num =parseInt(parseInt($this.children('span').html())-1);
+                                $this.html('<i class="it-1"></i><span>'+num+'</span>');
+                            }
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+
+                    }
+                });
+            });
+            // 打赏
+            $(document).on("click", ".show-confirm", function() {
+                check_login();
+                var $this =$(this);
+                $.confirm({$score_html}, "确认打赏?", function() {
+                    var post_id =$this.attr('data-value');
+                    var value = $('input[name="radio-integral"]:checked').val();
+                    $.ajax({
+                        url:"{:U('Forum/Index/reward')}",
+                        dataType:'json',
+                        type:'post',
+                        data:{posts_id:post_id,value:value},
+                        success:function(data){
+                            if(data.status){
+                                $.alert(data.info,function(){
+                                    var num =parseInt($this.find('.score').html())+parseInt(value);
+                                    $this.find('.score').html(num);
+                                });
+                            }else{
+                                $.alert(data.info);
+                            }
+                        },
+                        error:function(){
+                            $.alert('服务器通讯失败');
+                        }
+                    });
+                }, function() {
+                    //取消操作
+                });
+            });
+
+            $(document).on("click",".share",function() {
+                $(".share_main").show();
+            });
+            $(document).on("click",".share_main",function() {
+                $(".share_main").hide();
+            });
+
+            $(document).on('click','.back',function(){
+                $("textarea[name='comment']").val('');
+                $('.popup-wrap').hide();
+            })
+
+            $('.change').on('click',function(){
+                $('.cTab_pop li a.active').removeClass('active');
+                $('.cTab_pop li.active').removeClass('active');
+                $(this).addClass('active');
+                $(this).parent('li').addClass('active');
+                var type_id =$(this).attr('data-value');
+                ajax_list(type_id);
+
+                // $(this).addClass('active').siblings().removeClass('active');
+                // console.log(type_id);
+                // $('.cTab_pop li a').each(function(){
+                //     console.log($(this).attr('data-value'));
+                //     if($(this).attr('data-value')==type_id){
+                //         $(this).addClass('active').siblings().removeClass('active');
+                //     }
+                // });
+                // var index = $(".cTab_nav .active").index();
+                // if ( index < 3 ) {
+                //     index = index - index;
+                // } else {
+                //     index = index - 2;
+                // }
+                // cTab_nav.slideTo(index, 500, false);
+            });
+
+            $(document).on("click",".go_die",function(){
+                var $_this =$(this);
+                var $href =($_this.attr('href'));
+                setStorage();
+                location.href($href);
+                return false;
+            });
+            // $('.exchage').on('click',function(){
+            //     $(this).addClass('active').siblings().removeClass('active');
+            //     var type_id =$(this).attr('data-value');
+            //     $('.cTab_nav a').each(function(){
+            //         if($(this).attr('data-value')==type_id){
+            //             $(this).addClass('active').siblings().removeClass('active');
+            //         }
+            //     });
+            //     $(".classify_tab").removeClass("cTab_hover");
+            //     $("html,body").removeClass("cTab_show");
+            //     var index = $(".cTab_nav .active").index();
+            //     if ( index < 3 ) {
+            //         index = index - index;
+            //     } else {
+            //         index = index - 2;
+            //     }
+            //     cTab_nav.slideTo(index, 500, false);
+            //     ajax_list(type_id);
+            // });
+
+        });
+
+        // $(document).on("click", ".cTab_more", function () {
+
+        //     // var winTop = $(window).scrollTop();
+        //     // if (winTop < tabTop) {
+        //         // var top = tabTop + 1;
+        //         // $("html,body").animate({scrollTop: top}, 0);
+        //         // $("html,body").addClass("cTab_show");
+        //         // $(".classify_tab").addClass("cTab_fixed");
+        //         $(".classify_tab").toggleClass("cTab_hover");
+        //     // } else {
+        //         // $("html,body").toggleClass("cTab_show");
+        //         // $(".classify_tab").toggleClass("cTab_hover");
+        //     // }
+        // });
+
+        /**
+         * 从列表页跳转详情页前，把已经分页加载的数据，页码，scrollTop存入sessionStorage
+         */
+        function setStorage(){
+            var listData =$('.ajax_list').html();
+            var aList = JSON.stringify(listData);//把json数据转为string字符串
+            var aParam = {
+                page: n,  //当前页码
+                top: $(window).scrollTop(),
+                'type_id':forum_type_id
+            };
+            aParam = JSON.stringify(aParam);
+            sessionStorage.setItem('aList', aList);//sessionStorage只能存储string字符串
+            sessionStorage.setItem('aParam', aParam);
+        }
+
+        /**
+         * 返回列表页时，取存储的sessionStorage数据，有，则取数据渲染页面，并滑到预期位置
+         * 删除sessionStorage存储的历史数据
+         */
+        function backList() {
+            var aList = JSON.parse(sessionStorage.getItem('aList'));
+            var aParam = JSON.parse(sessionStorage.getItem('aParam'));
+
+            // listData用于保存列表数据
+            // 页面加载时判断sessionStorage是否存有列表数据，有则赋值给listData，否则，listData取同步加载的第一页数据
+            window.listData = aList ? aList : '';
+            if (aList != null) {
+                // 加载列表
+                $('.ajax_list').html(aList);
+                // 更新加载状态
+                if (aParam.nomore) {
+                    $('#auditin').addClass('nomore');
+                    $('#J_noMore').removeClass('hide');
+                } else {
+                    $('#auditin').removeClass('nomore');
+                    $('#J_noMore').addClass('hide');
+                }
+
+                // 滚动到对应位置，并清除sessionStorage
+                document.body.scrollTop = aParam.top;
+                n = aParam.page;
+                forum_type_id= aParam.type_id;
+                $('.cTab_pop li').each(function(){
+                    if($(this).attr('data-value')==forum_type_id){
+                        $(this).addClass('active').siblings().removeClass('active');
+                    }
+                });
+                $('.cTab_nav .change').each(function(){
+                    if($(this).attr('data-value')==forum_type_id){
+                        $(this).addClass('active').siblings().removeClass('active');
+                    }
+                });
+                sessionStorage.removeItem('aList');
+                sessionStorage.removeItem('aParam');
+            }else{
+                LoadList('all');
+            }
+        }
+    </script>
+</block>

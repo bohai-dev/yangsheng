@@ -1,0 +1,484 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+  <div class="foot_fixed show-hide-wrap">
+    <div class="box ptb10 bg_own headline_foot">
+      <a href="javascript:;" onclick="javascript:history.back(-1);"  class="hF_back"></a>
+      <div class="flex-1 hF_main">
+        <a href="javascript:;" class="br50 fs13 col9">写评论</a>
+      </div>
+      <a href="#ys250" target="_self" class="hF_comm hint-num"><em>{$comment_total}</em></a>
+       <!-- <a href="{:U('Shop/Bulletin/review_list',['id'=>$info['id']])}"  class="hF_comm hint-num"><em style="top:-6px;right:-6px;background-color: transparent;">{$comment_total}</em></a> -->
+      <a href="javascript:;" id="collect" class="hF_like {$collect_on}"></a>
+      <a href="javascript:;" class="hF_share"></a>
+    </div>
+  </div>
+  <section class="main show-hide-wrap">
+    <div class="p10  bgf detail_headline">
+      <div class="tc item-head">
+        <h1 class="fs16 col3">{$info['title']}</h1>
+        <p class="mt10 fs12 col9">艾玛莎基 / {:date('Y.m.d',strtotime($info['create_time']))}</p>
+      </div>
+      <article class="mt10 fs14 col6 m-editor">
+          {$info['description']}
+      </article>
+      <!--<div class="mt10 p10">
+        <a href="javascript:;"  data-value="{$info.id}" class="up like <eq name="info['praise']" value="1">on</eq>">
+        赞<i class="Icon-up "></i><span id="priase_num" >{$info['priase_num']}</span>
+        </a>
+      </div>-->
+    </div>
+    <div class="bgf detail_eval">
+      <p class="fs15 col0 tc pt10 subtitle">推荐阅读</p>
+      <ul class="list_goods mt10">
+        <foreach name="recommend_list" item="list">
+          <li class="p10 bgf">
+            <a href="{:U('Shop/Bulletin/detail',['id'=>$list['id']])}" class="table">
+              <div class="table-cell pr10 item-con">
+                <h2 class="fs13 col3 multi-line">{$list.title} </h2>
+                <p class="fs12 col9 mt10">{:time_difference(strtotime($list['create_time']))}前</p>
+              </div>
+              <div class="table-cell item-photo">
+                <div class="item-pic">
+                  <img src="{:getpics($list['pictures'])}" alt="" class="imgm">
+                </div>
+              </div>
+            </a>
+          </li>
+        </foreach>
+      </ul>
+    </div>
+    <notempty name="comment_list">
+        <div class="bgf pt10 detail_eval" id="ys250">
+          <p class="fs15 col0 tc pt10 subtitle">热门评论</p>
+          <ul class="list_eval ajax_list">
+            <foreach name="comment_list" item="list">
+                <li class="p10 bb">
+                  <div class="clearfix item-hd">
+                    <div class="fl ba brarc item-pic"><img src="{:getpics(get_user_info($list['uid'],'admin_user','avatar'))}" alt="" class="imgm"></div>
+                    <span class="fl plr10">{:get_user_info($list['uid'],'admin_user','nickname')}</span>
+                    <p class="fr col6 up1 praise <eq name="list['like']" value="1">on</eq>  " data-value="{$list.id}"><i class="Icon-up1"></i><span>{$list.like_num}</span></p>
+                  </div>
+                  <div class="mt5 fs14 col3 item-bd" >
+                    <p style="margin-left:40px;">{$list.content}</p>
+                  </div>
+                  <div class="flex-box flex-between" style="padding-left:40px; ">
+                      <p class="mt5 fs12 col9">{:date('m-d H:i',(strtotime($list['create_time'])))} </p>
+                  </div>
+                    <notempty name="list['reply']">
+                        <div class="mt10 fs12 col6 box item-foot">
+                            <span>艾玛莎基：</span>
+                            <p class="flex-1">{$list.reply}</p>
+                        </div>
+                    </notempty>
+                  <!-- <p class="fs12 col9">{:time_difference(strtotime($list['create_time']))}前</p> -->
+                </li>
+
+            </foreach>
+          </ul>
+          <div id="loading" class="tc" style="display: none"></div>
+          <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+            <span class="col9">—— <i style="background-image:url('{:getpics(C('WEB_SITE_LOGO'))}')"></i> ——</span>
+            <p class="fs12 col9">亲，没有更多了哦~</p>
+          </div>
+
+          <!-- <a href="{:U('Shop/Bulletin/review_list',['id'=>$info['id']])}" class="block p5 tc fs13 col3">查看全部评论</a> -->
+          <!-- <a href="javascript:;" id="review_ajax" class="block p5 tc fs13 col3">查看全部评论</a> -->
+        </div>
+        <else/>
+           <div class="p10 col9 fs13 tc nomore" id="full" style="padding: 15% 0;">
+            <span class="col9">—— <i style="background-image:url('{:getpics(C('WEB_SITE_LOGO'))}')"></i> ——</span>
+            <p class="fs12 col9">暂无评论，快去评论吧！</p>
+          </div>
+    </notempty>
+    <div class="share_main" style="cursor: pointer"></div>
+  </section>
+  <!-- main主体 end -->
+</block>
+
+<block name="reply_wrap">
+  <section class="reply_wrap" style="z-index:2;">
+    <dl class="table bgf header">
+      <dd class="table-cell vm">
+        <a href="javascript:;" class="back"></a>
+      </dd>
+      <dt class="table-cell vm">
+        <p class="tc">评论</p>
+      </dt>
+      <dd class="table-cell vm"></dd>
+    </dl>
+
+    <form action="{:U('')}">
+      <div class="p10 btb bgf fs14 col6 relative">
+        <textarea name="content" cols="" rows="5" class="form-unify" placeholder="请填写您的评论" id="textArea" onkeyup="words_deal();"></textarea>
+        <span class="fs12 col9 textNum"><em>0</em>/100</span>
+      </div>
+      <div class="mt20 p10">
+        <button type="button" class="bg_own br5 btn-block">确认发布</button>
+      </div>
+    </form>
+
+
+  </section>
+</block>
+
+<block name="script">
+<script>
+
+var scroll_top = 0;
+$(function(){
+  //ajax 加载评论
+  $(window).bind('scroll', function() {
+    // if($("#review_ajax").css("display")=='none'){
+      checkload(); //ajax 下拉加载更多内容
+    // }
+    if(!$('.show-hide-wrap').is(':hidden')){
+      scroll_top = $(document).scrollTop();
+      console.log(scroll_top);
+    }
+
+  });
+
+  //初始化加载数据
+  $('#review_ajax').click(function(){
+    $(this).hide();
+    LoadList();
+  })
+
+
+  //分享弹出层
+  $(document).on("click",".hF_share",function() {
+    $(".share_main").show();
+  });
+  $(document).on("click",".share_main",function() {
+    $(".share_main").hide();
+  });
+
+
+  //收藏
+  $('#collect').click(function(){
+    var check =0;
+    if($(this).hasClass('on')){
+      check =1;
+    }
+    changeCollect(check);
+  })
+
+  //发布评论
+  $(":button").click(function(){
+    var content = $('textarea').val();
+    var bid = "{$info['id']}";
+    var url = "{:U('Shop/Bulletin/review')}";
+    if(!content){
+      $.toast('请填写您的评论','text');
+      return false;
+    }
+    $.ajax({
+      url:url,
+      dataType:'json',
+      type:'POST',
+      data:{content:content,bid:bid},
+      beforeSend:function(){
+      },
+      success:function(data){
+        if(data.status){
+          setTimeout(function(){
+            $.toast(data.info,function(){
+              location.reload(true);
+            });
+          }, 0);
+        }else{
+           $.alert(data.info);
+        }
+      },
+      complete:function(){
+      },
+      error:function(){
+      }
+    })
+  })
+  //点赞评论
+  $('.praise').on('click',function(){
+    var $this =$(this);
+    if(!$this.hasClass("on")){
+      var type =1;
+    }else{
+      var type =2;
+    }
+    $.ajax({
+      url:"{:U('praise')}",
+      type:'post',
+      dataType:'json',
+      async: false,
+      data:{id:$this.attr('data-value'),type:type,model:'bulletin_review'},
+      success:function(data){
+        if(data.status){
+          if(type==1){
+            $this.addClass('on');
+            var num =parseInt(parseInt($this.children('span').html())+1);
+            $this.html('<i class="Icon-up1"></i><span>'+num+'</span>');
+          }else{
+            $this.removeClass('on');
+            var num =parseInt(parseInt($this.children('span').html())-1);
+            $this.html('<i class="Icon-up1"></i><span>'+num+'</span>');
+          }
+        }else{
+          $.alert(data.info);
+        }
+      },
+      error:function(){
+
+      }
+    });
+  });
+
+  $('.like').on('click',function(){
+    var $this =$(this);
+    if(!$this.hasClass("on")){
+      var type =1;
+    }else{
+      var type =2;
+    }
+    $.ajax({
+      url:"{:U('praise')}",
+      type:'post',
+      dataType:'json',
+      async: false,
+      data:{id:$this.attr('data-value'),type:type,model:'bulletin'},
+      success:function(data){
+        if(data.status){
+          if(type==1){
+            $this.addClass('on');
+            var priase_num =$('#priase_num').text()*1+1;
+            $('#priase_num').text(priase_num);
+          }else{
+            $this.removeClass('on');
+            var priase_num =$('#priase_num').text()*1-1;
+            $('#priase_num').text(priase_num);
+          }
+        }else{
+          $.alert(data.info);
+        }
+      },
+      error:function(){
+
+      }
+    });
+  });
+
+  $(document).on('click','.headline_foot .hF_main',function() {
+      checkLogin();
+  });
+  // $(document).on('click','.headline_foot .hF_comm',function() {
+  //   checkLogin();
+  // });
+  $(document).on('click','.reply_wrap .back',function() {
+    $(".show-hide-wrap").show();
+    $(".reply_wrap").hide();
+    $(document).scrollTop(scroll_top);
+  });
+});
+
+
+function checkload() {
+  if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+      $("#loading").show();
+      LoadList();
+  }
+}
+
+
+var n = 1;
+var ispost = temp = true;
+var id="{$info['id']}";
+function LoadList() {
+  if (ispost && temp) {
+      var url ="{:U('Shop/Bulletin/detail')}";
+      temp = false;
+      $.ajax({
+          url: url,
+          type: 'post',
+          dataType: 'json',
+          data: {n: n,id: id},
+          async: true,
+          timeout: 9999,
+          beforeSend:function(){
+            $.showLoading();
+          },
+          complete:function(){
+            $.hideLoading();
+          },
+          success: function(data) {
+            n++;
+            temp = true;
+            if(data.status){
+                if(data.msg == ''){
+                    temp = false;
+                    $("#full").show();
+                }else{
+                    $("#loading").hide();
+                    $(".ajax_list").append(data.msg);
+                    imgHeight();
+                    temp =true;
+                    imglazyload();
+                    checkload();
+                }
+            }else{
+                temp = false;
+                $("#loading").hide();
+                    $("#full").show();
+                // $(".step0").show();
+            }
+            $(".lazy img").lazyload({  //图片延迟加载
+                placeholder : "html/images/loading.gif",
+                effect      : "fadeIn",
+                threshold : 200
+            });
+
+            if(n==2){
+              var h = $(window).scrollTop()+200;
+              $(document).scrollTop(h);
+            }
+          },
+          error:function(){
+          }
+      });
+  }else if(!ispost){
+      $("#full").show();
+  }
+}
+
+
+
+//微信分享
+wx.config({$jsapi});
+wx.ready(function() {
+    //alert('{$wechatShare["link"]}');
+    //分享到朋友圈
+    wx.onMenuShareTimeline({
+        title: '{$wechatShare["title"]}',
+        link: '{$wechatShare["link"]}',
+        imgUrl: '{$wechatShare["imgUrl"]}',
+        success: function () {},
+        cancel: function () {}
+    });
+    //分享给朋友
+    wx.onMenuShareAppMessage({
+        title: '{$wechatShare["title"]}',
+        desc: '{$wechatShare["desc"]}',
+        link: '{$wechatShare["link"]}',
+        imgUrl: '{$wechatShare["imgUrl"]}',
+        type: '{$wechatShare["type"]}',
+        dataUrl: "",
+        success: function () {},
+        cancel: function () {}
+    });
+      //            alert('{$wechatShare["title"]}');
+    //分享到QQ
+    wx.onMenuShareQQ({
+        title: '{$wechatShare["title"]}',
+        desc: '{$wechatShare["desc"]}',
+        link: '{$wechatShare["link"]}',
+        imgUrl: '{$wechatShare["imgUrl"]}',
+        success: function () {},
+        cancel: function () {}
+    });
+    //分享到腾讯微博
+    wx.onMenuShareWeibo({
+        title: '{$wechatShare["title"]}',
+        desc: '{$wechatShare["desc"]}',
+        link: '{$wechatShare["link"]}',
+        imgUrl: '{$wechatShare["imgUrl"]}',
+        success: function () {},
+        cancel: function () {}
+    });
+  });
+//收藏 ajax
+function changeCollect(check)
+{
+  var collect_url = "{:U('Shop/Bulletin/collect')}";
+  var gid = "{$info['id']}";
+  $.ajax({
+    url:collect_url,
+    dataType:'json',
+    type:'POST',
+    data:{check:check,gid:gid},
+    async:false,
+    beforeSend:function(){
+
+    },
+    success:function(data){
+      if(data.status){
+        setTimeout(function(){
+          $.toast(data.info,"text");
+        }, 0);
+        if(check){
+          $('#collect').removeClass('on');
+        }else{
+          $('#collect').addClass('on');
+        }
+      }else{
+        if(data.url){
+          $.confirm(data.info, function() {
+            location.href=data.url;
+          }, function() {
+             //点击取消后的回调函数
+         });
+        }else{
+          $.alert(data.info);
+        }
+      }
+    },
+    complete:function(){
+    },
+    error:function(){
+    }
+
+  })
+}
+//评论检查登录
+function checkLogin()
+{
+  var uid = {$uid};
+  if(uid){
+    $(".reply_wrap").show();
+    $(".show-hide-wrap").hide();
+    return false;
+  }
+  var bid = "{$info['id']}";
+  var url = "{:U('Shop/Bulletin/ajaxCheckLogin')}";
+  $.ajax({
+    url:url,
+    type:'POST',
+    data:{bid:bid},
+    dataType:'json',
+    async:false,
+    beforeSend:function(){
+    },
+    complete:function(){
+    },
+    success:function(data){
+      if(data.status){
+        $(".reply_wrap").show();
+        $(".show-hide-wrap").hide();
+      }else{
+        if(data.url){
+          // $.confirm("立即登录", function() {
+            location.href=data.url;
+          // }, function() {
+            //点击取消后的回调函数
+          // });
+        }
+        return false;
+      }
+    },
+    error:function(){
+
+    }
+  })
+}
+
+
+
+</script>
+</block>

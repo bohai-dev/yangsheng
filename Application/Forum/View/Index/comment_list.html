@@ -1,0 +1,124 @@
+<extend name="$_home_public_layout"/>
+<block name="footer">
+
+</block>
+<block name="wrap">
+    <neq name="uid" value="$post_uid">
+        <div class="foot_fixed">
+            <div class="p5 bt box reply_fixed">
+                <i class=""><img src="__HTML_IMG__/icon_reply.png" alt="" class="imgm"></i>
+                <a href="javascript:;" class="flex-1 ba br5 bgf fs14 col9">写评论</a>
+            </div>
+        </div>
+    </neq>
+    <section class="main" >
+        <ul class="bgf btb last fs13 list_comment">
+            <empty name="list">
+
+                <else/>
+                    <foreach name="list" item="list">
+                        <li class="p10 bb">
+                            <div class="table item-head">
+                                <div class="table-cell item-lt">
+                                    <div class="ba brarc item-pic"><img src="{:getpics(get_user_info($list['uid'],'admin_user','avatar'))}" alt="" class="imgm"></div>
+                                </div>
+                                <div class="table-cell pl10 item-hd">
+                                    <div class="fs14 col3">{:get_user_info($list['uid'],'admin_user','nickname')}</div>
+                                    <p class="fs12 col9">{:substr($list['comment_time'],0,10)}</p>
+                                </div>
+                            </div>
+                            <article class="mt10 col3 m-editor">
+                                <p>{$list.comment}</p>
+                            </article>
+                        </li>
+                    </foreach>
+            </empty>
+
+        </ul>
+    </section>
+</block>
+<neq name="uid" value="$post_uid">
+    <block name="extra">
+        <section class="reply_wrap" style="z-index:2">
+            <dl class="table bgf header">
+                <dd class="table-cell vm">
+                    <a href="javascript:;" class="back"></a>
+                </dd>
+                <dt class="table-cell vm">
+                <p class="tc">评论</p>
+                </dt>
+                <dd class="table-cell vm"></dd>
+            </dl>
+                <div class="p10 btb bgf fs14 col6 relative">
+                    <textarea name="comment" cols="" rows="5" class="form-unify" placeholder="请填写您的评论" id="textArea" onkeyup="words_deal();"></textarea>
+                    <span class="fs12 col9 textNum"><em>0</em>/100</span>
+                </div>
+
+                <div class="mt20 p10">
+                    <button type="button" class="bg_own br5 btn-block comment">确认发布</button>
+                </div>
+        </section>
+    </block>
+</neq>
+
+<block name="script">
+    <script>
+        $(function(){
+            var type ="{$type}";
+            var action ="{$action}";
+
+            if(action == 1){
+                $(".wrap").hide();
+                $(".reply_wrap").show();
+            }else{
+                if(type=='comment'){
+
+                    $(".wrap").hide();
+                    $(".reply_wrap").show();
+
+                }else{
+                    $(".wrap").show();
+                    $(".reply_wrap").hide();
+                }
+            }
+            $(document).on('click','.reply_fixed a',function() {
+                $(".wrap").hide();
+                $(".reply_wrap").show();
+                $("textarea[name='comment']").focus();
+            });
+            $(document).on('click','.back',function() {
+                window.history.go(-1);
+                // location.href="{:U('Forum/Index/detail',['scroll_top'=>$scroll_top,'id'=>$post_id])}";
+            });
+
+            //评论
+            $(document).on('click','.comment',function(){
+                var comment = $("textarea[name='comment']").val()
+                if(!comment){
+                    $.alert('请输入评论内容');
+                    return false;
+                }
+                $.ajax({
+                    url:"{:U('Forum/Index/comment')}",
+                    dataType:'json',
+                    type:'post',
+                    data:{scroll_top:{$scroll_top},posts_id:{$post_id},comment:comment},
+                    success:function(data){
+                        if(data.status){
+                            $.toast(data.info,function(){
+                                // window.history.go(-1);
+                                location.href =data.url;
+                            })
+                        }else{
+                            $.alert(data.info);
+                        }
+                    },
+                    error:function(){
+                        $.alert('服务器连接失败，请与管理员联系');
+                    }
+                })
+
+            });
+        });
+    </script>
+</block>

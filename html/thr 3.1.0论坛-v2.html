@@ -1,0 +1,338 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>thr 3.1.0论坛-v2</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/flex.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<div class="foot_fixed">
+		<footer class="table bt bgf tc fs12 footer">
+			<a href="#" class="table-cell active"><i class="fi-1"></i>首页</a>
+			<a href="#" class="table-cell"><i class="fi-2"></i>分类</a>
+			<a href="#" class="table-cell"><i class="fi-3"></i>论坛</a>
+			<a href="#" class="table-cell"><i class="fi-4 hint-num"><em>2</em></i>购物车</a>
+			<a href="#" class="table-cell"><i class="fi-5"></i>我的</a>
+		</footer>
+	</div>
+	<!-- 底部悬浮 end -->
+
+	<section class="main">
+
+		<dl class="table p10 header forum_head forum_headTop">
+			<dd class="table-cell vm">
+				<a href="javascript:;" class="br50 item-pic">
+					<img src="images/img_head.jpg" alt="" class="imgm">
+				</a>
+			</dd>
+			<dt class="table-cell vm">
+				<div class="table box-b ba br5 tc item-tab">
+					<a href="javascript:;" class="table-cell active">全部</a>
+					<a href="javascript:;" class="table-cell">关注</a>
+				</div>
+			</dt>
+			<dd class="table-cell vm">
+				<a href="javascript:;" class="publish"></a>
+			</dd>
+		</dl>
+
+		<div class="swiper-container banner">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<img src="images/banner.jpg" alt="2:1,640*320" class="imgm">
+				</div>
+				<div class="swiper-slide">
+					<img src="images/banner.jpg" alt="2:1,640*320" class="imgm">
+				</div>
+				<div class="swiper-slide">
+					<img src="images/banner.jpg" alt="2:1,640*320" class="imgm">
+				</div>
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+		<script src="weui/js/swiper.js"></script>
+		<script>
+		$(function(){
+			var swiperWidth = $(".banner").width();
+				swiperHeight = swiperWidth * 0.5;
+				$(".banner").css("height",swiperHeight);
+			$(".banner").swiper({
+				pagination: '.swiper-pagination',
+				loop: true,
+				autoplay: 3000,
+				autoplayDisableOnInteraction : false,
+			});
+		});
+		</script>
+		<!-- banner end -->
+
+		<div class="clearfix pt10 btb bgf tc fs12 forum_nav">
+			<a href="" class="mb10">
+				<img src="images/icon-forum-1.png" alt="" class="imgm">
+				<p class="mt5 col9">养生指南</p>
+			</a>
+			<a href="" class="mb10">
+				<img src="images/icon-forum-2.png" alt="" class="imgm">
+				<p class="mt5 col9">今日头条</p>
+			</a>
+			<a href="" class="mb10">
+				<img src="images/icon-forum-3.png" alt="" class="imgm">
+				<p class="mt5 col9">求职招聘</p>
+			</a>
+			<a href="" class="mb10">
+				<img src="images/icon-forum-4.png" alt="" class="imgm">
+				<p class="mt5 col9">转让出租</p>
+			</a>
+		</div>
+
+		<!-- <div class="mt10 p10 btb bgf tc fs12 weui-row forum_ad">
+			<a href="" class="weui-col-33 ba br5">
+				<div class="item-pic"><img src="images/img_forum_ad1.jpg" alt="" class="imgm"></div>
+				<p class="p5 bgf col9 single-line">沐浴盐搓澡洗浴盐</p>
+			</a>
+			<a href="" class="weui-col-33 ba br5">
+				<div class="item-pic"><img src="images/img_forum_ad2.jpg" alt="" class="imgm"></div>
+				<p class="p5 bgf col9 single-line">足之源养生泡脚粉</p>
+			</a>
+			<a href="" class="weui-col-33 ba br5">
+				<div class="item-pic"><img src="images/img_forum_ad3.jpg" alt="" class="imgm"></div>
+				<p class="p5 bgf col9 single-line">足之源养生泡脚粉</p>
+			</a>
+		</div> -->
+		<div class="swiper-container p10 bb bgf tc fs12 forum_ad">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide">
+					<a href="" class="block ba br5">
+						<div class="item-pic"><img src="images/img_forum_ad1.jpg" alt="" class="imgm"></div>
+						<p class="p5 bgf col9 single-line">沐浴盐搓澡洗浴盐</p>
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<a href="" class="block ba br5">
+						<div class="item-pic"><img src="images/img_forum_ad1.jpg" alt="" class="imgm"></div>
+						<p class="p5 bgf col9 single-line">沐浴盐搓澡洗浴盐</p>
+					</a>
+				</div>
+				<div class="swiper-slide">
+					<a href="" class="block ba br5">
+						<div class="item-pic"><img src="images/img_forum_ad1.jpg" alt="" class="imgm"></div>
+						<p class="p5 bgf col9 single-line">沐浴盐搓澡洗浴盐</p>
+					</a>
+			</div>
+			<div class="swiper-pagination"></div>
+		</div>
+		</div>
+		<script>
+		$(function(){
+			var swiper = new Swiper('.forum_ad', {
+				pagination: '.swiper-pagination',
+				loop: false,
+				// autoplay: 3000,
+				autoplayDisableOnInteraction : false,
+				freeMode: true,
+				slidesPerView: 2.5,
+				spaceBetween: 10,
+			});
+		});
+		</script>
+		<!-- banner end -->
+		<script>
+		$(function() {
+			$(".forum_ad .item-pic").each(function(){
+				var w = $(this).width();
+				var h = w/2;
+				$(this).css({"height": h});
+			});
+		});
+		</script>
+
+		<a href="" class="block">
+			<img src="images/img_index-ad.jpg" alt="" class="imgm">
+		</a>
+		<!-- 广告 end -->
+
+		<div class="mt10 btb bgf cTab_ico classify_tab">
+			<!-- <div class="cTab_msk"></div> -->
+			<div class="swiper-container tc fs12 cTab_nav">
+				<div class="swiper-wrapper">
+					<a href="javascript:;" class="swiper-slide add-nav active"><span><i class="cTi-1"></i>全部</span></a>
+					<a href="javascript:;" class="swiper-slide add-nav">
+					<span>
+						<i class="cTi-2" style="background-image: none;">
+							<img src="" alt="icon" class="block">
+							<img src="" alt="icon" class="block">
+						</i>
+						养生</span>
+					</a>
+					<a href="javascript:;" class="swiper-slide"><span><i class="cTi-3"></i>管理</span></a>
+					<a href="javascript:;" class="swiper-slide"><span><i class="cTi-4"></i>搞笑</span></a>
+					<a href="javascript:;" class="swiper-slide"><span><i class="cTi-5"></i>文学</span></a>
+					<a href="javascript:;" class="swiper-slide"><span><i class="cTi-6"></i>八卦</span></a>
+					<a href="javascript:;" class="swiper-slide"><span><i class="cTi-2"></i>养生</span></a>
+					<a href="javascript:;" class="swiper-slide"><span><i class="cTi-3"></i>管理</span></a>
+					<a href="javascript:;" class="swiper-slide"><span><i class="cTi-4"></i>搞笑</span></a>
+					<a href="javascript:;" class="swiper-slide"><span><i class="cTi-5"></i>文学</span></a>
+					<a href="javascript:;" class="swiper-slide"><span><i class="cTi-6"></i>八卦</span></a>
+				</div>
+			</div>
+			<a href="javascript:;" class="cTab_more"></a>
+			<div class="bgf cTab_pop">
+				<div class="tc fs15 col6 item-hd">全部分类</div>
+				<ul class="clearfix bt tc fs12">
+					<li class="bb active"><a href=""><i class="cTi-1"></i>全部</a></li>
+					<li class="bb"><a href=""><i class="cTi-2"></i>养生</a></li>
+					<li class="bb"><a href=""><i class="cTi-3"></i>管理</a></li>
+					<li class="bb"><a href=""><i class="cTi-4"></i>搞笑</a></li>
+					<li class="bb"><a href=""><i class="cTi-5"></i>文学</a></li>
+					<li class="bb"><a href=""><i class="cTi-6"></i>八卦</a></li>
+					<li class="bb"><a href=""><i class="cTi-2"></i>养生</a></li>
+					<li class="bb"><a href=""><i class="cTi-3"></i>管理</a></li>
+					<li class="bb"><a href=""><i class="cTi-4"></i>搞笑</a></li>
+					<li class="bb"><a href=""><i class="cTi-5"></i>文学</a></li>
+					<li class="bb"><a href=""><i class="cTi-6"></i>八卦</a></li>
+				</ul>
+			</div>
+		</div>
+		<script>
+		$(function(){
+			var index = $(".cTab_nav .active").index();
+			$(".cTab_nav").swiper({
+				pagination: '',
+				initialSlide : index,
+				slidesPerView: '5',
+				freeMode: true,
+				onInit: function(swiper){
+					forum_type();
+				}
+			});
+		});
+		</script>
+		<!-- 论坛分类 end -->
+
+		<ul class="clearfix forum_list_v2">
+			<li class="p10 bgf mb10">
+				<div class="flex-box item-head">
+					<div class="brarc pic-view"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+					<div class="flex-grow-1">
+						<span class="fs14 col3">Miyako 美妍</span>
+						<i class="co-1">置顶</i>
+						<i class="co-2">精华</i>
+					</div>
+				</div>
+				<a href="" class="ptb10 item-main">
+					<article class="fs13 col3 m-editor">
+						<p>湖左岸小区距离东方之门和星海广场步行只要五分钟的路程。出租的房间是次卧，正南向，阳光充沛，男女不限，有空调 热水器 全自动洗衣机。</p>
+					</article>
+					<div class="weui-row mt10 item-show">
+						<img src="images/img_forum-main.jpg" alt="" class="imgm">
+					</div>
+				</a>
+				<div class="flex-box fs12 col3 item-foot">
+					<span class="flex-grow-1">管理 2017-05-09</span>
+					<div class="clearfix">
+						<a href="" class="it-1 on">380</a>
+						<a href="" class="it-2">18</a>
+						<a href="" class="it-4">18</a>
+					</div>
+				</div>
+			</li>
+			<li class="p10 bgf mb10">
+				<div class="flex-box item-head">
+					<div class="brarc pic-view"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+					<div class="flex-grow-1">
+						<span class="fs14 col3">Miyako 美妍</span>
+						<i class="co-1">置顶</i>
+						<i class="co-2">精华</i>
+					</div>
+				</div>
+				<a href="" class="ptb10 item-main">
+					<article class="fs13 col3 m-editor">
+						<p>湖左岸小区距离东方之门和星海广场步行只要五分钟的路程。出租的房间是次卧，正南向，阳光充沛，男女不限，有空调 热水器 全自动洗衣机。</p>
+					</article>
+				</a>
+				<div class="flex-box fs12 col3 item-foot">
+					<span class="flex-grow-1">管理 2017-05-09</span>
+					<div class="clearfix">
+						<a href="" class="it-1">380</a>
+						<a href="" class="it-2">18</a>
+						<a href="" class="it-4">18</a>
+					</div>
+				</div>
+			</li>
+			<li class="p10 bgf mb10">
+				<div class="flex-box item-head">
+					<div class="brarc pic-view"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+					<div class="flex-grow-1">
+						<span class="fs14 col3">Miyako 美妍</span>
+						<i class="co-1">置顶</i>
+						<i class="co-2">精华</i>
+					</div>
+				</div>
+				<a href="" class="ptb10 item-main">
+					<article class="fs13 col3 m-editor">
+						<p>湖左岸小区距离东方之门和星海广场步行只要五分钟的路程。出租的房间是次卧，正南向，阳光充沛，男女不限，有空调 热水器 全自动洗衣机。</p>
+					</article>
+					<div class="weui-row mt10 item-show">
+						<div class="weui-col-33">
+							<div class="item-pic"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+						</div>
+						<div class="weui-col-33">
+							<div class="item-pic"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+						</div>
+						<div class="weui-col-33">
+							<div class="item-pic"><img src="images/img_head.jpg" alt="" class="imgm"></div>
+						</div>
+						<span class="br3 item-show-more">更多 9</span>
+					</div>
+
+				</a>
+				<div class="flex-box fs12 col3 item-foot">
+					<span class="flex-grow-1">管理 2017-05-09</span>
+					<div class="clearfix">
+						<a href="" class="it-1">380</a>
+						<a href="" class="it-2">18</a>
+						<a href="" class="it-4">18</a>
+					</div>
+				</div>
+			</li>
+		</ul>
+		<script>
+		$(function() {
+			$(".forum_list_v2 .item-pic").each(function(){
+				var w = $(this).width();
+				$(this).css({"height": w});
+			});
+		});
+		</script>
+
+
+	</section>
+	<!-- main主体 end -->
+
+</section>
+
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

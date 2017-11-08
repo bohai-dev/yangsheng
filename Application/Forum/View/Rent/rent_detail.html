@@ -1,0 +1,123 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <div class="foot_fixed">
+        <dl class="table bgf tell_fixed">
+            <dt class="table-cell vm plr10">
+                <span class="fs14 col3">{$info.contacts}</span>
+            <p class="fs12 col3">{$info.telephone}</p>
+            </dt>
+            <dd class="table-cell vm">
+                <a href="tel:{$info.telephone}" class="bg_own btn-block"><i></i>电话</a>
+            </dd>
+        </dl>
+    </div>
+
+    <section class="main">
+
+        <div class="swiper-container detail_ban">
+            <div class="swiper-wrapper">
+               <foreach  name="info['pics']" item="list">
+                   <div class="swiper-slide">
+                       <img src="{:getpics($list)}" alt="3:2,640*427" class="imgm">
+                   </div>
+               </foreach>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <script src="__HTML_WEUI__/js/swiper.js"></script>
+        <script>
+            $(function(){
+                var swiperWidth = $(".detail_ban").width();
+                swiperHeight = swiperWidth * (2/3);
+                $(".detail_ban").css("height",swiperHeight);
+                $(".detail_ban").swiper({
+                    pagination: '.swiper-pagination',
+                    paginationType: 'fraction',
+                    loop: true,
+                    autoplay: 3000,
+                    autoplayDisableOnInteraction : false,
+                });
+            });
+        </script>
+        <!-- detail_ban end -->
+
+        <div class="p10 btb bgf detail_info">
+            <h2 class="fs14 col3">{$info.title}</h2>
+            <p class="fs12 col6">
+                <switch name="info['type']">
+                    <case value="1">
+                        <b class="mr10 fs14 colred">¥ <em class="fs20">{$info.price}</em></b>元/月
+                    </case>
+                    <case value="2">
+                        <b class="mr10 fs14 colred">¥ <em class="fs20">{$info.price}</em></b>元/月
+                    </case>
+                    <case value="3">
+                        <b class="mr10 fs14 colred">¥ <em class="fs20">{$info.price}</em></b>
+                    </case>
+                </switch>
+
+            </p>
+            <div class="clearfix mt5 fs12 col6">
+                <span>发布：{$info.date_time}前</span>
+                <span class="fr">浏览：{$info.pageviews}人</span>
+            </div>
+        </div>
+
+        <div class="mt10 p10 btb bgf fs14 col3 detail_info">
+            <p><span class="mr10 col6">面积：</span>{$info.acreage}平方</p>
+            <p class="mt5"><span class="mr10 col6">房屋类型：</span>{$info.house_type}</p>
+            <p class="mt5"><span class="mr10 col6">类别：</span>
+                <switch name="info['type']">
+                    <case value="1">
+                        出租
+                    </case>
+                    <case value="2">
+                        求租
+                    </case>
+                    <case value="3">
+                        转让
+                    </case>
+                </switch>
+            </p>
+            <p class="mt5"><span class="mr10 col6">区域：</span>{$info.area}{$info.address}</p>
+        </div>
+
+        <div class="mt10 p10 btb bgf detail_main">
+            <div class="fs15 col6 item-hd"><span>房源描述</span></div>
+            <div class="mt10 fs14 col3 item-bd">
+                <article class="m-editor">
+                    <p>{$info.description}</p>
+                    <a href="javascript:;" class="m-more"></a>
+                </article>
+            </div>
+        </div>
+        <div style="height: 30px"></div>
+        <script>
+            $(function() {
+                //点击图片放大
+                $('.swiper-container img').click(function (){
+                    var imgArray = [];
+                    var curImageSrc = $(this).attr('src');
+                    $('.swiper-container img').each(function(index, el) {
+                        var itemSrc = $(this).attr('src');
+                        imgArray.push("<php>echo XILUDomain();</php>"+itemSrc);
+                    });
+                    wx.previewImage({
+                        current: "<php>echo XILUDomain();</php>"+curImageSrc,
+                        urls: imgArray
+                    });
+                });
+            });
+        </script>
+        <script>
+            $(function() {
+
+            });
+        </script>
+
+    </section>
+</block>
+<block name="footer">
+
+</block>
+<block name="icon"></block>

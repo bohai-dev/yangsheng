@@ -1,0 +1,191 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+<div class="top_fixed" disabled>
+    <div class="table tc fs12 seckill_time">
+    <foreach name="seckill" item="val" key='k'>
+      <a href="javascript:;" id="{$val['id']}" class="table-cell vm click-a">
+        <input type="hidden" name="end_time" value="{$val['count_time']}">
+        <span  class="fs13">{$val['title']}</span>
+        <p class="">{$val['title_info']}</p>
+      </a>
+    </foreach>
+    </div>
+  </div>
+
+  <div class="colf fs15 ptb10 bg_own tc top_fixed">秒杀</div>
+  <section class="main">
+
+    <div class="mt5 bgf p10 seckill_tit">
+      <div class="fr fs13 col6">
+      <span name="distance"></span> <span class="fs12 countdown"><em class="br3">00</em> : <em class="br3">00</em> : <em class="br3">00</em></span>
+      </div>
+      <span name="subtitle" class="fs13 col6">底价好货 限量秒</span>
+    </div>
+
+    <ul class="bt bgf item-list_2 seckill_list ajax_list">
+    </ul>
+    <div id="loading" class="tc" style="display: none"></div>
+    <div class="tc nothing step0 step" style="display: none;">
+      <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+      <span class="mt10 fs14 col9">暂无数据</span>
+    </div>
+    <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+      <span class="col9">—— <i></i> ——</span>
+      <p class="fs12 col9">亲，没有更多了哦~</p>
+    </div>
+
+
+  </section>
+  <!-- main主体 end -->
+</block>
+<block name="footer"></block>
+
+<block name="script">
+<script type="text/javascript">
+  $(function(){
+    //ajax 加载
+    $(document).ajaxStart(function() {
+        $.showLoading();
+    });
+    $(document).ajaxComplete(function() {
+        $.hideLoading();
+    });
+    $(window).bind('scroll', function() {
+        checkload(); //ajax 下拉加载更多内容
+    });
+
+    //距开始 距结束
+    var dis_id = $(".active,a").attr('id');
+    changeTitle(dis_id);
+
+    // console.log(subtitle);
+
+    //初始化加载数据
+    LoadList();
+
+    //倒计时
+    var endTime = $(".active,a").children("input").val();
+    var iCount = setInterval(function(){
+        countDown(endTime);
+      },1000);
+
+    $('.click-a').click(function(){
+      $('.ajax_list li').remove();
+      $("#loading").hide();
+      $(".step0").hide();
+      $("#full").hide();
+      n = 1;
+      ispost = temp = true;
+      change = $(this).attr('id');
+
+      $('.active').removeClass('active');
+      $(this).addClass('  active');
+      endTime = $(this).children('input').val();
+
+      changeTitle(change);
+      clearInterval(iCount)
+      iCount = setInterval(function(){
+        countDown(endTime);
+      },1000);
+
+      LoadList();
+    })
+  })
+
+  function checkload() {
+    if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+        $("#loading").show();
+        LoadList();
+    }
+  }
+
+  var n = 1;
+  var ispost = temp = true;
+  var change = $('.active,a').attr('id'); //分类
+  function LoadList() {
+      if (ispost && temp) {
+          var url ="{:U('Shop/Goods/seckill_list')}";
+          temp = false;
+          $.ajax({
+              url: url,
+              type: 'post',
+              dataType: 'json',
+              data: {n: n,change:change},
+              async: false,
+              timeout: 9999,
+              success: function(data) {
+                  n++;
+                  temp = true;
+                  if(data.status){
+                      if(data.msg == ''){
+                          temp = false;
+                          $("#full").show();
+                      }else{
+                          $("#loading").hide();
+                          $(".ajax_list").append(data.msg);
+                          imgHeight();
+                          temp =true;
+                          imglazyload();
+                          checkload();
+                      }
+                  }else{
+                      temp = false;
+                      $("#loading").hide();
+                      $(".step0").show();
+                  }
+                  $(".lazy img").lazyload({  //图片延迟加载
+                      placeholder : "html/images/loading.gif",
+                      effect      : "fadeIn",
+                      threshold : 200
+                  });
+              }
+          });
+      }else if(!ispost){
+          $("#full").show();
+      }
+  }
+
+
+  //秒杀倒计时
+  function countDown(endTime)
+  {
+    var date = new Date();
+    var nowTime = Date.parse(date)/1000;
+    countTime = endTime - nowTime;
+    if(countTime>0){
+      var hours = parseInt(countTime/3600);
+      var minutes = parseInt((countTime-hours*3600)/60);
+      var seconds = countTime % 60;
+    }else{
+      var hours = 0;
+      var minutes = 0;
+      var seconds = 0;
+    }
+
+
+    if(hours<10){
+      hours = '0'+hours;
+    }
+    if(minutes<10){
+      minutes = '0'+minutes;
+    }
+    if(seconds<10){
+      seconds = '0'+seconds;
+    }
+    $(".countdown em").eq(0).html(hours);
+    $(".countdown em").eq(1).html(minutes);
+    $(".countdown em").eq(2).html(seconds);
+  }
+
+  //改变标题
+  function changeTitle(dis_id)
+  {
+    // var distance = {$distance};
+    // var subtitle = {$subtitle};
+    // var dis_str = distance[dis_id];
+    // var sub_str = subtitle[dis_id];
+    // $("span[name='distance']").text(dis_str);
+    // $("span[name='subtitle']").text(sub_str);
+  }
+</script>
+</block>

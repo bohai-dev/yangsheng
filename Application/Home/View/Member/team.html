@@ -1,0 +1,24 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <section class="main">
+
+        <div class="team_number">
+            <div class="p10 fs14 col3 item-hd">
+                <span class="fr mr10 colf">{$team.total}人</span>我的会员
+            </div>
+            <ul class="bgf pl10 bb item-bd">
+                <li class="plr10 bb">
+                    <a href="{:U('team_detail',array('level'=>1))}" class="ptb10 arrowR"><em class="fr mr10 colred">{$team.pfirstid}人</em>一级会员</a>
+                </li>
+                <li class="plr10 bb">
+                    <a href="{:U('team_detail',array('level'=>2))}" class="ptb10 arrowR"><em class="fr mr10 colred">{$team.psecondid}人</em>二级会员</a>
+                </li>
+                <li class="plr10 bb">
+                    <a href="{:U('team_detail',array('level'=>3))}" class="ptb10 arrowR"><em class="fr mr10 colred">{$team.pthirdid}人</em>三级会员</a>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+</block>
+<block name="icon"></block>

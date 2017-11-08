@@ -1,0 +1,16 @@
+<foreach name="info" item="val">
+    <li class="p10 bb">
+      <div class="clearfix item-hd">
+        <div class="fl ba brarc item-pic"><img src="{:getpics(get_user_info($val['uid'],'admin_user','avatar'))}" alt="" class="imgm"></div>
+        <span class="fl plr10">{:get_user_info($val['uid'],'admin_user','nickname')}</span>
+        <p class="fr col6 up1 praise <eq name="val['like']" value="1">on</eq>  " data-value="{$val.id}"><i class="Icon-up1"></i><span>{$val.like_num}</span></p>
+      </div>
+      <div class="mt5 fs14 col3 item-bd">
+        <p style="margin-left:40px;">{$val.content}</p>
+      </div>
+      <div class="flex-box flex-between" style="padding-left:40px; ">
+          <p class="mt5 fs12 col9">{:date('m-d H:i',(strtotime($val['create_time'])))} </p>
+      </div>
+      <!-- <p class="fs12 col9">{:time_difference(strtotime($val['create_time']))}前</p> -->
+    </li>
+</foreach>

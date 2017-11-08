@@ -1,0 +1,111 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <section class="main">
+
+        <ul class="m-list">
+
+        </ul>
+        <div id="loading" class="tc" style="display: none"></div>
+        <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+            <span class="col9">—— <i></i> ——</span>
+            <p class="fs12 col9">亲，没有更多了哦~</p>
+        </div>
+        <div class="tc nothing" style="display: none">
+            <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+            <span class="mt10 fs14 col9">暂无记录</span>
+        </div>
+    </section>
+</block>
+<block name="footer"></block>
+<block name="icon"></block>
+
+<block name="script">
+    <script>
+        jQuery(document).ready( function($){
+            $(document).ajaxStart(function() {
+                $.showLoading();
+            });
+            $(document).ajaxComplete(function() {
+                $.hideLoading();
+            });
+            $(window).bind('scroll', function() {
+                checkload(); //ajax 下拉加载更多内容
+            });
+            LoadList();
+        });
+        function checkload() {
+            if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+                $("#loading").show();
+                LoadList();
+            }
+        }
+        var n = 1;
+        var ispost = temp = true;
+        function LoadList() {
+            if (ispost && temp) {
+                var url ="{:U('Member/rent')}";
+                temp = false;
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    dataType: 'json',
+                    data: {n: n},
+                    timeout: 9999,
+                    success: function(data) {
+                        n++;
+                        temp = true;
+                        if(data.status){
+                            if(data.msg == ''){
+                                temp = false;
+                                $("#full").show();
+                            }else{
+                                $("#loading").hide();
+                                $(".m-list").append(data.msg);
+                                imgHeight();
+                                temp =true;
+                                imglazyload();
+                                checkload();
+                            }
+                        }else{
+                            temp = false;
+                            $("#loading").hide();
+                            $(".nothing").show();
+                        }
+                        $(".lazy img").lazyload({  //图片延迟加载
+                            placeholder : "html/images/loading.gif",
+                            effect      : "fadeIn",
+                            threshold : 200
+                        });
+                    }
+                });
+            }else if(!ispost){
+                $("#full").show();
+            }
+        }
+        $(function(){
+            $(document).on('click','.delete',function(){
+                var $this =$(this);
+                $.confirm('确定删除该条信息吗',function(){
+                    $.ajax({
+                        url:"{:U('rent_delete')}",
+                        dataType:'json',
+                        type:'post',
+                        data:{id:$this.attr('data-value')},
+                        success:function(data){
+                            if(data.status){
+                                $.alert(data.info,function(){
+                                    location.reload(true);
+                                });
+                            }else{
+                                $.alert(data.info);
+                            }
+                        },
+                        error:function(){
+                            $.alert('服务器请求错误');
+                        }
+                    });
+                });
+            })
+        })
+    </script>
+</block>

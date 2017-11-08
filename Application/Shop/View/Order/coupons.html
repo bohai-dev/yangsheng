@@ -1,0 +1,85 @@
+<extend name="$_home_public_layout"/>
+<block name="footer">
+    <eq name="type" value="1">
+        <div class="foot_fixed buycart_submit">
+            <a href="javascript:;" class="btn-block bg_own">选择并使用</a>
+        </div>
+    </eq>
+</block>
+<block name="wrap">
+    <section class="main">
+
+        <div class="top_fixed bb">
+            <div class="ptb10 tc bgf fs14 col0 bb relative">使用优惠卡券</div>
+            <a href="{:U('Home/Index/info',array('id'=>4))}" class="fs12 col9" style="position: absolute;right: 10px;top:12px;">使用说明</a>
+            <div class="table tab_nav tc fs13 bgf">
+                <a href="{:U('Shop/Order/coupons',array('type'=>1,'gid'=>$gid))}" class="table-cell <eq name="type"  value="1">active</eq> "><span>可用券（{:is_array($coupons)?count($coupons):0}）</span></a>
+                <a href="{:U('Shop/Order/coupons',array('type'=>2,'gid'=>$gid))}" class="table-cell <eq name="type"  value="2">active</eq>"><span>不可用券（{:is_array($used_coupons)?count($used_coupons):0}）</span></a>
+            </div>
+        </div>
+        <eq name="type" value="1">
+            <ul class="p10 voucher_con weui_cells_checkbox" style="padding-top:90px">
+                <foreach name="coupons" item="list">
+                    <li class="table mb10">
+                        <label class="weui_check_label table-cell vm w30" style="" for="buy{$list.id}">
+                            <input type="radio" class="weui_check"  value="{$list.id}" name="checkbox1" id="buy{$list.id}">
+                            <i class="weui_icon_checked block"></i>
+                        </label>
+                        <a href="javascript:;" class="table-cell bgf ba plr10">
+                            <div class="ptb10 item-hd">
+                                <h2 class="fs14 col0">{$list.title}</h2>
+                                <div class="mt10 box flex-col-center">
+                                    <span class="">¥  <b class="vb fs24">{$list.price}</b></span>
+                                    <!-- <em class="v-tag ml5">满500减50</em>-->
+                                </div>
+                            </div>
+                            <div class="tr col6 item-bd fs12">使用期限：{$list.start_time} - {$list.end_time}</div>
+                        </a>
+                    </li>
+                </foreach>
+            </ul>
+            <else/>
+            <ul class="p10 voucher_con weui_cells_checkbox" style="padding-top:90px">
+                <foreach name="used_coupons" item="list">
+                    <li class="table mb10">
+                        <label class="weui_check_label table-cell vm w30" style="" for="buy{$list.id}">
+                            <input type="radio" class="weui_check"  value="{$list.id}" name="checkbox1" id="buy{$list.id}">
+                            <i class="weui_icon_checked block"></i>
+                        </label>
+                        <a href="javascript:;" class="table-cell bgf ba plr10">
+                            <div class="ptb10 item-hd">
+                                <h2 class="fs14 col0">{$list.title}</h2>
+                                <div class="mt10 box flex-col-center">
+                                    <span class="">¥  <b class="vb fs24">{$list.price}</b></span>
+                                    <!-- <em class="v-tag ml5">满500减50</em>-->
+                                </div>
+                            </div>
+                            <div class="tr col6 item-bd fs12">使用期限：{$list.start_time} - {$list.end_time}</div>
+                        </a>
+                    </li>
+                </foreach>
+            </ul>
+        </eq>
+
+
+
+
+
+    </section>
+
+</block>
+<block name="script">
+    <script>
+        $(function(){
+            $('.btn-block').on('click',function(){
+                if($('input[name="checkbox1"]:checked').length==0 && $('input[name="checkbox1"]').length){
+                    $.alert('请选择优惠券');
+                    return false;
+                }
+                var choose_coupons =$('input[name="checkbox1"]:checked').val();
+                Cookies.set('yangsheng_home_default_coupons',  choose_coupons);
+                location.href= "{$from}";
+            });
+        })
+    </script>
+</block>

@@ -1,0 +1,216 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <div class="top_fixed search_fixed">
+        <div class="plr10 box search_header">
+            <div class="bgf br50 flex-1 sH_main">
+                <a href="javascript:;" class="block col9 sH_search"><i class="icon_search"></i>搜索出租求租转让信息</a>
+            </div>
+        </div>
+    </div>
+    <!-- 顶部悬浮搜索 end -->
+    <section class="main">
+
+        <div class="swiper-container banner">
+            <div class="swiper-wrapper">
+                <foreach name="banner" item="list">
+                    <a href="{$list['url']?$list['url']:'javascript:;'}" class="swiper-slide">
+                        <img src="{:getpics($list['cover'])}" alt="2:1,640*320" class="imgm">
+                    </a>
+                </foreach>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <script src="__HTML_WEUI__/js/swiper.js"></script>
+        <script>
+            $(function(){
+                var swiperWidth = $(".banner").width();
+                swiperHeight = swiperWidth * 0.5;
+                $(".banner").css("height",swiperHeight);
+                $(".banner").swiper({
+                    pagination: '.swiper-pagination',
+                    loop: true,
+                    autoplay: 3000,
+                    autoplayDisableOnInteraction : false,
+                });
+            });
+        </script>
+        <!-- banner end -->
+
+        <div class="table btb bgf tc fs15 nav_job">
+            <a href="javascript:load_list(1)" class="table-cell vm br">
+                <p class="p10">出租</p>
+            </a>
+            <a href="javascript:load_list(2)" class="table-cell vm br">
+                <p class="p10">求租</p>
+            </a>
+            <a href="javascript:load_list(3)" class="table-cell vm">
+                <p class="p10">转让</p>
+            </a>
+        </div>
+        <input value="all" id="type"  type="hidden">
+        <ul class="m-list ajax_list">
+
+        </ul>
+        <div id="loading" class="tc" style="display: none"></div>
+        <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+            <span class="col9">—— <i></i> ——</span>
+            <p class="fs12 col9">亲，没有更多了哦~</p>
+        </div>
+        <div class="tc nothing" style="display: none; margin-top:20px" >
+            <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+            <span class="mt10 fs14 col9">暂无记录</span>
+        </div>
+        <a href="{:U('post_rent')}" class="brarc release_job">
+            <i></i><p class="tc fs12 colf">发布</p>
+        </a>
+        <input type="hidden" value="{$keywords}" id="keywords">
+    </section>
+</block>
+<block name="extra">
+    <section class="search_wrap" style="z-index: 2">
+        <form action="{:U('Rent/index')}" method="post" id="form1">
+            <dl class="table bb header">
+                <dd class="table-cell vm">
+                    <a href="javascript:;" class="back"></a>
+                </dd>
+                <dt class="table-cell vm">
+                    <input type="text" class="" name="keywords" placeholder="请输入搜索的关键词" >
+                </dt>
+                <dd class="table-cell vm">
+                    <input type="submit" value="搜索">
+                </dd>
+            </dl>
+        </form>
+
+        <div class="p10 search_main">
+            <notempty name="cookie_key">
+                <div class="fs13 item-tit head_con">
+                    <i class="mr5 sm-1"></i>最近搜索
+                    <a href="javascript:;" class="fr del"><i class="sm-3"></i></a>
+                </div>
+                <div class="ptb10 item-con head_con">
+                    <volist name="cookie_key" id="vo" offset="0" length='9'>
+                        <a href="javascript:;" class="btn-mini">{$vo}</a>
+                    </volist>
+                </div>
+            </notempty>
+
+            <notempty name="search">
+                <div class="fs13 item-tit">
+                    <i class="mr5 sm-2"></i>热门搜索
+                </div>
+                <div class="ptb10 item-con">
+                    <foreach name="search" item="list">
+                        <a href="javascript:;" class="btn-mini">{$list.title}</a>
+                    </foreach>
+                </div>
+            </notempty>
+        </div>
+
+    </section>
+</block>
+<block name="footer">
+
+</block>
+<block name="script">
+    <script>
+        $('#form1').on('submit',function(){
+            var  keywords =$("input[name='keywords']").val();
+            if(!keywords){
+                $.alert('请输入关键字搜索');
+                return false;
+            }
+        });
+        jQuery(document).ready( function($){
+            $(window).bind('scroll', function() {
+                checkload(); //ajax 下拉加载更多内容
+            });
+            //初始化加载数据
+             LoadList();
+        });
+        function  load_list(type){
+            $('#type').val(type);
+            $(".ajax_list li").remove();
+            $("#full").hide();
+            $('.nothing').hide();
+            if(type==1){
+                n=1;
+                ispost = temp = true;
+                LoadList();
+            }else{
+                n=1;
+                ispost = temp = true;
+                LoadList();
+            }
+        }
+        function checkload() {
+            if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+                $("#loading").show();
+                LoadList();
+            }
+        }
+        var n = 1;
+        var ispost = temp = true;
+        function LoadList() {
+            if (ispost && temp) {
+                var type =$('#type').val();
+                var keywords =$('#keywords').val();
+                temp = false;
+                $.ajax({
+                    url: "{:U('index')}",
+                    type: 'post',
+                    dataType: 'json',
+                    async: false,
+                    data: {n: n,type:type,keywords:keywords},
+                    timeout: 9999,
+                    success: function(data) {
+                        n++;
+                        temp = true;
+                        if(data.status){
+                            if(data.msg == ''){
+                                temp = false;
+                                $("#full").show();
+                            }else{
+                                $("#loading").hide();
+                                $(".ajax_list").append(data.msg);
+                               // imgHeight();
+                                temp =true;
+                                imglazyload();
+                                checkload();
+                            }
+                        }else{
+                            temp = false;
+                            $("#loading").hide();
+                            $(".nothing").show();
+                        }
+                        $(".lazy img").lazyload({  //图片延迟加载
+                            placeholder : "html/images/loading.gif",
+                            effect      : "fadeIn",
+                            threshold : 200
+                        });
+                    }
+                });
+            }else if(!ispost){
+                $("#full").show();
+            }
+        }
+        $(function(){
+            $(document).on('click','.del',function(){
+                Cookies.set('yangsheng_home_job_search','');
+                $('.head_con').remove();
+            });
+            $(document).on('click','.btn-mini',function(){
+                var $this =$(this);
+                $("input[name='keywords']").val($this.html());
+            });
+            $(document).on('click','.search_header .sH_search',function() {
+                $(".wrap").hide();
+                $(".search_wrap").show();
+            });
+            $(document).on('click','.header .back',function() {
+                $(".wrap").show();
+                $(".search_wrap").hide();
+            });
+        });
+    </script>
+</block>

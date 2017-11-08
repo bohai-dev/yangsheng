@@ -1,0 +1,11 @@
+<foreach name="score_list" item="list">
+    <li class="table bgf bb">
+        <div class="table-cell vm p10">
+            <p class="fs15 col3">{$list.title}</p>
+            <p class="mt5 col9">{:substr($list['create_time'],0,10)}</p>
+        </div>
+        <div class="table-cell vm p10 item-right">
+            <span class="fs16 plus"><eq name="list['type']" value="1">+ <else/>- </eq>{$list.score}</span>
+        </div>
+    </li>
+</foreach>

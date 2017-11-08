@@ -1,0 +1,104 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+
+
+  <section class="main">
+    <ul class="bgf btb last fs13 list_comment ajax_list">
+    </ul>
+    <div id="loading" class="tc" style="display: none"></div>
+    <div class="tc nothing step0 step" style="display: none;">
+      <i><img src="__HTML__/images/icon_none-order.png" alt="" class="imgm"></i>
+      <span class="mt10 fs14 col9">暂无数据</span>
+    </div>
+    <div class="p10 col9 fs13 tc nomore" id="full" style="display: none">
+      <span class="col9">—— <i></i> ——</span>
+      <p class="fs12 col9">亲，没有更多了哦~</p>
+    </div>
+    <!-- 商品评价 end -->
+
+  </section>
+  <!-- main主体 end -->
+</block>
+
+
+
+<block name="script">
+
+<script src="__HTML__/js/jquery.raty.min.js"></script>
+<script>
+  $(function(){
+    $(window).bind('scroll', function() {
+        checkload(); //ajax 下拉加载更多内容
+    });
+
+    //初始化加载数据
+    LoadList();
+
+
+  });
+
+
+  function checkload() {
+    if ($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+        $("#loading").show();
+        LoadList();
+    }
+  }
+
+  var n = 1;
+  var ispost = temp = true;
+  var gid={$gid};
+  function LoadList() {
+    if (ispost && temp) {
+        var url ="{:U('Shop/Goods/review_list')}";
+        temp = false;
+        $.ajax({
+            url: url,
+            type: 'post',
+            dataType: 'json',
+            data: {n: n,gid: gid},
+            async: true,
+            timeout: 9999,
+            beforeSend:function(){
+              $.showLoading();
+            },
+            complete:function(){
+              $.hideLoading();
+            },
+            success: function(data) {
+                n++;
+                temp = true;
+                if(data.status){
+                    if(data.msg == ''){
+                        temp = false;
+                        $("#full").show();
+                    }else{
+                        $("#loading").hide();
+                        $(".ajax_list").append(data.msg);
+                        imgHeight();
+                        temp =true;
+                        imglazyload();
+                        checkload();
+                    }
+                }else{
+                    temp = false;
+                    $("#loading").hide();
+                    $(".step0").show();
+                }
+                $(".lazy img").lazyload({  //图片延迟加载
+                    placeholder : "html/images/loading.gif",
+                    effect      : "fadeIn",
+                    threshold : 200
+                });
+            },
+            error:function(){
+            }
+        });
+    }else if(!ispost){
+        $("#full").show();
+    }
+  }
+
+</script>
+</block>

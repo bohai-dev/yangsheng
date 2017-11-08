@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>0.0.1招聘填写</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<section class="main">
+
+		<ul class="btb bgf last fs14 col3 m-form">
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">职位名称</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="4-18字，不能含电话或特殊字符" id="name">
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">薪资水平</span>
+				</label>
+				<div class="table-cell arrowR">
+					<input type="text" class="form-unify" name="" placeholder="请选择" value="面议" id="opt-salary" >
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">招聘人数</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="数字填写，不能是0和负数" >
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">工作年限</span>
+				</label>
+				<div class="table-cell arrowR">
+					<input type="text" class="form-unify" name="" placeholder="数字填写，不能是0和负数" >
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">工作区域</span>
+				</label>
+				<div class="table-cell arrowR">
+					<input type="text" class="form-unify" name="" placeholder="请选择" >
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">详细地址</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="7-40字的详细地址" >
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell vt m-form-tit">
+					<span class="col_own">职位描述</span>
+				</label>
+				<div class="table-cell vt">
+					<textarea name="" cols="" rows="5" class="form-unify" placeholder="请简单的描述一下岗位的具体要求..."></textarea>
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">联系电话</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="请输入您的正确联系方式" >
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">联系人</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="请输入您的正确联系人姓名" >
+				</div>
+			</li>
+		</ul>
+
+		<div class="p10 fs12 col6">
+			<p><em class="mr10 fs14 col3">填写公司信息</em>高质量人才更在意公司信息哦</p>
+		</div>
+
+		<ul class="btb bgf last fs14 col3 m-form">
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">公司名称</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="">
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">公司简介</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="">
+				</div>
+			</li>
+		</ul>
+
+		<ul class="clearfix multi-upload">
+			<li class="mt10 mr10 bg_own item-hd">
+				<i class=""></i>
+				<p class="tc fs12 colf">添加照片</p>
+			</li>
+			<li class="mt10 mr10 ba br3 upload-img" style="background-image:url(./images/banner.jpg);"><a href="javascript:;" class="br50 upload-close"></a></li>
+			<li class="mt10 mr10 ba br3 upload-img" style="background-image:url(./images/banner.jpg);"><a href="javascript:;" class="br50 upload-close"></a></li>
+			<li class="mt10 mr10 ba br3 upload-img" style="background-image:url(./images/banner.jpg);"><a href="javascript:;" class="br50 upload-close"></a></li>
+			<li class="mt10 ba br3 upload-file">
+				<input type="file">
+			</li>
+		</ul>
+
+		<div class="btn_submit">
+			<button class="bg_own btn-block">确认发布</button>
+		</div>
+
+		<script>
+		$(function() {
+			$("#opt-salary").picker({
+				title: "请选择您的薪资水平",
+				cols: [
+					{
+					textAlign: 'center',
+					values: ['面谈', '年薪10-20万', '年薪20-40万', '年薪60-80万', '年薪40-60万']
+					}
+				],
+				onChange: function(p, v, dv) {
+					console.log(p, v, dv);
+				},
+				onClose: function(p, v, d) {
+					console.log("close");
+				}
+			});
+		});
+		</script>
+
+	</section>
+	<!-- main主体 end -->
+
+</section>
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

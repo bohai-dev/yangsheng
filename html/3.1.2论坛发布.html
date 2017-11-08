@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>0.0.1招聘填写</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<section class="main">
+
+		<p class="p10 tc fs13 col3">内容经审核选入精选，作者奖励<em class="col_own">100积分</em></p>
+		<ul class="btb bgf last fs14 col3 m-form">
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">标　　题</span>
+				</label>
+				<div class="table-cell">
+					<input type="text" class="form-unify" name="" placeholder="6-30字，不能填写电话">
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell m-form-tit">
+					<span class="col_own">标　　签</span>
+				</label>
+				<div class="table-cell arrowR">
+					<input type="text" class="form-unify" name="" placeholder="请选择" id="opt-label" >
+				</div>
+			</li>
+			<li class="table plr10 bb">
+				<label for="" class="table-cell vt m-form-tit">
+					<span class="col_own">内　　容</span>
+				</label>
+				<div class="table-cell vt">
+					<textarea name="" cols="" rows="5" class="form-unify" placeholder="（内容如非作者原创，请注明转载处）"></textarea>
+				</div>
+			</li>
+		</ul>
+
+		<ul class="clearfix multi-upload">
+			<li class="mt10 mr10 bg_own item-hd">
+				<i class=""></i>
+				<p class="tc fs12 colf">添加照片</p>
+			</li>
+			<li class="mt10 mr10 ba br3 upload-img" style="background-image:url(./images/banner.jpg);"><a href="javascript:;" class="br50 upload-close"></a></li>
+			<li class="mt10 mr10 ba br3 upload-img" style="background-image:url(./images/banner.jpg);"><a href="javascript:;" class="br50 upload-close"></a></li>
+			<li class="mt10 mr10 ba br3 upload-img" style="background-image:url(./images/banner.jpg);"><a href="javascript:;" class="br50 upload-close"></a></li>
+			<li class="mt10 ba br3 upload-file">
+				<input type="file">
+			</li>
+		</ul>
+
+		<div class="btn_submit">
+			<button class="bg_own btn-block">确认发布</button>
+		</div>
+
+		<script>
+		$(function() {
+			$("#opt-label").select({
+				title: "请选择标签",
+				multi: true,
+				min: 2,
+				max: 3,
+				items: [
+					{
+					title: "画画",
+					value: 1,
+					description: "额外的数据1"
+					},
+					{
+					title: "打球",
+					value: 2,
+					description: "额外的数据2"
+					},
+					{
+					title: "唱歌",
+					value: 3,
+					description: "额外的数据3"
+					},
+					{
+					title: "游泳",
+					value: 4,
+					description: "额外的数据4"
+					},
+					{
+					title: "健身",
+					value: 5,
+					description: "额外的数据5"
+					},
+					{
+					title: "撸管",
+					value: 6,
+					description: "额外的数据6"
+					},
+				],
+				beforeClose: function(values, titles) {
+					if(values.indexOf("6") !== -1) {
+						$.toast("不能选撸管", "cancel");
+						return false;
+					}
+					return true;
+				},
+				onChange: function(d) {
+					console.log(this, d);
+				}
+			});
+		});
+		</script>
+
+	</section>
+	<!-- main主体 end -->
+
+</section>
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,37 @@
+<foreach name="info" item="value">
+  <eq name="value['check']" value="1">
+    <li class="bb">
+      <a href="{:U('Shop/Bulletin/detail',['id'=>$value['id']])}" class="block p10 go_die">
+        <div class="fs14 col3 multi-line item-head">{$value['title']}</div>
+          <div class="ptb10 weui-row item-cont">
+            <foreach name="value['cover']" item="val">
+              <div class="weui-col-33 ba item-pic">
+                <img src="{:getpics($val)}" alt="" class="imgm">
+              </div>
+            </foreach>
+
+          </div>
+
+        <div class="fs12 col9 item-foot">{$value.type_name}<!--&emsp;{:substr($value['create_time'],0,10)}-->&emsp;{$value.read_num}阅读</div>
+      </a>
+    </li>
+  <else />
+    <li class="bb">
+        <a href="{:U('Shop/Bulletin/detail',['id'=>$value['id']])}" class="table p10 go_die">
+          <div class="table-cell">
+            <div class="fs14 col3 multi-line item-head">
+            {$value['title']}
+            </div>
+            <div class="mt10 fs12 col9 item-foot">{$value.type_name}<!--&emsp;{:substr($value['create_time'],0,10)}-->&emsp;{$value.read_num}阅读</div>
+          </div>
+          <div class="table-cell item-rt">
+
+            <div class="ba item-pic">
+              <img src="{:getpics($value['cover'][0])}" alt="" class="imgm">
+            </div>
+          </div>
+        </a>
+      </li>
+  </eq>
+
+</foreach>

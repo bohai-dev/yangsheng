@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no"/>
+	<meta content="yes" name="apple-mobile-web-app-capable" />
+	<meta content="telephone=no" name="format-detection" />
+	<meta name="renderer" content="webkit">
+	<title>4.2.0订单结算</title>
+	<meta name="keywords" content=""/>
+	<meta name="description" content=""/>
+	<link rel="stylesheet" href="weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="weui/css/jquery-weui.min.css" />
+	<link rel="stylesheet" href="css/reset.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<script src="weui/lib/jquery-2.1.4.js"></script>
+	<!--[if lt IE 9 ]>
+	<script src="js/html5.js"></script>
+	<![endif]-->
+</head>
+<body>
+<section class="wrap">
+
+	<div class="foot_fixed">
+		<dl class="table bgf item-settle">
+			<dd class="table-cell pl10">
+				<p class="fs14 col3">应付金额：人民币 470.0</p>
+			</dd>
+			<dt class="table-cell">
+				<a href="" class="bg_own btn-block">立即支付</a>
+				<!-- <button type="" class="bg_own btn-block">立即支付</button> -->
+			</dt>
+		</dl>
+
+	</div>
+	<!-- 底部悬浮 end -->
+
+	<section class="main">
+
+	<form action="">
+
+		<div class="p10 item-info item-default item-address">
+			<a href="" class="tc fs14 col3">
+				<em></em>添加收货地址
+			</a>
+		</div>
+
+		<div class="p10 item-info item-default">
+			<a href="" class="fs14 col3 item-hd arrowR">
+				<span><i class="mr5 ico-user"></i>用户A</span>
+				<span class="ml10"><i class="mr5 ico-tel"></i>123****1234</span>
+				<p class="pt10">上海徐汇区石龙路569号2号楼201室</p>
+				<em class="br5 fs12 colf status">默认地址</em>
+			</a>
+		</div>
+
+		<div class="table p10 btb bgf">
+			<div class="table-cell order_pic">
+				<div class="ba br5 item-pic">
+					<img src="images/img_goods-1.jpg" alt="" class="imgm">
+				</div>
+			</div>
+			<div class="table-cell pl10 item-con">
+				<p class="fs14 col3 multi-line">亚琪诗桑拿按摩精油全身润 肤油按摩</p>
+				<div class="mt10 m-price">
+					<em class="fs18 colred">¥399.0</em>
+					<span class="fs12 col9 item-more">数量×1</span>
+					<del class="ml10 col9">¥560.0</del>
+				</div>
+			</div>
+		</div>
+
+		<ul class="mt10 btb bgf last fs14 col3 order_settle">
+			<li class="table bb">
+				<div class="table-cell item-lt">积分</div>
+				<div class="table-cell arrowR">
+					<input name="" type="text" class="form-unify" placeholder="本单不可使用积分/可使用2500积分（-250元）" value="" id="popShow">
+				</div>
+			</li>
+			<li class="table bb">
+				<div class="table-cell item-lt">抵用券</div>
+				<div class="table-cell arrowR">
+					<input name="" type="text" class="form-unify" placeholder="请选择" value="减50元" id="popShow">
+				</div>
+			</li>
+		</ul>
+
+		<ul class="mt10 bt bgf fs14 col3 order_settle">
+			<li class="table bb">
+				<div class="table-cell item-lt">支付方式</div>
+				<div class="table-cell arrowR">
+					<input name="" type="text" class="tr form-unify" placeholder="请选择" value="微信支付">
+				</div>
+			</li>
+			<li class="table bb invi_check">
+				<div class="table-cell item-lt">索取发票</div>
+				<div class="table-cell">
+					<input class="fr weui_switch" type="checkbox">
+
+				</div>
+			</li>
+			<li class="table bb invi_hide">
+				<div class="table-cell item-lt">发票抬头</div>
+				<div class="table-cell">
+					<input name="" type="text" class="form-unify" placeholder="请输入发票抬头">
+				</div>
+			</li>
+		</ul>
+
+		<div class="table mt10 p10 btb bgf fs14 col3">
+			<div class="table-cell">将获得积分</div>
+			<div class="table-cell tr">20点</div>
+		</div>
+
+		<ul class="mt10 p10 btb bgf fs14 col3">
+			<li class="clearfix">
+				<span>商品总额</span>
+				<em class="fr colred">人民币47.0</em>
+			</li>
+			<li class="clearfix">
+				<span>运费</span>
+				<em class="fr colred">人民币0.0</em>
+			</li>
+			<li class="clearfix">
+				<span>优惠券</span>
+				<em class="fr colred">人民币-50</em>
+			</li>
+			<li class="clearfix">
+				<span>积分</span>
+				<em class="fr colred">人民币-250</em>
+			</li>
+		</ul>
+
+	</form>
+	<script>
+	$(function(){
+		// 发票
+		$(".invi_check input[type='checkbox']").on("click",function(){
+			var checked = $(this).is(":checked");
+			if ( checked == true ){
+				$(".invi_hide").addClass("invi_show");
+			}else{
+				$(".invi_hide").removeClass("invi_show");
+			}
+		});
+
+		// 使用抵用券弹窗 - 模板
+		var temp =  '<div class="bgf bt xilu_Popup">'+
+					'	<div class="ptb10 tc fs15 col3">使用抵用券</div>'+
+					'	<div class="weui_cells weui_cells_radio fs14 col6">'+
+					'		<label class="weui_cell weui_check_label" for="pop1">'+
+					'			<input type="radio" class="weui_check" name="radio_pop" id="pop1">'+
+					'			<span class="weui_icon_checked">50元设备抵用券 <em class="ml10 fs12 col9">抵用券码：63456789</em></span>'+
+					'		</label>'+
+					'		<label class="weui_cell weui_check_label" for="pop2">'+
+					'			<input type="radio" class="weui_check" name="radio_pop" id="pop2">'+
+					'			<span class="weui_icon_checked">50元设备抵用券 <em class="ml10 fs12 col9">抵用券码：63456789</em></span>'+
+					'		</label>'+
+					'	</div>'+
+					'	<a href="javascript:;" class="bg_own btn-block close">关闭</a>'+
+					'</div>';
+		$(document).on('click','#popShow',function() {
+			$.openPop();
+		});
+		$(document).on('click','.xilu_Mask,.xilu_Popup .close',function() {
+			$.closePop();
+		});
+		// 使用抵用券弹窗 - 展开
+		$.openPop = function() {
+			var mask = $("<div class='xilu_Mask'></div>").appendTo(document.body);
+			mask.show();
+			var dialog = $(temp).appendTo(document.body);
+			dialog.show();
+			mask.addClass("xilu_Mask_visible");
+			dialog.addClass("xilu_Popup_visible");
+			return dialog;
+		}
+		// 使用抵用券弹窗 - 关闭
+		$.closePop = function() {
+			$(".xilu_Mask_visible").removeClass("xilu_Mask_visible").transitionEnd(function() {
+				$(this).remove();
+			});
+			$(".xilu_Popup_visible").removeClass("xilu_Popup_visible").transitionEnd(function() {
+				$(this).remove();
+			});
+		};
+
+	});
+	</script>
+
+
+
+	</section>
+	<!-- main主体 end -->
+
+</section>
+
+
+
+
+<!-- jquery-weui插件 -->
+<script src="weui/js/jquery-weui.min.js"></script>
+<!-- 通用js -->
+<script src="js/functions.js"></script>
+
+</body>
+</html>

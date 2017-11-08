@@ -1,0 +1,10 @@
+<foreach name="info" item="value">
+  <li class="mb10">
+    <a href="{:U('Shop/Goods/goods_list',['type_id'=>$value['id']])}" class="block">
+      <div class="ba br3 item-pic">
+        <img src="{:getpics($value['cover'])}" alt="{$value['title']}" class="imgm">
+      </div>
+      <p class="mt5 single-line">{$value['title']}</p>
+    </a>
+  </li>
+</foreach>

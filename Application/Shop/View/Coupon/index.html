@@ -1,0 +1,69 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+  <section class="main">
+    <div class="voucher_top">
+      <img src="__HTML__/images/voucher_top.jpg" alt="" class="imgm">
+    </div>
+    <notempty name="coupon_info">
+    <ul class="p10 voucher_list">
+      <foreach name="coupon_info" item="val">
+      <li class="bgf mb10 ba">
+        <div class="table item-hd">
+          <div class="table-cell p10 item-img">
+            <span class="ba"></span>
+          </div>
+          <div class="table-cell item-con">
+            <span class="fs20 colred">¥ <b class="">{$val['price']}</b></span>
+            <p class="mt5 col6">{$val['title']}</p>
+          </div>
+          <div class="table-cell plr10 item-right">
+            <a href="javascript:;" class="cp-click" data-value="{$val['id']}">立<br>即<br>领<br>取</a>
+          </div>
+        </div>
+        <div class="colf item-bot">{$val['start_time']}--{$val['end_time']}</div>
+      </li>
+      </foreach>
+    </ul>
+    <else />
+      <div class="tc nothing step0 step" >
+        <i><img src="__HTML__/images/icon_none-order.png"  class="imgm"></i>
+        <span class="mt10 fs14 col9">暂无可领取的优惠券！</span>
+      </div>
+    </notempty>
+  </section>
+</block>
+
+<block name="script">
+<script>
+  $(function(){
+    $(document).on('click','.cp-click',function(){
+      var cid = $(this).attr('data-value');
+      $.ajax({
+        url:"{:U('Shop/Coupon/index')}",
+        type:'POST',
+        data:{cid:cid},
+        dataType:'json',
+        beforeSend:function(){
+          $.showLoading();
+        },
+        complete:function(){
+          $.hideLoading();
+        },
+        success:function(data){
+          if(data.status){
+            setTimeout(function(){
+              $.toast(data.info,'text');
+            }, 0);
+          }else{
+            $.alert(data.info);
+          }
+        },
+        error:function(){
+
+        }
+      })
+    })
+  })
+</script>
+</block>

@@ -1,0 +1,105 @@
+<extend name="$_home_public_layout"/>
+
+<block name="footer"></block>
+<block name="wrap">
+
+  <section class="main">
+    <foreach name="goods_info" item="val">
+    <dl class="mb10 p10 bgf fs14 col3 last publish_discuss">
+      <dt class="table">
+        <div class="table-cell item-photo">
+          <div class="br5 ba item-pic">
+            <img src="{:getpics($val['cover'])}" alt="{$val['title']}" class="imgm">
+          </div>
+        </div>
+        <div class="table-cell pl10 item-con">
+          <p class="fs14 col3 multi-line">{$val['title']}</p>
+          <div class="mt5">
+            <span class="mr10 fs14 col3">评分</span>
+            <div class="star-opt"></div>
+          </div>
+        </div>
+      </dt>
+      <dd class="mt10">
+        <textarea name="content"  data-val="{$val['id']}" cols="" rows="4" class="form-unify" placeholder="请填写您的感受，帮助更多小伙伴吧～"></textarea>
+      </dd>
+    </dl>
+    </foreach>
+
+
+    <div class="p10 btn_submit">
+      <button type="button" class="bg_own br5 btn-block">发表评论</button>
+    </div>
+
+    <!-- 评分插件 -->
+
+  </section>
+  <!-- main主体 end -->
+</block>
+
+<block name="script">
+ <script src="__HTML__/js/jquery.raty.min.js"></script>
+ <script>
+  $(function(){
+    $(':button').click(function(){
+      var senMsg  = [];
+
+      var go = true;
+      var i=0;
+      $('.publish_discuss').each(function(){
+        var rating = $(this).find("input[type='hidden']").val();
+        var content = $(this).find('textarea').val();
+        var gid = $(this).find('textarea').attr('data-val');
+        if(!rating){
+          $.toast('请选择商品评分！','text');
+          go = false;
+          return false;
+        }
+
+        if(!content){
+          $.toast('请选择商品评分！','text');
+          go = false;
+          return false;
+        }
+        senMsg[i] = {gid:gid,content:content,rating:rating};
+        i++
+      })
+
+     if(!go){
+      return false;
+     }
+     var url = "{:U('Shop/Order/review')}";
+     var order_id = {$order_id};
+     $.ajax({
+      url:url,
+      type:'POST',
+      data:{order_id:order_id,msg:senMsg},
+      dataType:'json',
+      async:false,
+      beforeSend:function(){
+
+      },
+      complete:function(){
+
+      },
+      success:function(data){
+        if(data.status){
+          setTimeout(function(){
+             $.toast(data.info, function(){
+              location.href=data.url;
+             });
+          }, 0);
+        }else{
+          $.alert(data.info);
+        }
+      },
+      error:function(){
+
+      }
+     })
+
+    })
+  })
+
+ </script>
+</block>

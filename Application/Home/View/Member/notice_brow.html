@@ -1,0 +1,23 @@
+<extend name="$_home_public_layout"/>
+<block name="footer">
+    <div class="top_fixed">
+        <p class="ptb10 tc bgf fs14 col0 bb">通知消息</p>
+    </div>
+</block>
+<block name="wrap">
+    <section class="main">
+
+        <div class="bgf detail-wrap">
+            <div class="item-head">
+                <h1 class="fs15 col3">{$data_info.title}</h1>
+                <div class="clearfix mt5 fs12 col9">
+                    <span>{$data_info.time}</span>
+                </div>
+            </div>
+            <article class="mt10 fs13 col6 m-editor">
+               {$data_info.content}
+            </article>
+        </div>
+    </section>
+    <!-- main主体 end -->
+</block>

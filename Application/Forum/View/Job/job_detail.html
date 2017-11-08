@@ -1,0 +1,97 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+    <div class="foot_fixed">
+        <dl class="table bgf tell_fixed">
+            <dt class="table-cell vm plr10">
+                <span class="fs14 col3">{$info.name}</span>
+            <p class="fs12 col3">{$info.telephone}</p>
+            </dt>
+            <dd class="table-cell vm">
+                <a href="tel:{$info.telephone}" class="bg_own btn-block"><i></i>电话</a>
+            </dd>
+        </dl>
+    </div>
+    <section class="main">
+
+        <div class="swiper-container detail_ban">
+            <div class="swiper-wrapper">
+                <foreach name="info['pics']" item="list">
+                    <div class="swiper-slide">
+                        <img src="{:getpics($list)}" alt="3:2,640*427" class="imgm">
+                    </div>
+                </foreach>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <script src="__HTML_WEUI__/js/swiper.js"></script>
+        <script>
+            $(function(){
+                var swiperWidth = $(".detail_ban").width();
+                swiperHeight = swiperWidth * (2/3);
+                $(".detail_ban").css("height",swiperHeight);
+                $(".detail_ban").swiper({
+                    pagination: '.swiper-pagination',
+                    paginationType: 'fraction',
+                    loop: true,
+                    autoplay: 3000,
+                    autoplayDisableOnInteraction : false,
+                });
+            });
+        </script>
+        <!-- detail_ban end -->
+
+        <div class="p10 btb bgf detail_info">
+            <h2 class="fs14 col3">{$info.position}</h2>
+            <div class="clearfix mt5 fs12 col6">
+                <span>发布：{$info.date_time}前</span>
+                <span class="fr">浏览：{$info.pageviews}人</span>
+            </div>
+        </div>
+
+        <div class="mt10 p10 btb bgf fs14 col3 detail_info">
+            <p><span class="mr10 col6">年龄：</span>{$info.age}岁</p>
+            <p class="mt5"><span class="mr10 col6">性别：</span>{$info.sex}</p>
+            <p class="mt5"><span class="mr10 col6">学历：</span>{$info.education}</p>
+            <p class="mt5"><span class="mr10 col6">期待薪资：</span>{$info.salary}元/月</p>
+            <p class="mt5"><span class="mr10 col6">期望工作地点：</span>{$info.area}</p>
+            <p class="mt5"><span class="mr10 col6">工作经验：</span>{$info.exprience}</p>
+        </div>
+
+        <div class="mt10 p10 btb bgf detail_main">
+            <div class="fs15 col6 item-hd"><span>个人描述</span></div>
+            <div class="mt10 fs14 col3 item-bd">
+                <article class="m-editor">
+                    <p>{$info.description}</p>
+                    <a href="javascript:;" class="m-more"></a>
+                </article>
+            </div>
+        </div>
+        <div style="height: 30px"></div>
+        <script>
+            $(function() {
+
+            });
+        </script>
+        <script>
+            $(function() {
+                //点击图片放大
+                $('.swiper-container img').click(function (){
+                    var imgArray = [];
+                    var curImageSrc = $(this).attr('src');
+                    $('.swiper-container img').each(function(index, el) {
+                        var itemSrc = $(this).attr('src');
+                        imgArray.push("<php>echo XILUDomain();</php>"+itemSrc);
+                    });
+                    wx.previewImage({
+                        current: "<php>echo XILUDomain();</php>"+curImageSrc,
+                        urls: imgArray
+                    });
+                });
+            });
+        </script>
+
+
+    </section>
+</block>
+<block name="footer"></block>
+<block name="icon"></block>

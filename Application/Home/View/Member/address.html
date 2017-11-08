@@ -1,0 +1,146 @@
+<extend name="$_home_public_layout"/>
+<block name="wrap">
+
+<notempty name="de_address">
+<div class="p10 item-info item-default ">
+    <a href="javascript:;" id="{$de_address['id']}" class="fs14 col3 item-hd arrowR address_li">
+        <span class="mr10"><i class="mr5 ico-user"></i>{$de_address['realname']}</span>
+        <span class="mr10"><i class="mr5 ico-tel"></i>{$de_address['phone']}</span>
+        <p class="pt10">
+            {$de_address['prov']}
+            {$de_address['city']}
+            {$de_address['country']}
+            {$de_address['detail']}
+        </p>
+        <em class="br5 fs12 colf status">默认地址</em>
+    </a>
+    <div class="clearfix mt10 pt10 bt fs12 item-ft">
+        <span class="fr link">
+            <a href="{:U('Home/Member/address_edit',['id'=>$de_address['id']])}" class="col6"><i class="mr5 ico-edit"></i>编辑</a>
+            <!-- <a href="#" class="ml10 col6"><i class="mr5 ico-del"></i>删除</a> -->
+        </span>
+    </div>
+</div>
+</notempty>
+    <!-- 默认地址 end -->
+    <notempty name="addresses">
+    <ul class="address_admin">
+        <foreach name="addresses" item="val">
+        <li class="mt10 p10 btb bgf item-info">
+            <div class="fs14 col3 item-hd address_li" id="{$val['id']}">
+                <span><i class="mr5 ico-user"></i>{$val['realname']}</span>
+                <span class="ml10"><i class="mr5 ico-tel"></i>{$val['phone']}</span>
+                <p class="pt10">
+                    {$val['prov']}
+                    {$val['city']}
+                    {$val['country']}
+                    {$val['detail']}
+                </p>
+            </div>
+            <div class="clearfix mt10 pt10 bt fs12 item-ft">
+                <a href="javascript:;" class="fl br5 set" rel="{$val['id']}">设为默认地址</a>
+                <span class="fr link">
+                    <a href="{:U('Home/Member/address_edit',['id'=>$val['id']])}" class="col6"><i class="mr5 ico-edit"></i>编辑</a>
+                    <a href="{:U('Home/Member/address_del',['id'=>$val['id']])}" class="ml10 col6 del"><i class="mr5 ico-del "></i>删除</a>
+                </span>
+            </div>
+        </li>
+        </foreach>
+    </ul>
+    </notempty>
+    <!-- 地址列表 end -->
+    <empty name="de_address">
+        <div class="tc nothing">
+            <i><img src="__HTML__/images/icon_none-site.png" alt="" class="imgm"></i>
+            <span class="mt10 fs14 col9">您还没有地址<br>赶快去添加吧！</span>
+        </div>
+    </empty>
+    <!-- 暂无收货地址 end -->
+
+    <div class="p10 btn_submit">
+        <button type="button" class="bg_own br5 btn-block"><i class="Ico-add"></i>新增地址</button>
+    </div>
+    <!-- 新增收货地址 end -->
+
+</block>
+<block name="footer"></block>
+
+<block name="script">
+<script>
+    $(function(){
+        //删除
+        $('.del').on('click', function(){
+         var $that = $(this);
+         $.confirm("确定删除吗？", function() {
+             $.showLoading();
+             $.get($that.attr('href'), function(data){
+                 $.hideLoading();
+                 if(data.status){
+                     setTimeout(function(){
+                         $.toast("操作成功", function(){
+                             location.reload(true);
+                         });
+                     }, 0);
+                 }else{
+                     $.alert('删除失败');
+                 }
+             }, 'json');
+         }, function() {
+             //点击取消后的回调函数
+         });
+         return false;
+        });
+
+        $(':button').on('click',function(){
+            var add_url ="{:U('Home/Member/address_add')}";
+            location.href= add_url;
+        })
+
+        // // 地址跳转
+        $('.address_li').on('click', function(){
+            if("{$from}"){
+                Cookies.set('yangsheng_home_default_address_id', $(this).attr('id'));
+                location.href = "{$from}";
+            }
+        })
+
+        //设为默认
+        $('.set').on('click', function(){
+         $('[name=default]').eq(0).prop({ checked: true });
+         var $that = $(this);
+         var address_id =$that.attr("rel");
+         $.confirm("确定设为默认地址？", function() {
+             var set_url   ="{:U('Member/address_set_default')}";
+             $.ajax({
+                 url:set_url,
+                 type:'post',
+                 dataType:'json',
+                 data:{'id':address_id},
+                 beforeSend:function(){
+                    $.showLoading();
+                 },
+                 success:function(data){
+                     if(data.status){
+                         setTimeout(function(){
+                             $.toast("设为默认成功", function(){
+                                 if(data.url){
+                                     location.href = data.url;
+                                 }else{
+                                     location.reload(true);
+                                 }
+                             });
+                         }, 0);
+                     }else{
+                         $.alert(data.info);
+                     }
+                 },
+                 complete:function(){
+                    $.hideLoading();
+
+                 }
+             });
+         });
+        });
+    })
+</script>
+</block>

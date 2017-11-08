@@ -1,0 +1,200 @@
+<extend name="$_home_public_layout"/>
+<block name="footer"></block>
+<block name="wrap">
+
+  <section class="main">
+    <div class="swiper-container banner">
+      <div class="swiper-wrapper">
+        <foreach name="banner" item="val">
+        <div class="swiper-slide">
+          <a href="{$val['url']?$val['url']:'javascript:;'}">
+            <img src="{:getpics($val['cover'])}" alt="2:1,640*320" class="imgm">
+          </a>
+        </div>
+        </foreach>
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+
+    <!-- banner end -->
+
+    <div class="clearfix pt10 btb bgf tc fs12 nav_shop">
+      <foreach name="type_fir_info" item="val">
+      <a href="{:U('Shop/Goods/goods_list',['type_id'=>$val['id']])}" class="mb10">
+        <img src="{:getpics($val['icon'])}" alt="" class="imgm">
+        <p class="mt5 col9">{$val['title']}</p>
+      </a>
+     </foreach>
+    </div>
+
+    <img src="{:getpics($columns_info[0]['cover'])}" alt="" class="imgm">
+
+    <div class="swiper-container add-gehu add-gehu1 ">
+      <div class="swiper-wrapper">
+        <foreach name="columns_goods_fir_info" item="val">
+        <div class="swiper-slide">
+          <a href="{:U('Shop/Goods/detail',['id'=>$val['id']])}" class="block ba bgf">
+            <div class="item-pic"><img src="{:getpics($val['cover'])}" alt="" class="imgm"></div>
+            <div class="p5 bt item-con">
+              <p class="fs12 col3 multi-line">{$val['title']}</p>
+              <div class="fs10">
+                <del class="col9">¥{$val['original_price']}</del>
+                <p class="colred">¥<em class="fs13">{$val['sale_price']}</em></p>
+              </div>
+            </div>
+          </a>
+        </div>
+        </foreach>
+
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+
+
+    <!--  -->
+
+    <ul class="weui-row kd-nav p10">
+      <foreach name="type_sec_info" item="val">
+      <li class="weui-col-33">
+        <a href="{:U('Shop/Goods/goods_list',['type_id'=>$val['id']])}" class="bgf fs14 col3 tc">{$val['title']}</a>
+      </li>
+      </foreach>
+    </ul>
+
+    <img src="{:getpics($columns_info[1]['cover'])}" alt="" class="imgm">
+
+    <div class="swiper-container add-gehu add-gehu2">
+      <div class="swiper-wrapper">
+        <foreach name="columns_goods_sec_info" item="val">
+        <div class="swiper-slide">
+          <a href="{:U('Shop/Goods/detail',['id'=>$val['id']])}" class="block ba bgf">
+            <div class="item-pic"><img src="{:getpics($val['cover'])}" alt="" class="imgm"></div>
+            <div class="p10 bt item-con">
+              <p class="fs12 col3 multi-line">{$val['title']}</p>
+              <div class="p5 fs10 flex-box flex-between colf" style="background-color:#F0094D;">
+               <!--  <del class="col9">¥{$val['original_price']}</del>
+                <p class="colred">¥<em class="fs13">{$val['sale_price']}</em></p> -->
+                <span>￥{$val['sale_price']}</span>
+                <span>去抢购</span>
+              </div>
+            </div>
+          </a>
+        </div>
+        </foreach>
+
+
+      </div>
+      <div class="swiper-pagination"></div>
+    </div>
+
+
+    <!--  -->
+
+    <ul class="fs14 list_shop">
+      <foreach name="page_info" item="val">
+        <li class="btb mt10">
+          <a href="{$val['url']?$val['url']:U('Shop/Mall/page_detail',['id'=>$val['id']])}" class="item-pic">
+            <img src="{:getpics($val['cover'])}" alt="" class="imgm">
+         <!--   <p class="single-line">{$val['title']}</p>-->
+          </a>
+        </li>
+      </foreach>
+    </ul>
+
+
+    <img src="{:getpics($columns_info[2]['cover'])}" alt="" class="imgm">
+
+    <ul class="weui-row list_goods">
+      <foreach name="columns_goods_thi_info" item="val">
+      <li class="weui-col-50 mb10">
+        <a href="{:U('Shop/Goods/detail',['id'=>$val['id']])}" class="block ba bgf">
+          <div class="item-pic"><img src="{:getpics($val['cover'])}" alt="{$val['title']}" class="imgm"></div>
+          <div class="p5 bt item-con">
+            <p class="fs14 col3 multi-line">{$val['title']}</p>
+            <div class="fs12">
+              <span class="fs13 colred">¥<em class="fs16">{$val['sale_price']}</em></span>
+              <del class="ml10 col9">¥{$val['original_price']}</del>
+            </div>
+          </div>
+        </a>
+      </li>
+    </foreach>
+    </ul>
+    <!-- 热销产品 end -->
+
+    <div class="p10 col9 fs13 tc nomore" id="full">
+      <span class="col9">—— <i></i> ——</span>
+      <p class="fs12 col9">亲，没有更多了哦~</p>
+    </div>
+
+  </section>
+  <!-- main主体 end -->
+</block>
+
+<block name="script">
+  <script src="__HTML__/weui/js/swiper.js"></script>
+    <script>
+    $(function() {
+      sessionStorage.removeItem('aGoodsList');
+      sessionStorage.removeItem('aGoodsParam');
+
+      var swiperWidth = $(".banner").width();
+        swiperHeight = swiperWidth * 0.5;
+        $(".banner").css("height",swiperHeight);
+      $(".banner").swiper({
+        pagination: '.swiper-pagination',
+        loop: true,
+        autoplay: 3000,
+        autoplayDisableOnInteraction : false,
+      });
+
+      // var swiperWidth = $(".add-gehu").width();
+      //  swiperHeight = swiperWidth * 0.5;
+      //  $(".add-gehu").css("height",swiperHeight);
+      $(".add-gehu1").swiper({
+        pagination: '.swiper-pagination',
+        loop: true,
+        autoplay: 3000,
+        slidesPerView : 3,
+        spaceBetween: 5,
+        autoplayDisableOnInteraction : false,
+        slidesPerGroup: 3,
+      });
+
+
+      $(".add-gehu2").swiper({
+        pagination: '.swiper-pagination',
+        loop: true,
+        // autoplay: 3000,
+        slidesPerView : 3,
+        spaceBetween: 5,
+        autoplayDisableOnInteraction : false,
+        slidesPerGroup: 3,
+      });
+
+
+      $(".add-gehu .item-pic").each(function(){
+        var h = $(this).width();
+        // var h = w / 2;
+        $(this).css({"height": h});
+      });
+
+      // var swiperWidth = $(".add-gehu").width();
+      //  swiperHeight = swiperWidth * 0.5;
+      //  $(".add-gehu").css("height",swiperHeight);
+
+
+
+      $(".list_shop .item-pic").each(function(){
+        var w = $(this).width();
+        var h = w/2;
+        $(this).css({"height": h});
+      });
+
+      $(".list_goods .item-pic").each(function(){
+        var w = $(this).width();
+        $(this).css({"height": w});
+      });
+    });
+    </script>
+</block>

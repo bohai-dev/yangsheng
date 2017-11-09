@@ -38,12 +38,12 @@ class BaseController extends ControllerController
         $this->cookie_expire = 86400 * 7;
 
         // debug
-       //  cookie('openid', 'oVyxKuCAEJPSMypiwwgYdrHIUDSY', $this->cookie_expire); //本地调试cookie
-         // cookie('openid', 'oVyxKuCAEJPSMypiwwgYdrHIUDSY', $this->cookie_expire); //本地调试cookie
-        //cookie('uid', 1, $this->cookie_expire);
-        //cookie('lng', '119.4574950000', $this->cookie_expire);
-        //cookie('lat', '32.1350290000', $this->cookie_expire);
-        // cookie('uid',3);
+       /* cookie('openid', 'oVyxKuCAEJPSMypiwwgYdrHIUDSY', $this->cookie_expire); //本地调试cookie
+        cookie('openid', 'oVyxKuCAEJPSMypiwwgYdrHIUDSY', $this->cookie_expire); //本地调试cookie
+        cookie('uid', 1, $this->cookie_expire);
+        cookie('lng', '119.4574950000', $this->cookie_expire);
+        cookie('lat', '32.1350290000', $this->cookie_expire);
+        cookie('uid',3);*/
         // 系统开关
         $this->assign('is_weixin', is_weixin() ? '1' : '0');
         if (!C('TOGGLE_WEB_SITE')) {
@@ -445,7 +445,7 @@ JS;
         $message_model =new \Common\Util\Message();
         $funAndOperate = "industrySMS/sendSMS";
         $body = $message_model->createBasicAuthData();
-        $body['smsContent'] = "【艾玛莎基网】"."您的验证码为{$rand}，请于{$time}分钟内正确输入，如非本人操作，请忽略此短信。";
+        $body['smsContent'] = "【中华参科技开发有限公司网】"."您的验证码为{$rand}，请于{$time}分钟内正确输入，如非本人操作，请忽略此短信。";
         $body['to'] = $mobile;
         $result = $message_model->post($funAndOperate, $body);
         $result =json_decode($result,true);

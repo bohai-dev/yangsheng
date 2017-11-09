@@ -150,8 +150,8 @@
 			<div class="foot_fixed">
 				<footer class="table bt bgf tc fs12 footer">
 					<a href="<?php echo U('Shop/Index/index');?>" class="table-cell <?php if(($gl) == "1"): ?>active<?php endif; ?>"><i class="fi-1"></i>首页</a>
-					<!--<a href="<?php echo U('Shop/Goods/index');?>" class="table-cell  <?php if(($gl) == "2"): ?>active<?php endif; ?>"><i class="fi-2"></i>分类</a>
-					<a href="<?php echo U('Forum/Index/index');?>" class="table-cell  <?php if(($gl) == "3"): ?>active<?php endif; ?>"><i class="fi-3"></i>论坛</a>-->
+					<a href="<?php echo U('Shop/Goods/index');?>" class="table-cell  <?php if(($gl) == "2"): ?>active<?php endif; ?>"><i class="fi-2"></i>分类</a>
+					<a href="<?php echo U('Forum/Index/index');?>" class="table-cell  <?php if(($gl) == "3"): ?>active<?php endif; ?>"><i class="fi-3"></i>论坛</a>
 					<a href="<?php echo U('Shop/Cart/index');?>" class="table-cell  <?php if(($gl) == "4"): ?>active<?php endif; ?>"><i class="fi-4 hint-num"></i>购物车</a>
 					<a href="<?php echo U('Home/Member/index');?>" class="table-cell  <?php if(($gl) == "5"): ?>active<?php endif; ?>"><i class="fi-5"></i>我的</a>
 				</footer>
@@ -381,7 +381,7 @@
       })
         //清除最近搜索
       $('#clean-search').click(function(){
-        Cookies.set('yangsheng_home_user_search','');
+        Cookies.set('<?php echo (ENV_PRE); ?>home_user_search','');
         $('#clean-search i,sm-3').remove();
         $('.user-search a').remove();
         $('.no-user-search').show();

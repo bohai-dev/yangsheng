@@ -320,9 +320,9 @@
       if($(this).is(':checked')){
         location.href="<?php echo U('Shop/Order/receipt');?>";
       }else{
-        Cookies.set('yangsheng_home_default_receipt_type',  '');
-        Cookies.set('yangsheng_home_default_receipt_tit',  '');
-        Cookies.set('yangsheng_home_default_receipt_title',  '');
+        Cookies.set('<?php echo (ENV_PRE); ?>home_default_receipt_type',  '');
+        Cookies.set('<?php echo (ENV_PRE); ?>home_default_receipt_tit',  '');
+        Cookies.set('<?php echo (ENV_PRE); ?>home_default_receipt_title',  '');
         $('[name=receipt_title]').val('');
         $('[name=receipt_type]').val('');
         $('[name=receipt_tit]').val('');

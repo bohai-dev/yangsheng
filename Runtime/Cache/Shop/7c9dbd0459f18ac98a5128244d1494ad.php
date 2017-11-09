@@ -197,7 +197,7 @@
     </div>
     <!-- 购物车列表 end -->
 
-    <!--<div class="mt10 p10 index_title">
+    <div class="mt10 p10 index_title">
       <p class="tc fs15 col3"><i class="mr5"><img src="/yangsheng/html/images/icon_index_title3.png" alt="" class="imgm"></i>为你推荐</p>
     </div>
 
@@ -216,7 +216,7 @@
           </div>
         </a>
       </li><?php endforeach; endif; ?>
-    </ul>-->
+    </ul>
     <?php if(!empty($cart_num)): ?><a href="javascript:;" class="bgf ba br5 tc col9 buy_set" >
         <i class="Ico-set"></i><em>编辑</em>
       </a><?php endif; ?>

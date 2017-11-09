@@ -24,3 +24,5 @@
 hs_err_pid*
 /Uploads/
 /html/images/
+/Runtime/
+/Data/db.php

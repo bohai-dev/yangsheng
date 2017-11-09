@@ -99,7 +99,7 @@
         // // 地址跳转
         $('.address_li').on('click', function(){
             if("{$from}"){
-                Cookies.set('yangsheng_home_default_address_id', $(this).attr('id'));
+                Cookies.set('{$Think.const.ENV_PRE}home_default_address_id', $(this).attr('id'));
                 location.href = "{$from}";
             }
         })

@@ -10,6 +10,8 @@
 /**
  * 全局配置文件
  */
+$companyname = '伙BuddyFitness';
+$companyname_logo = 'BuddyFitness';
 $_config = array(
 	'LOG_RECORD'           => true, //进行日志记录
     'LOG_EXCEPTION_RECORD' => true, //是否记录异常信息日志
@@ -32,12 +34,12 @@ $_config = array(
         'service' => 'alipay.wap.create.direct.pay.by.user' //产品类型
     ),
 
-    'PRODUCT_NAME'    => '爱玛莎基',                         // 产品名称
-    'PRODUCT_LOGO'    => '<b><span style="color: #2699ed;">爱玛莎基</span></b>',  // 产品Logo
+    'PRODUCT_NAME'    => $companyname,                         // 产品名称
+    'PRODUCT_LOGO'    => '<b><span style="color: #2699ed;">'.$companyname_logo.'</span></b>',  // 产品Logo
     'CURRENT_VERSION' => '1.0.0',                        // 当前版本号
     'DEVELOP_VERSION' => 'release',                      // 开发版本号
     'BUILD_VERSION'   => '201610151650',                 // 编译标记
-    'PRODUCT_MODEL'   => '爱玛莎基',                      // 产品型号
+    'PRODUCT_MODEL'   => $companyname,                      // 产品型号
     'PRODUCT_TITLE'   => '零云',                         // 产品标题
     'WEBSITE_DOMAIN'  => 'javascript:;',       // 官方网址
     'UPDATE_URL'      => '/appstore/home/core/update',   // 官方更新网址
@@ -51,7 +53,7 @@ $_config = array(
     // 公司简介
     'COMPANY_INFO'    => '上海西陆信息科技有限公司是一家新兴的互联网+项目技术解决方案提供商。我们用敏锐的视角洞察IT市场的每一次变革,我们顶着时代变迁的浪潮站在了前沿,以开拓互联网行业新渠道为己任。',
 
-    'WELCOME_WORD'         => "<h1 style='text-align: center'>欢迎进入爱玛莎基后台管理中心</h1>",
+    'WELCOME_WORD'         => "<h1 style='text-align: center'>欢迎进入".$companyname."后台管理中心</h1>",
 
     // URL模式
     'URL_MODEL' => '3',

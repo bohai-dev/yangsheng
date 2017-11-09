@@ -149,7 +149,7 @@
 
     //清除最近搜索
     $('#clean-search').click(function(){
-      Cookies.set('yangsheng_home_user_search','');
+      Cookies.set('{$Think.const.ENV_PRE}home_user_search','');
       $('#clean-search i,sm-3').remove();
       $('.user-search a').remove();
       $('.no-user-search').show();

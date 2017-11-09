@@ -196,7 +196,7 @@
         }
         $(function(){
             $(document).on('click','.del',function(){
-                Cookies.set('yangsheng_home_job_search','');
+                Cookies.set('{$Think.const.ENV_PRE}home_job_search','');
                 $('.head_con').remove();
             });
             $(document).on('click','.btn-mini',function(){

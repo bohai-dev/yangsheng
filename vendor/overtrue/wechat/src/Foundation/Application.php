@@ -68,7 +68,7 @@ class Application extends Container
      *
      * @var array
      */
-    protected $providers = [
+   protected $providers = [
         ServiceProviders\ServerServiceProvider::class,
         ServiceProviders\UserServiceProvider::class,
         ServiceProviders\JsServiceProvider::class,

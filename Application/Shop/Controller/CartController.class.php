@@ -347,15 +347,16 @@ class CartController extends BaseController
     if(!empty($coupons_info['can'])){
       $check_coupons = 1;
       //是否选择优惠券
-      if(I('from','')=='coupons' && !empty(cookie('default_coupons'))){
+     /* if(I('from','')=='coupons' && !empty(cookie('default_coupons'))){
         $coupon_id =  cookie('default_coupons');
         foreach ($coupons_info['can'] as $key => $value) {
           if($value['id']==$coupon_id){ //可用优惠券中 有 cookie中的 id 更改变量
             $coupon_info = $value;
             $coupon_price = $value['price'];
+
           }
         }
-      }
+      }*/
     }
 
     $this->assign('coupon_gid',$gids);

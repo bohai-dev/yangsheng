@@ -38,13 +38,14 @@ class BaseController extends ControllerController
         $this->cookie_expire = 86400 * 7;
 
         // debug
-//         cookie('openid', 'oVyxKuCAEJPSMypiwwgYdrHIUDSY', $this->cookie_expire); //本地调试cookie
-//          cookie('openid', 'oVyxKuCAEJPSMypiwwgYdrHIUDSY', $this->cookie_expire); //本地调试cookie
+//        cookie('openid', 'oVyxKuCAEJPSMypiwwgYdrHIUDSY', $this->cookie_expire); //本地调试cookie
+//        cookie('openid', 'oVyxKuCAEJPSMypiwwgYdrHIUDSY', $this->cookie_expire); //本地调试cookie
 //        cookie('uid', 1, $this->cookie_expire);
 //        cookie('lng', '119.4574950000', $this->cookie_expire);
 //        cookie('lat', '32.1350290000', $this->cookie_expire);
-//         cookie('uid',3);
-        // 系统开关
+//        cookie('uid',3);
+
+         // 系统开关
         $this->assign('is_weixin', is_weixin() ? '1' : '0');
         if (!C('TOGGLE_WEB_SITE')) {
             $this->error('站点已经关闭，请稍后访问~');

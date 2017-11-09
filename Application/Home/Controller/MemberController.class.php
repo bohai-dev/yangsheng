@@ -199,7 +199,7 @@ class MemberController extends BaseController
         }
         $team_list =M('admin_user')->where([$field=>$this->uid])->select();
         $this->assign('team',$team_list);
-        $this->assign('meta_title','艾玛莎基');
+        $this->assign('meta_title','中华参科技开发有限公司');
         $this->display();
     }
     // 我的二维码

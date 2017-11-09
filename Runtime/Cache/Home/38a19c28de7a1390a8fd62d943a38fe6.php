@@ -1,4 +1,4 @@
-<!doctype html>
+<?php if (!defined('THINK_PATH')) exit();?><!doctype html>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -6,29 +6,29 @@
 	<meta content="yes" name="apple-mobile-web-app-capable" />
 	<meta content="telephone=no" name="format-detection" />
 	<meta name="renderer" content="webkit">
-	<block name="title"><title>{$meta_title}</title></block>
-	<meta name="keywords" content="{$meta_keywords}"/>
-	<meta name="description" content="{$meta_description}"/>
-	<link rel="stylesheet" href="__HTML_WEUI__/lib/weui.min.css" />
-	<link rel="stylesheet" href="__HTML_WEUI__/css/jquery-weui.min.css" />
-  <link rel="stylesheet" href="__HTML_CSS__/reset.css" type="text/css" media="all" />
-	<link rel="stylesheet" href="__HTML_CSS__/flex.css" type="text/css" media="all" />
-	<link rel="stylesheet" href="__HTML_CSS__/style.css" type="text/css" media="all" />
-	<block name="style"></block>
-	<script src="__HTML_WEUI__/lib/jquery-2.1.4.js"></script>
-  <script src="__HTML_WEUI__/js/jquery-weui.min.js"></script>
-	<script src="__HTML_JS__/jquery.toTop.min.js"></script>
-	<script src="__HTML_JS__/functions.js"></script>
-	<script src="__HTML_JS__/jquery.lazyload.min.js"></script>
-	<script src="__HTML_JS__/jquery.raty.min.js"></script>
-	<script src="__HTML_JS__/js.cookie.js"></script>
+	<title><?php echo ($meta_title); ?></title>
+	<meta name="keywords" content="<?php echo ($meta_keywords); ?>"/>
+	<meta name="description" content="<?php echo ($meta_description); ?>"/>
+	<link rel="stylesheet" href="/yangsheng/html/weui/lib/weui.min.css" />
+	<link rel="stylesheet" href="/yangsheng/html/weui/css/jquery-weui.min.css" />
+  <link rel="stylesheet" href="/yangsheng/html/css/reset.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="/yangsheng/html/css/flex.css" type="text/css" media="all" />
+	<link rel="stylesheet" href="/yangsheng/html/css/style.css" type="text/css" media="all" />
+	
+	<script src="/yangsheng/html/weui/lib/jquery-2.1.4.js"></script>
+  <script src="/yangsheng/html/weui/js/jquery-weui.min.js"></script>
+	<script src="/yangsheng/html/js/jquery.toTop.min.js"></script>
+	<script src="/yangsheng/html/js/functions.js"></script>
+	<script src="/yangsheng/html/js/jquery.lazyload.min.js"></script>
+	<script src="/yangsheng/html/js/jquery.raty.min.js"></script>
+	<script src="/yangsheng/html/js/js.cookie.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script src="__PUBLIC__/Home/js/ajaxlist.js"></script>
+    <script src="/yangsheng/Public/Home/js/ajaxlist.js"></script>
     <!--[if lt IE 9 ]>
-    <script src="__HTML_JS__/html5.js"></script>
+    <script src="/yangsheng/html/js/html5.js"></script>
     <![endif]-->
-    <block name="js"></block>
-	<block name="style"></block>
+    
+	
 <!-- 	<script>
 		window. onerror = function ( msg , url , line , col , error ) {
 			//没有URL不上报！上报也不知道错误
@@ -69,13 +69,13 @@
 				console.log(data.msg);
 				console.log('出错了');
 				//把data上报到后台！
-				$.post('{:U("front_log")}', {text:data.msg});
+				$.post('<?php echo U("front_log");?>', {text:data.msg});
 			} , 0 ) ;
 			return true ;
 		};
 
         /*if (wx != undefined){
-            wx.config({$jsapi});
+            wx.config(<?php echo ($jsapi); ?>);
 
 
 
@@ -133,56 +133,57 @@
 			width: 20px;
 			height: 20px;
 			vertical-align: top;
-			background-image: url('{:getpics(C('WEB_SITE_LOGO'))}');
+			background-image: url('<?php echo getpics(C('WEB_SITE_LOGO'));?>');
 			background-size: 100% auto;
 			background-position: 50% 50%;
 			background-repeat: no-repeat;
 		}
 	</style>
-    <block name="ajax"></block>
+    
 </head>
 <body>
-	<block name="header">
+	
 
-	</block>
-	<section class="wrap {$meta_wrap}">
-		<block name="footer">
-			<div class="foot_fixed">
-				<footer class="table bt bgf tc fs12 footer">
-					<a href="{:U('Shop/Index/index')}" class="table-cell <eq name="gl" value="1">active</eq>"><i class="fi-1"></i>首页</a>
-					<!--<a href="{:U('Shop/Goods/index')}" class="table-cell  <eq name="gl" value="2">active</eq>"><i class="fi-2"></i>分类</a>
-					<a href="{:U('Forum/Index/index')}" class="table-cell  <eq name="gl" value="3">active</eq>"><i class="fi-3"></i>论坛</a>-->
-					<a href="{:U('Shop/Cart/index')}" class="table-cell  <eq name="gl" value="4">active</eq>"><i class="fi-4 hint-num"></i>购物车</a>
-					<a href="{:U('Home/Member/index')}" class="table-cell  <eq name="gl" value="5">active</eq>"><i class="fi-5"></i>我的</a>
-				</footer>
-        <notempty name="uid">
-          <script>
-            $(function(){
-              var cart_url = "{:U('Shop/Cart/cart_num')}";
-              getCartNum(cart_url,2);
-            });
-          </script>
-        </notempty>
-			</div>
-			<!-- 底部悬浮 end -->
-		</block>
+	
+	<section class="wrap <?php echo ($meta_wrap); ?>">
+		
+    <div class="top_fixed">
+        <p class="ptb10 tc bgf fs14 col0 bb">通知消息</p>
+    </div>
+
         <!-- 页面主体 -->
-        <block name="wrap"></block>
+        
+    <section class="main">
+        <ul class="msg-list fs13">
+            <?php if(is_array($notice)): foreach($notice as $key=>$list): ?><li class="mt10 time-line tc fs12">
+                    <span><?php echo date('Y年n月d日',strtotime($list['time']));?></span>
+                </li>
+                <li class="mt10 bgf ptb10 plr15 br5">
+                    <a href="<?php echo U('notice_brow',['nid'=>$list['id']]);?>">
+                        <p class="fs14 col0"><?php echo ($list["title"]); ?></p>
+                        <div class="table">
+                            <div class="w80 table-cell vm">
+                                <div class="item-pic">
+                                    <img src="<?php echo getpics($list['cover']);?>" alt="" class="imgm">
+                                </div>
+                            </div>
+                            <div class="table-cell vm pl10">
+                                <p class="col6"><?php echo ($list["abstract"]); ?></p>
+                            </div>
+                        </div>
+                    </a>
+                </li><?php endforeach; endif; ?>
+        </ul>
+    </section>
+
         <!-- 底部导航区域 -->
-		<block name="icon">
-			<div class="handle_fixed">
-				<!--<a href="{:U('Shop/Cart/index')}" class="ba brarc"><i class="hf-1"></i></a>-->
-				<a href="{:U('Shop/Index/index')}" class="ba brarc"><i class="hf-2"></i></a>
-				<!--	<a href="{:U('Shop/Goods/index')}" class="ba brarc"><i class="hf-3"></i></a>-->
-				<a href="javascript:;" class="ba brarc to_top"><i class="hf-4"></i></a>
-			</div>
-		</block>
+		
 	</section>
 
-  <block name="reply_wrap">
-  </block>
+  
+  
 
-	<block name="extra"></block>
-    <block name="script"></block>
+	
+    
 </body>
 </html>

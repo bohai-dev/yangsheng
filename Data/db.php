@@ -57,6 +57,7 @@ if (isset($_SERVER[ENV_PRE.'DEV_MODE']) && $_SERVER[ENV_PRE.'DEV_MODE'] === 'tru
         'DB_PREFIX' => 'oc_',     // 数据库表前缀
         'DB_CHARSET'=> 'utf8mb4',
 
+
         'DB_HOST'   => '192.168.1.106', // 服务器地址
         'DB_NAME'   => 'yangsheng', // 数据库名
         'DB_USER'   => 'yangsheng', // 用户名

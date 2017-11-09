@@ -79,9 +79,9 @@
                     return false;
                 }
 
-                Cookies.set('yangsheng_home_default_receipt_type',  receipt_type);
-                Cookies.set('yangsheng_home_default_receipt_tit',  receipt_tit);
-                Cookies.set('yangsheng_home_default_receipt_title',  receipt_name);
+                Cookies.set('{$Think.const.ENV_PRE}home_default_receipt_type',  receipt_type);
+                Cookies.set('{$Think.const.ENV_PRE}home_default_receipt_tit',  receipt_tit);
+                Cookies.set('{$Think.const.ENV_PRE}home_default_receipt_title',  receipt_name);
                 location.href= "{$from}";
             });
 

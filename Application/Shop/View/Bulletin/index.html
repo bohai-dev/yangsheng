@@ -201,7 +201,7 @@
                 return false;
             });
             $(document).on('click','.del',function(){
-                Cookies.set('yangsheng_home_news_search','');
+                Cookies.set('{$Think.const.ENV_PRE}home_news_search','');
                 $('.head_con').remove();
             });
             $(document).on('click','.btn-mini',function(){

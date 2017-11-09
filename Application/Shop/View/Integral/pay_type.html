@@ -31,7 +31,7 @@
         $(function(){
             $('.weui_cells_radio').on('change',function(){
                 var pay_type = $(this).find('input').val();
-                Cookies.set('yangsheng_home_default_pay_type',  pay_type);
+                Cookies.set('{$Think.const.ENV_PRE}home_default_pay_type',  pay_type);
                 location.href= "{$from}";
             })
         });

@@ -353,6 +353,7 @@ class CartController extends BaseController
           if($value['id']==$coupon_id){ //可用优惠券中 有 cookie中的 id 更改变量
             $coupon_info = $value;
             $coupon_price = $value['price'];
+
           }
         }
       }

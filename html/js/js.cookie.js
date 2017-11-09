@@ -10,7 +10,7 @@
 		define(factory);
 	} else if (typeof exports === 'object') {
 		module.exports = factory();
-	} else {
+	} else {s
 		var _OldCookies = window.Cookies;
 		var api = window.Cookies = factory();
 		api.noConflict = function () {

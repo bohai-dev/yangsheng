@@ -64,7 +64,6 @@
 
 
 
-
     </section>
 
 </block>
@@ -77,6 +76,7 @@
                     return false;
                 }
                 var choose_coupons =$('input[name="checkbox1"]:checked').val();
+//                Cookies.set('yangsheng_home_default_coupons',  choose_coupons);
                 Cookies.set('yangsheng_home_default_coupons',  choose_coupons);
                 location.href= "{$from}";
             });
